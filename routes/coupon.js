@@ -1,0 +1,10 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const router = require('koa-router')();
+const coupon_1 = require("../models/coupon");
+router.get('/coupon/:code', coupon_1.Coupon.getCouponByCode);
+router.get('/coupon', coupon_1.Coupon.getCoupons);
+router.post('/coupon', coupon_1.Coupon.addCoupon);
+router.put('/coupon', coupon_1.Coupon.updateCoupon);
+router.delete('/coupon', coupon_1.Coupon.deleteCoupon);
+module.exports = router.middleware();

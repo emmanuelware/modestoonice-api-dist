@@ -1,0 +1,10 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const router = require('koa-router')();
+const calendar_1 = require("../models/calendar");
+router.get('/calendar/:date', calendar_1.Calendar.getSessionsByCalendarDate);
+router.post('/calendar/session', calendar_1.Calendar.addSession);
+router.put('/calendar/session/inventory', calendar_1.Calendar.updateSessionInventory);
+router.put('/calendar/session', calendar_1.Calendar.updateSession);
+router.delete('/calendar/session/:squareSessionItemId', calendar_1.Calendar.deleteSessionBySquareItemId);
+module.exports = router.middleware();
