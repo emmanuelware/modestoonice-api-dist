@@ -15,7 +15,7 @@
     "pretty": "prettier --write --single-quote '**/*.ts' --print-width 120",
     "dupe": "jscpd -f '**/*.ts' -e '**/node_modules/**'",
     "tsc": "tsc",
-    "compile": "npm run tsc && node app.js",
+    "compile": "npm run tsc && node -r dotenv/config ./dist/app.js dotenv_config_path=./.env",
     "dev": "nodemon -e ts --exec \"npm run compile\"",
     "spellcheck": "cspell 'src/**/*.ts'",
     "dev-ar": "./node_modules/nodemon/bin/nodemon.js -e ts --exec \"npm run compile-ar\"",
@@ -81,6 +81,6 @@
     "npm-check-updates": "~2.10.3",
     "prettier": "1.15.2",
     "supertest": "~3.0.0",
-    "typescript": "~3.5.1"
+    "typescript": "^3.7.7"
   }
 }
