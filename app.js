@@ -29,10 +29,10 @@ const lesson_public_1 = require("./routes/lesson-public");
 const reservation_1 = require("./routes/reservation");
 const root_1 = require("./routes/root");
 const square_public_1 = require("./routes/square-public");
+const square_1 = require("./routes/square");
 const system_1 = require("./routes/system");
 const user_1 = require("./routes/user");
 const body = require('koa-body');
-const cors = require("koa2-cors");
 const jwt = require("jsonwebtoken");
 const koa = require("koa");
 const mysql = require("mysql2/promise");
@@ -112,17 +112,6 @@ app.use(function handleErrors(ctx, next) {
         }
     });
 });
-app.use(cors({
-    origin: ctx => {
-        const origin = ctx.request.header.origin;
-        if (process.env.ALLOW_ORIGIN_PROD_DEV === origin ||
-            process.env.ALLOW_ORIGIN_PROD === origin ||
-            process.env.ALLOW_ORIGIN_DEV === origin) {
-            return origin;
-        }
-        ctx.throw(401, 'Origin not allowed');
-    }
-}));
 app.use(function mysqlConnection(ctx, next) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
@@ -150,6 +139,7 @@ app.use(faq_public_1.default);
 app.use(square_public_1.default);
 app.use(book_public_1.default);
 app.use(lesson_public_1.default);
+app.use(square_1.default);
 app.use(function verifyJwt(ctx, next) {
     return __awaiter(this, void 0, void 0, function* () {
         if (!ctx.header.authorization)

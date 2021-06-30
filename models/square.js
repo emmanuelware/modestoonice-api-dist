@@ -36,5 +36,12 @@ class Square {
             ctx.body = ResponseService_1.ResponseHandler(ctx, res);
         });
     }
+    static getTransactions(ctx) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { startDate, endDate } = ctx.request.body;
+            const res = yield SquareService_1.SquareService.getTransactions(startDate, endDate);
+            ctx.body = ResponseService_1.ResponseHandler(ctx, res);
+        });
+    }
 }
 exports.Square = Square;

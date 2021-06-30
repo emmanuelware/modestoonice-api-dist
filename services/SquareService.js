@@ -15,19 +15,22 @@ const constants_1 = require("../common/constants");
 const rx_helpers_1 = require("../common/rx.helpers");
 const crypto_1 = require("crypto");
 const moment = require("moment");
-const squareConnect = require("square-connect");
+const square_1 = require("square");
 const logging_1 = require("../utils/logging");
+const Excel = require("exceljs");
 const path = require('path');
 const executableEnv = require('dotenv').config({ path: path.join(__dirname, '../.env') });
 const applicationId = process.env.SQUARE_APP_ID;
 const accessToken = process.env.SQUARE_TOKEN;
 const locationId = process.env.SQUARE_LOCATION_ID;
-const squareClient = squareConnect.ApiClient.instance;
-const oauth2 = squareClient.authentications['oauth2'];
-oauth2.accessToken = accessToken;
-const catalogAPI = new squareConnect.CatalogApi();
-const inventoryAPI = new squareConnect.InventoryApi();
-const transactionsAPI = new squareConnect.TransactionsApi();
+const squareConnect = new square_1.Client({
+    environment: process.env.ENV_MODE === 'prod' ? square_1.Environment.Production : square_1.Environment.Sandbox,
+    accessToken
+});
+const { catalogApi, inventoryApi, transactionsApi, ordersApi } = squareConnect;
+const catalogAPI = catalogApi;
+const inventoryAPI = inventoryApi;
+const transactionsAPI = transactionsApi;
 function generateItemId() {
     return `#${UtilService_1.UtilService.generateRandomString(24).toUpperCase()}`;
 }
@@ -38,14 +41,14 @@ class SquareService {
     static getTicketVariationIDsByDate(_date) {
         return __awaiter(this, void 0, void 0, function* () {
             const date = moment(_date.split(' at ').join(' '), constants_1.MOMENT_FORMAT_DATE + ' ' + constants_1.MOMENT_FORMAT_TIME).format(constants_1.MOMENT_FORMAT_DATE + ' ' + constants_1.MOMENT_FORMAT_TIME);
-            const body = new squareConnect.SearchCatalogObjectsRequest();
+            const body = {};
             const data = yield catalogAPI.searchCatalogObjects(body);
-            const [session] = data.objects.filter(object => {
-                if (object && object.item_data && object.item_data.name && object.item_data.name === date) {
+            const [session] = data.result.objects.filter(object => {
+                if (object && object.itemData && object.itemData.name && object.itemData.name === date) {
                     return object;
                 }
             });
-            const variationIDs = session.item_data.variations.map(ticketType => {
+            const variationIDs = session.itemData.variations.map(ticketType => {
                 return ticketType.id;
             });
             return variationIDs;
@@ -57,17 +60,17 @@ class SquareService {
                 .format('YYYY-MM-DDTHH:mm:ss.000Z')
                 .toString();
             yield inventoryAPI.batchChangeInventory({
-                idempotency_key: generateIdempotencyKey(),
+                idempotencyKey: generateIdempotencyKey(),
                 changes: [
                     {
                         type: 'ADJUSTMENT',
                         adjustment: {
-                            catalog_object_id: catalogId,
-                            location_id: locationId,
-                            from_state: 'IN_STOCK',
-                            to_state: 'SOLD',
+                            catalogObjectId: catalogId,
+                            locationId: locationId,
+                            fromState: 'IN_STOCK',
+                            toState: 'SOLD',
                             quantity: quantity.toString(),
-                            occurred_at: timestamp
+                            occurredAt: timestamp
                         }
                     }
                 ]
@@ -89,39 +92,39 @@ class SquareService {
             };
             yield inventoryAPI
                 .batchChangeInventory({
-                idempotency_key: generateIdempotencyKey(),
+                idempotencyKey: generateIdempotencyKey(),
                 changes: [
                     {
                         type: 'ADJUSTMENT',
                         adjustment: {
-                            catalog_object_id: inventoryAdjustments[0].catalog_object_id,
-                            location_id: locationId,
-                            from_state: fromState[adjustmentType],
-                            to_state: toState[adjustmentType],
+                            catalogObjectId: inventoryAdjustments[0].catalog_object_id,
+                            locationId: locationId,
+                            fromState: fromState[adjustmentType],
+                            toState: toState[adjustmentType],
                             quantity: inventoryAdjustments[0].quantity.toString(),
-                            occurred_at: timestamp
+                            occurredAt: timestamp
                         }
                     },
                     {
                         type: 'ADJUSTMENT',
                         adjustment: {
-                            catalog_object_id: inventoryAdjustments[1].catalog_object_id,
-                            location_id: locationId,
-                            from_state: fromState[adjustmentType],
-                            to_state: toState[adjustmentType],
+                            catalogObjectId: inventoryAdjustments[1].catalog_object_id,
+                            locationId: locationId,
+                            fromState: fromState[adjustmentType],
+                            toState: toState[adjustmentType],
                             quantity: inventoryAdjustments[1].quantity.toString(),
-                            occurred_at: timestamp
+                            occurredAt: timestamp
                         }
                     },
                     {
                         type: 'ADJUSTMENT',
                         adjustment: {
-                            catalog_object_id: inventoryAdjustments[2].catalog_object_id,
-                            location_id: locationId,
-                            from_state: fromState[adjustmentType],
-                            to_state: toState[adjustmentType],
+                            catalogObjectId: inventoryAdjustments[2].catalog_object_id,
+                            locationId: locationId,
+                            fromState: fromState[adjustmentType],
+                            toState: toState[adjustmentType],
                             quantity: inventoryAdjustments[2].quantity.toString(),
-                            occurred_at: timestamp
+                            occurredAt: timestamp
                         }
                     }
                 ]
@@ -131,7 +134,7 @@ class SquareService {
             });
         });
     }
-    static updateMasterCount(currentMasterTicketSum, masterTicketSum, catalog_object_id) {
+    static updateMasterCount(currentMasterTicketSum, masterTicketSum, catalogObjectId) {
         return __awaiter(this, void 0, void 0, function* () {
             const quantity = masterTicketSum - currentMasterTicketSum;
             const timestamp = moment()
@@ -139,17 +142,17 @@ class SquareService {
                 .toString();
             yield inventoryAPI
                 .batchChangeInventory({
-                idempotency_key: generateIdempotencyKey(),
+                idempotencyKey: generateIdempotencyKey(),
                 changes: [
                     {
                         type: 'ADJUSTMENT',
                         adjustment: {
-                            catalog_object_id,
-                            location_id: locationId,
-                            from_state: 'IN_STOCK',
-                            to_state: 'SOLD',
+                            catalogObjectId,
+                            locationId: locationId,
+                            fromState: 'IN_STOCK',
+                            toState: 'SOLD',
                             quantity: quantity.toString(),
-                            occurred_at: timestamp
+                            occurredAt: timestamp
                         }
                     }
                 ]
@@ -164,12 +167,12 @@ class SquareService {
         return __awaiter(this, void 0, void 0, function* () {
             const idempotencyKey = crypto_1.randomBytes(64).toString('hex');
             const request = {
-                card_nonce: payload.nonce,
-                amount_money: {
-                    amount: payload.amount,
+                cardNonce: payload.nonce,
+                amountMoney: {
+                    amount: BigInt(payload.amount),
                     currency: 'USD'
                 },
-                idempotency_key: idempotencyKey
+                idempotencyKey: idempotencyKey
             };
             return yield new Promise(resolve => {
                 transactionsAPI
@@ -208,16 +211,16 @@ class SquareService {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 return yield new Promise(resolve => {
-                    const body = new squareConnect.SearchCatalogObjectsRequest();
+                    const body = {};
                     const date = moment(_date).format(constants_1.MOMENT_FORMAT_DATE);
                     catalogAPI.searchCatalogObjects(body).then((data) => __awaiter(this, void 0, void 0, function* () {
-                        const sessions = data.objects.filter(object => {
-                            if (object.item_data && object.item_data.name && object.item_data.name.includes(date)) {
+                        const sessions = data.result.objects.filter(object => {
+                            if (object.itemData && object.itemData.name && object.itemData.name.includes(date)) {
                                 return object;
                             }
                         });
                         yield Promise.all(sessions.map((session) => __awaiter(this, void 0, void 0, function* () {
-                            yield Promise.all(session.item_data.variations.map((sessionVariation) => __awaiter(this, void 0, void 0, function* () {
+                            yield Promise.all(session.itemData.variations.map((sessionVariation) => __awaiter(this, void 0, void 0, function* () {
                                 const { data: inventoryCount } = yield this.getCalendarDateSessionInventoryCountByCatalogObject(sessionVariation.id);
                                 sessionVariation.inventory = inventoryCount;
                             })));
@@ -241,24 +244,24 @@ class SquareService {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 return yield new Promise(resolve => {
-                    const body = new squareConnect.SearchCatalogObjectsRequest();
-                    body.object_types = ['ITEM'];
+                    const body = {};
+                    body.objectTypes = ['ITEM'];
                     catalogAPI
                         .searchCatalogObjects(body)
                         .then((data) => __awaiter(this, void 0, void 0, function* () {
                         const months = ['Nov ', 'Dec ', 'Jan '];
                         let sessions = [];
                         for (let i = 0; i < 3; i++) {
-                            const currentMonthSessions = data.objects.filter(object => {
-                                if (object.item_data && object.item_data.name && object.item_data.name.includes(months[i])) {
+                            const currentMonthSessions = data.result.objects.filter(object => {
+                                if (object.itemData && object.itemData.name && object.itemData.name.includes(months[i])) {
                                     return object;
                                 }
                             });
                             logging_1.generateLogs('Crontab', 'SquareService', 'findCalendarDateSessions', `Month has ${currentMonthSessions.length} sessions.`);
                             for (let i = 0; i < currentMonthSessions.length; i++) {
                                 const session = currentMonthSessions[i];
-                                logging_1.generateLogs('Crontab', 'SquareService', 'findCalendarDateSessions', `Processing session ${session.id} (${session.item_data.name}).`);
-                                yield Promise.all(session.item_data.variations.map((sessionVariation) => __awaiter(this, void 0, void 0, function* () {
+                                logging_1.generateLogs('Crontab', 'SquareService', 'findCalendarDateSessions', `Processing session ${session.id} (${session.itemData.name}).`);
+                                yield Promise.all(session.itemData.variations.map((sessionVariation) => __awaiter(this, void 0, void 0, function* () {
                                     yield rx_helpers_1.wait(300).catch(err => console.error(err));
                                     this.getCalendarDateSessionInventoryCountByCatalogObject(sessionVariation.id)
                                         .then(res => (sessionVariation.inventory = res.data))
@@ -287,15 +290,15 @@ class SquareService {
     static updateCalendarDateSession(payload) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const currentCatalogObject = yield catalogAPI.retrieveCatalogObject(payload.id);
+                const currentCatalogObject = (yield catalogAPI.retrieveCatalogObject(payload.id)).result;
                 return yield new Promise(resolve => {
                     catalogAPI
-                        .upsertCatalogObject(Object.assign(Object.assign({}, currentCatalogObject), { idempotency_key: generateIdempotencyKey(), object: {
+                        .upsertCatalogObject(Object.assign(Object.assign({}, currentCatalogObject), { idempotencyKey: generateIdempotencyKey(), object: {
                             id: payload.id,
                             type: 'ITEM',
-                            item_data: {
+                            itemData: {
                                 name: moment(payload.date).format(constants_1.DEFAULT_MOMENT_FORMAT),
-                                variations: currentCatalogObject.object.item_data.variations
+                                variations: currentCatalogObject.object.itemData.variations
                             },
                             version: payload.version
                         } }))
@@ -321,11 +324,11 @@ class SquareService {
                 const { data: newCatalogObject } = yield new Promise(resolve => {
                     catalogAPI
                         .upsertCatalogObject({
-                        idempotency_key: generateIdempotencyKey(),
+                        idempotencyKey: generateIdempotencyKey(),
                         object: {
                             id: generateItemId(),
                             type: 'ITEM',
-                            item_data: {
+                            itemData: {
                                 name: moment(payload.date).format(constants_1.DEFAULT_MOMENT_FORMAT)
                             }
                         }
@@ -342,19 +345,19 @@ class SquareService {
                 const { data: adultTicketData } = yield new Promise(resolve => {
                     catalogAPI
                         .upsertCatalogObject({
-                        idempotency_key: generateIdempotencyKey(),
+                        idempotencyKey: generateIdempotencyKey(),
                         object: {
                             id: generateItemId(),
                             type: 'ITEM_VARIATION',
-                            item_variation_data: {
-                                item_id: newCatalogObjectId,
+                            itemVariationData: {
+                                itemId: newCatalogObjectId,
                                 name: constants_1.ADULT_TICKET_VARIATION_NAME,
-                                price_money: {
+                                priceMoney: {
                                     amount: 1500,
                                     currency: 'USD'
                                 },
-                                pricing_type: 'FIXED_PRICING',
-                                track_inventory: true
+                                pricingType: 'FIXED_PRICING',
+                                trackInventory: true
                             }
                         }
                     })
@@ -370,19 +373,19 @@ class SquareService {
                 const { data: childTicketData } = yield new Promise(resolve => {
                     catalogAPI
                         .upsertCatalogObject({
-                        idempotency_key: generateIdempotencyKey(),
+                        idempotencyKey: generateIdempotencyKey(),
                         object: {
                             id: generateItemId(),
                             type: 'ITEM_VARIATION',
-                            item_variation_data: {
-                                item_id: newCatalogObjectId,
+                            itemVariationData: {
+                                itemId: newCatalogObjectId,
                                 name: constants_1.CHILD_TICKET_VARIATION_NAME,
-                                price_money: {
+                                priceMoney: {
                                     amount: 1200,
                                     currency: 'USD'
                                 },
-                                pricing_type: 'FIXED_PRICING',
-                                track_inventory: true
+                                pricingType: 'FIXED_PRICING',
+                                trackInventory: true
                             }
                         }
                     })
@@ -398,19 +401,19 @@ class SquareService {
                 const { data: masterTicketData } = yield new Promise(resolve => {
                     catalogAPI
                         .upsertCatalogObject({
-                        idempotency_key: generateIdempotencyKey(),
+                        idempotencyKey: generateIdempotencyKey(),
                         object: {
                             id: generateItemId(),
                             type: 'ITEM_VARIATION',
-                            item_variation_data: {
-                                item_id: newCatalogObjectId,
+                            itemVariationData: {
+                                itemId: newCatalogObjectId,
                                 name: constants_1.MASTER_VARIATION_NAME,
-                                price_money: {
+                                priceMoney: {
                                     amount: 0,
                                     currency: 'USD'
                                 },
-                                pricing_type: 'FIXED_PRICING',
-                                track_inventory: true
+                                pricingType: 'FIXED_PRICING',
+                                trackInventory: true
                             }
                         }
                     })
@@ -430,37 +433,37 @@ class SquareService {
                 yield new Promise(resolve => {
                     inventoryAPI
                         .batchChangeInventory({
-                        idempotency_key: generateIdempotencyKey(),
-                        ignore_unchanged_counts: false,
+                        idempotencyKey: generateIdempotencyKey(),
+                        ignoreUnchangedCounts: false,
                         changes: [
                             {
-                                type: 'PHYSICAL_COUNT',
-                                physical_count: {
-                                    catalog_object_id: newAdultTicketId,
+                                type: 'physicalCount',
+                                physicalCount: {
+                                    catalogObjectId: newAdultTicketId,
                                     state: 'IN_STOCK',
-                                    location_id: locationId,
+                                    locationId: locationId,
                                     quantity: constants_1.MAX_SESSION_INVENTORY_COUNT,
-                                    occurred_at: timestamp
+                                    occurredAt: timestamp
                                 }
                             },
                             {
-                                type: 'PHYSICAL_COUNT',
-                                physical_count: {
-                                    catalog_object_id: newChildTicketId,
+                                type: 'physicalCount',
+                                physicalCount: {
+                                    catalogObjectId: newChildTicketId,
                                     state: 'IN_STOCK',
-                                    location_id: locationId,
+                                    locationId: locationId,
                                     quantity: constants_1.MAX_SESSION_INVENTORY_COUNT,
-                                    occurred_at: timestamp
+                                    occurredAt: timestamp
                                 }
                             },
                             {
-                                type: 'PHYSICAL_COUNT',
-                                physical_count: {
-                                    catalog_object_id: newMasterTicketId,
+                                type: 'physicalCount',
+                                physicalCount: {
+                                    catalogObjectId: newMasterTicketId,
                                     state: 'IN_STOCK',
-                                    location_id: locationId,
+                                    locationId: locationId,
                                     quantity: constants_1.MAX_SESSION_INVENTORY_COUNT,
-                                    occurred_at: timestamp
+                                    occurredAt: timestamp
                                 }
                             }
                         ]
@@ -488,12 +491,12 @@ class SquareService {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 return yield new Promise(resolve => {
-                    const body = new squareConnect.SearchCatalogObjectsRequest();
+                    const body = {};
                     catalogAPI.searchCatalogObjects(body).then(data => {
                         let deposit = 0;
-                        data.objects.map(object => {
-                            if (object.item_data && object.item_data.name === 'Party deposit') {
-                                deposit = object.item_data.variations[0].item_variation_data.price_money.amount / 100;
+                        data.result.objects.map(object => {
+                            if (object.itemData && object.itemData.name === 'Party deposit') {
+                                deposit = Number(object.itemData.variations[0].itemVariationData.priceMoney.amount) / 100;
                             }
                         });
                         resolve(ResponseService_1.ResponseBuilder(deposit, null, false));
@@ -516,7 +519,7 @@ class SquareService {
             try {
                 return yield new Promise(resolve => {
                     catalogAPI.deleteCatalogObject(itemId).then(() => {
-                        resolve();
+                        resolve(null);
                     });
                 });
             }
@@ -532,12 +535,12 @@ class SquareService {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 return yield new Promise(resolve => {
-                    const body = new squareConnect.SearchCatalogObjectsRequest();
+                    const body = {};
                     catalogAPI.searchCatalogObjects(body).then(data => {
                         let item = null;
-                        data.objects.map(object => {
-                            if (object.item_data) {
-                                object.item_data.variations.map(variation => {
+                        data.result.objects.map(object => {
+                            if (object.itemData) {
+                                object.itemData.variations.map(variation => {
                                     if (variation.id === itemId) {
                                         item = object;
                                     }
@@ -565,10 +568,10 @@ class SquareService {
                     return ResponseService_1.ResponseBuilder(null, 'Ticket item id needed', true);
                 }
                 return yield new Promise(resolve => {
-                    const body = new squareConnect.SearchCatalogObjectsRequest();
+                    const body = {};
                     catalogAPI.searchCatalogObjects(body).then(data => {
                         let item = null;
-                        data.objects.map(object => {
+                        data.result.objects.map(object => {
                             if (object.id === itemId) {
                                 item = object;
                             }
@@ -611,10 +614,86 @@ class SquareService {
             try {
                 return yield new Promise(resolve => {
                     transactionsAPI
-                        .listTransactions(locationId, {})
+                        .listTransactions(locationId)
                         .then(data => {
                         resolve(ResponseService_1.ResponseBuilder(data, null, false));
                     }, error => {
+                        resolve(ResponseService_1.ResponseBuilder(error.response.text, null, true));
+                    });
+                });
+            }
+            catch (e) {
+                return ResponseService_1.ResponseBuilder(null, null, true, {
+                    error: e,
+                    log: true
+                });
+            }
+        });
+    }
+    static getTransactions(startDate, endDate) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                return yield new Promise(resolve => {
+                    ordersApi
+                        .searchOrders({
+                        locationIds: [locationId],
+                        query: {
+                            filter: {
+                                stateFilter: {
+                                    states: ['COMPLETED']
+                                },
+                                dateTimeFilter: {
+                                    closedAt: {
+                                        startAt: '2018-03-03T20:00:00+00:00',
+                                        endAt: '2021-03-04T21:54:45+00:00'
+                                    }
+                                }
+                            },
+                            sort: {
+                                sortField: 'CLOSED_AT',
+                                sortOrder: 'DESC'
+                            }
+                        },
+                        returnEntries: true
+                    })
+                        .then(data => {
+                        let workbook = new Excel.Workbook();
+                        let worksheet = workbook.addWorksheet('Transactions');
+                        worksheet.columns = [
+                            { header: 'Date', key: 'date' },
+                            { header: 'Time', key: 'time' },
+                            { header: 'Time Zone', key: 'timeZone' },
+                            { header: 'Category', key: 'category' },
+                            { header: 'Item', key: 'item' },
+                            { header: 'Qty', key: 'quantity' },
+                            { header: 'Price Point', key: 'pricePoint' },
+                            { header: 'SKU', key: 'SKU' },
+                            { header: 'Modifiers Applied', key: 'modifiersApplied' },
+                            { header: 'Gross Sales', key: 'grossSales' },
+                            { header: 'Discounts', key: 'discounts' },
+                            { header: 'Net Sales', key: 'netSales' },
+                            { header: 'Tax', key: 'tax' },
+                            { header: 'Transaction ID', key: 'transactionId' },
+                            { header: 'Payment ID', key: 'paymentId' },
+                            { header: 'Device Name', key: 'deviceName' },
+                            { header: 'Notes', key: 'notes' },
+                            { header: 'Details', key: 'details' },
+                            { header: 'Event Type', key: 'eventType' },
+                            { header: 'Location', key: 'location' },
+                            { header: 'Dining Options', key: 'diningOptions' },
+                            { header: 'Customer ID', key: 'customerId' },
+                            { header: 'Customer Name', key: 'customerName' },
+                            { header: 'Customer Reference ID', key: 'customerReferenceId' },
+                            { header: 'Unit', key: 'unit' },
+                            { header: 'Count', key: 'count' }
+                        ];
+                        worksheet.columns.forEach(column => {
+                            column.width = column.header.length < 12 ? 12 : column.header.length;
+                        });
+                        console.log('getTransactionsDATA', data);
+                        resolve(ResponseService_1.ResponseBuilder(data, null, false));
+                    }, error => {
+                        console.log('getTransactionsERROR', error);
                         resolve(ResponseService_1.ResponseBuilder(error.response.text, null, true));
                     });
                 });
