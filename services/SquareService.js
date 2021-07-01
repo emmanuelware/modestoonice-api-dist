@@ -633,6 +633,7 @@ class SquareService {
     static getTransactions(startDate, endDate) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
+                console.log(startDate, endDate);
                 return yield new Promise(resolve => {
                     ordersApi
                         .searchOrders({
@@ -656,7 +657,7 @@ class SquareService {
                         },
                         returnEntries: true
                     })
-                        .then(data => {
+                        .then((data) => __awaiter(this, void 0, void 0, function* () {
                         let workbook = new Excel.Workbook();
                         let worksheet = workbook.addWorksheet('Transactions');
                         worksheet.columns = [
@@ -690,10 +691,13 @@ class SquareService {
                         worksheet.columns.forEach(column => {
                             column.width = column.header.length < 12 ? 12 : column.header.length;
                         });
-                        console.log('getTransactionsDATA', data);
-                        resolve(ResponseService_1.ResponseBuilder(data, null, false));
-                    }, error => {
-                        console.log('getTransactionsERROR', error);
+                        console.log(data.result);
+                        worksheet.addRow(null);
+                        const buffer = yield workbook.xlsx.writeBuffer();
+                        const base64 = Buffer.from(buffer).toString('base64');
+                        resolve(ResponseService_1.ResponseBuilder({ base64 }, null, false));
+                    }), error => {
+                        console.error(error);
                         resolve(ResponseService_1.ResponseBuilder(error.response.text, null, true));
                     });
                 });

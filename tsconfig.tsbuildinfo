@@ -3501,16 +3501,12 @@
         "version": "42ed89aa3bf4566444b71d9ec0698d04fdf9a916dbae961f48f73e766444fd65",
         "signature": "42ed89aa3bf4566444b71d9ec0698d04fdf9a916dbae961f48f73e766444fd65"
       },
-      "../src/models/square.ts": {
-        "version": "7199a1a156aac058e7035bc8b0e7dd9481c3a48f83af91691fbb6004ac584581",
-        "signature": "005ef080f465040412d151c7ebd08d2f81c69d6da91fd054c6cbe1cfc3013051"
-      },
       "../node_modules/exceljs/index.d.ts": {
         "version": "8c869f99dbdf3b22d5b590e13fb432f64714222607737037afbe9bdb1857dcc3",
         "signature": "8c869f99dbdf3b22d5b590e13fb432f64714222607737037afbe9bdb1857dcc3"
       },
       "../src/services/squareservice.ts": {
-        "version": "c49f435f75b8847e16a694361c54f1ecd1ca4247b2eb917c3a50dc8d3d84f78c",
+        "version": "7d512655568ff583cf0eb2f80edb3836cf4df1e7c806c71c62614c255f6d43f1",
         "signature": "aebd04b73089d7e188d94f845618e0437e97e0667a8213e4b2aa764dd70706b3"
       },
       "../src/services/calendarservice.ts": {
@@ -4417,12 +4413,16 @@
         "version": "76335f197494f0fecff6404ebc36d056fb86429b1e1cfa8f81a21694da9ec4ff",
         "signature": "46a0b34e1264c4d25ca6646ff0e6cfaa7275ea1ae5a6bc23d4dfd84edf2f2b2e"
       },
+      "../src/models/square.ts": {
+        "version": "7199a1a156aac058e7035bc8b0e7dd9481c3a48f83af91691fbb6004ac584581",
+        "signature": "005ef080f465040412d151c7ebd08d2f81c69d6da91fd054c6cbe1cfc3013051"
+      },
       "../src/routes/square-public.ts": {
         "version": "22397ce13a8d4048602c515f2b59e99158e9442dc8b52c6d4ff747646e62e650",
         "signature": "46a0b34e1264c4d25ca6646ff0e6cfaa7275ea1ae5a6bc23d4dfd84edf2f2b2e"
       },
       "../src/routes/square.ts": {
-        "version": "be6a742d1ac24ed3f63fa3dcd3eaa2987b989b68dbb76067f446acc8d8ee9591",
+        "version": "12a1e3ef8d05d4894781d0e5bd6c90debdb8f6e0609b671cf1e8e7f7be5c77b5",
         "signature": "46a0b34e1264c4d25ca6646ff0e6cfaa7275ea1ae5a6bc23d4dfd84edf2f2b2e"
       },
       "../src/common/interfaces/birthday.ts": {
@@ -4630,7 +4630,7 @@
         "signature": "d1fabe87664e84c11a6a01135fa2003f1e94fc15465e2a5f69059d1e83f205a8"
       },
       "../src/app.ts": {
-        "version": "3fb864131dd9bc551078452aeee79925336dd9597e03b15e1749b906665e7844",
+        "version": "fff73c4f0e090ef892716a39281d0fb92b28446e935a5c6e3aadd9e1ab8dca88",
         "signature": "b5527409e237b8f2732ec9bd524ee3d8faf97ee82814e7be714ddaf2532b9b71"
       },
       "../src/common/environment.ts": {
@@ -4708,6 +4708,7 @@
       "pretty": true,
       "removeComments": true,
       "target": 2,
+      "project": "../tsconfig.json",
       "configFilePath": "../tsconfig.json"
     },
     "referencedMap": {
@@ -11009,12 +11010,6 @@
         "../node_modules/@types/node/util.d.ts",
         "../node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "../src/models/square.ts": [
-        "../src/services/squareservice.ts",
-        "../src/services/responseservice.ts",
-        "../node_modules/@types/node/util.d.ts",
-        "../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
       "../node_modules/exceljs/index.d.ts": [
         "../node_modules/@types/node/stream.d.ts",
         "../node_modules/@types/node/events.d.ts",
@@ -11033,7 +11028,6 @@
         "../node_modules/moment/moment.d.ts",
         "../node_modules/square/dist/index.d.ts",
         "../src/utils/logging.ts",
-        "../src/models/square.ts",
         "../node_modules/exceljs/index.d.ts",
         "../node_modules/@types/node/util.d.ts",
         "../node_modules/@types/node/ts3.2/util.d.ts"
@@ -13054,6 +13048,12 @@
         "../node_modules/@types/node/ts3.2/util.d.ts"
       ],
       "../src/routes/root.ts": [
+        "../node_modules/@types/node/util.d.ts",
+        "../node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../src/models/square.ts": [
+        "../src/services/squareservice.ts",
+        "../src/services/responseservice.ts",
         "../node_modules/@types/node/util.d.ts",
         "../node_modules/@types/node/ts3.2/util.d.ts"
       ],
@@ -22822,9 +22822,7 @@
       "../node_modules/square/dist/models/v1updateemployeerequest.d.ts",
       "../node_modules/square/dist/models/v1updateemployeerolerequest.d.ts",
       "../node_modules/square/dist/index.d.ts",
-      "../src/models/square.ts",
       "../node_modules/exceljs/index.d.ts",
-      "../src/services/squareservice.ts",
       "../src/services/calendarservice.ts",
       "../src/services/userservice.ts",
       "../src/models/user.ts",
@@ -23051,6 +23049,7 @@
       "../src/models/reservation.ts",
       "../src/routes/reservation.ts",
       "../src/routes/root.ts",
+      "../src/models/square.ts",
       "../src/routes/square-public.ts",
       "../src/routes/square.ts",
       "../src/common/interfaces/birthday.ts",
@@ -23104,6 +23103,7 @@
       "../node_modules/@sentry/node/dist/transports/https.d.ts",
       "../node_modules/@sentry/node/dist/transports/index.d.ts",
       "../node_modules/@sentry/node/dist/index.d.ts",
+      "../src/app.ts",
       "../src/common/environment.ts",
       "../src/common/random-second.ts",
       "../node_modules/@types/pdfkit/index.d.ts",
@@ -23120,7 +23120,7 @@
       "../node_modules/@types/semver/index.d.ts",
       "../node_modules/@types/xml2js/lib/processors.d.ts",
       "../node_modules/@types/xml2js/index.d.ts",
-      "../src/app.ts"
+      "../src/services/squareservice.ts"
     ]
   },
   "version": "3.7.7"

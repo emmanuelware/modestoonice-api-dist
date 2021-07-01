@@ -33,6 +33,7 @@ const square_1 = require("./routes/square");
 const system_1 = require("./routes/system");
 const user_1 = require("./routes/user");
 const body = require('koa-body');
+const cors = require("koa2-cors");
 const jwt = require("jsonwebtoken");
 const koa = require("koa");
 const mysql = require("mysql2/promise");
@@ -81,7 +82,7 @@ app.use(function timing(ctx, next) {
     });
 });
 app.use(body({ jsonLimit: '10mb' }));
-app.keys = ['poolorchardapi-node'];
+app.keys = ['modestoonice-node'];
 app.use(function contentNegotiation(ctx, next) {
     return __awaiter(this, void 0, void 0, function* () {
         yield next();
@@ -112,6 +113,12 @@ app.use(function handleErrors(ctx, next) {
         }
     });
 });
+app.use(cors({
+    origin: ctx => {
+        const origin = ctx.request.header.origin;
+        return origin;
+    }
+}));
 app.use(function mysqlConnection(ctx, next) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
