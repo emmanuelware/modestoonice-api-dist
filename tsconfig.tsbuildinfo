@@ -4346,7 +4346,7 @@
         "signature": "46a0b34e1264c4d25ca6646ff0e6cfaa7275ea1ae5a6bc23d4dfd84edf2f2b2e"
       },
       "../src/services/couponservice.ts": {
-        "version": "8b61829fbe1cd1c1bee462ce98fe6d433a4b3628bad9d4ac9f502ec57134aecd",
+        "version": "38655fde3e1294aa1bb995d200409bb0c92c476dfe541fc4670f1399f7414bab",
         "signature": "30d6770a4da652f03c23a823407fb64ca607b3ce39e45c7d9cca00f40d65d2f9"
       },
       "../src/models/coupon.ts": {
@@ -22823,6 +22823,7 @@
       "../node_modules/square/dist/models/v1updateemployeerolerequest.d.ts",
       "../node_modules/square/dist/index.d.ts",
       "../node_modules/exceljs/index.d.ts",
+      "../src/services/squareservice.ts",
       "../src/services/calendarservice.ts",
       "../src/services/userservice.ts",
       "../src/models/user.ts",
@@ -23032,7 +23033,6 @@
       "../src/services/configservice.ts",
       "../src/models/config.ts",
       "../src/routes/config.ts",
-      "../src/services/couponservice.ts",
       "../src/models/coupon.ts",
       "../src/routes/coupon.ts",
       "../src/models/email.ts",
@@ -23120,7 +23120,7 @@
       "../node_modules/@types/semver/index.d.ts",
       "../node_modules/@types/xml2js/lib/processors.d.ts",
       "../node_modules/@types/xml2js/index.d.ts",
-      "../src/services/squareservice.ts"
+      "../src/services/couponservice.ts"
     ]
   },
   "version": "3.7.7"

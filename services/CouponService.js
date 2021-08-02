@@ -28,7 +28,7 @@ class CouponService {
     static getCouponByCode(code) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const [[coupon]] = yield global.db.query('SELECT amount, type FROM coupon WHERE code = :code', {
+                const [[coupon]] = yield global.db.query('SELECT * FROM coupon WHERE code = :code', {
                     code: code
                 });
                 if (coupon) {
@@ -49,10 +49,54 @@ class CouponService {
     static addCoupon(payload) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                yield global.db.query('INSERT INTO coupon (amount, type, code, dateEntered) VALUES (:amount, :type, :code, NOW())', {
-                    amount: payload.amount,
-                    type: payload.type,
-                    code: payload.code
+                const { amount, type, code, startDate, endDate, startTime, endTime, redeemableSunday, redeemableMonday, redeemableTuesday, redeemableWednesday, redeemableThursday, redeemableFriday, redeemableSaturday } = payload;
+                yield global.db.query(`INSERT INTO coupon (
+          amount, 
+          type, 
+          code, 
+          dateEntered,
+          startDate,
+          endDate,
+          startTime,
+          endTime,
+          redeemableSunday,
+          redeemableMonday,
+          redeemableTuesday,
+          redeemableWednesday,
+          redeemableThursday,
+          redeemableFriday,
+          redeemableSaturday
+        ) VALUES (
+          :amount, 
+          :type, 
+          :code, 
+          NOW(),
+          :startDate,
+          :endDate,
+          :startTime,
+          :endTime,
+          :redeemableSunday,
+          :redeemableMonday,
+          :redeemableTuesday,
+          :redeemableWednesday,
+          :redeemableThursday,
+          :redeemableFriday,
+          :redeemableSaturday
+        )`, {
+                    amount,
+                    type,
+                    code,
+                    startDate,
+                    endDate,
+                    startTime,
+                    endTime,
+                    redeemableSunday,
+                    redeemableMonday,
+                    redeemableTuesday,
+                    redeemableWednesday,
+                    redeemableThursday,
+                    redeemableFriday,
+                    redeemableSaturday
                 });
                 return ResponseService_1.ResponseBuilder(null, null, false);
             }
