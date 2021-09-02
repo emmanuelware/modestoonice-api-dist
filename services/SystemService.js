@@ -36,12 +36,12 @@ class SystemService {
                 const masterTicketAmountToChange = payload.ticketCount;
                 const ticketTypeIDs = yield SquareService_1.SquareService.getTicketVariationIDsByDate(payload.sessionDate);
                 const ticketTypes = [
-                    { catalog_object_id: ticketTypeIDs[0], quantity: 0 },
-                    { catalog_object_id: ticketTypeIDs[1], quantity: 0 },
-                    { catalog_object_id: ticketTypeIDs[2], quantity: masterTicketAmountToChange }
+                    { catalogObjectId: ticketTypeIDs[0], quantity: 0 },
+                    { catalogObjectId: ticketTypeIDs[1], quantity: 0 },
+                    { catalogObjectId: ticketTypeIDs[2], quantity: masterTicketAmountToChange }
                 ];
                 const masterTicketAdjustment = ticketTypes[2];
-                const { data: inventoryCountResponse } = yield SquareService_1.SquareService.getCalendarDateSessionInventoryCountByCatalogObject(masterTicketAdjustment.catalog_object_id);
+                const { data: inventoryCountResponse } = yield SquareService_1.SquareService.getCalendarDateSessionInventoryCountByCatalogObject(masterTicketAdjustment.catalogObjectId);
                 const currentQuantity = +inventoryCountResponse.counts[0].quantity;
                 if (payload.adjustmentType === 'remove' && currentQuantity - masterTicketAdjustment.quantity < 0) {
                     return ResponseService_1.ResponseBuilder(null, 'Given amount to remove will result in a negative ticket amount', true);
@@ -668,11 +668,11 @@ class SystemService {
                 if (process.env.ENV_MODE === 'prod') {
                     const { data: sessions } = yield SquareService_1.SquareService.findCalendarDateSessionByDate(sessionDate.datetime);
                     const [catalogItem] = sessions.filter(session => {
-                        if (moment(sessionDate.datetime).format(constants_1.DEFAULT_MOMENT_FORMAT) === session.item_data.name) {
+                        if (moment(sessionDate.datetime).format(constants_1.DEFAULT_MOMENT_FORMAT) === session.itemData.name) {
                             return session;
                         }
                     });
-                    yield SquareService_1.SquareService.updateMasterTicketCount(catalogItem.item_data.variations[1].id, birthdayPackage.skatersIncluded).catch(err => {
+                    yield SquareService_1.SquareService.updateMasterTicketCount(catalogItem.itemData.variations[1].id, birthdayPackage.skatersIncluded).catch(err => {
                         return ResponseService_1.ResponseBuilder(null, 'An error ocurred. Error code AdjInv.587', true);
                     });
                 }
@@ -879,7 +879,7 @@ class SystemService {
                 ticket.session = session
                     ? session
                     : {
-                        item_data: {
+                        itemData: {
                             name: 'Not found (valid)'
                         }
                     };
@@ -1177,11 +1177,11 @@ class SystemService {
                     const { data: oldTicketData } = yield SquareService_1.SquareService.getItemById(ticketRecord.itemId);
                     const adultTickets = ticketRecord.adultTickets;
                     const kidTickets = ticketRecord.childTickets;
-                    const ticketTypeIDs = yield SquareService_1.SquareService.getTicketVariationIDsByDate(oldTicketData.item_data.name);
+                    const ticketTypeIDs = yield SquareService_1.SquareService.getTicketVariationIDsByDate(oldTicketData.itemData.name);
                     const ticketTypes = [
-                        { catalog_object_id: ticketTypeIDs[0], quantity: adultTickets },
-                        { catalog_object_id: ticketTypeIDs[1], quantity: kidTickets },
-                        { catalog_object_id: ticketTypeIDs[2], quantity: adultTickets + kidTickets }
+                        { catalogObjectId: ticketTypeIDs[0], quantity: adultTickets },
+                        { catalogObjectId: ticketTypeIDs[1], quantity: kidTickets },
+                        { catalogObjectId: ticketTypeIDs[2], quantity: adultTickets + kidTickets }
                     ];
                     yield SquareService_1.SquareService.updateTicketCounts(ticketTypes, 'add');
                 }
@@ -1200,9 +1200,9 @@ class SystemService {
                     const kidTickets = ticketRecord.childTickets;
                     const ticketTypeIDs = yield SquareService_1.SquareService.getTicketVariationIDsByDate(payload.newSessionDate);
                     const ticketTypes = [
-                        { catalog_object_id: ticketTypeIDs[0], quantity: adultTickets },
-                        { catalog_object_id: ticketTypeIDs[1], quantity: kidTickets },
-                        { catalog_object_id: ticketTypeIDs[2], quantity: adultTickets + kidTickets }
+                        { catalogObjectId: ticketTypeIDs[0], quantity: adultTickets },
+                        { catalogObjectId: ticketTypeIDs[1], quantity: kidTickets },
+                        { catalogObjectId: ticketTypeIDs[2], quantity: adultTickets + kidTickets }
                     ];
                     yield SquareService_1.SquareService.updateTicketCounts(ticketTypes, 'remove');
                 }

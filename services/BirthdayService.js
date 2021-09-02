@@ -281,15 +281,15 @@ class BirthdayService {
                 logging_1.generateLogs('NodeApi', 'BirthdayService', 'bookBirthday', `Fetched birthday package information.`);
                 const { data: sessions } = yield SquareService_1.SquareService.findCalendarDateSessionByDate(session.datetime);
                 const [catalogItem] = sessions.filter(_session => {
-                    if (moment(session.datetime).format(constants_1.DEFAULT_MOMENT_FORMAT) === _session.item_data.name) {
+                    if (moment(session.datetime).format(constants_1.DEFAULT_MOMENT_FORMAT) === _session.itemData.name) {
                         return _session;
                     }
                 });
-                const { data: inventory } = yield SquareService_1.SquareService.getCalendarDateSessionInventoryCountByCatalogObject(catalogItem.item_data.variations[1].id);
+                const { data: inventory } = yield SquareService_1.SquareService.getCalendarDateSessionInventoryCountByCatalogObject(catalogItem.itemData.variations[1].id);
                 const adjustedMasterInventory = +inventory.counts[0].quantity - birthdayPackage.skatersIncluded;
-                logging_1.generateLogs('NodeApi', 'BirthdayService', 'bookBirthday', `Adjusted inventory: ${adjustedMasterInventory} - CatalogID: ${catalogItem.item_data.variations[1].id}`);
+                logging_1.generateLogs('NodeApi', 'BirthdayService', 'bookBirthday', `Adjusted inventory: ${adjustedMasterInventory} - CatalogID: ${catalogItem.itemData.variations[1].id}`);
                 if (process.env.ENV_MODE === 'prod') {
-                    yield SquareService_1.SquareService.updateMasterTicketCount(catalogItem.item_data.variations[1].id, birthdayPackage.skatersIncluded).catch(err => {
+                    yield SquareService_1.SquareService.updateMasterTicketCount(catalogItem.itemData.variations[1].id, birthdayPackage.skatersIncluded).catch(err => {
                         logging_1.generateLogs('NodeApi', 'BirthdayService', 'bookBirthday', `Cannot adjust inventory: ${err}`);
                         return ResponseService_1.ResponseBuilder(null, 'An error ocurred. Error code AdjInv.352', true);
                     });

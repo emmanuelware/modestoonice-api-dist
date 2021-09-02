@@ -56,9 +56,9 @@ class CalendarService {
             try {
                 let { data: items } = yield SquareService_1.SquareService.findCalendarDateSessionByDate(date);
                 items = items.map(item => {
-                    return Object.assign(Object.assign({}, item), { time: moment(item.item_data.name).format(constants_1.MOMENT_FORMAT_TIME), date: moment(item.item_data.name).format(constants_1.DEFAULT_MOMENT_FORMAT) });
+                    return Object.assign(Object.assign({}, item), { time: moment(item.itemData.name).format(constants_1.MOMENT_FORMAT_TIME), date: moment(item.itemData.name).format(constants_1.DEFAULT_MOMENT_FORMAT) });
                 });
-                items.sort((a, b) => moment(a.item_data.name).valueOf() - moment(b.item_data.name).valueOf());
+                items.sort((a, b) => moment(a.itemData.name).valueOf() - moment(b.itemData.name).valueOf());
                 return ResponseService_1.ResponseBuilder(items, null, false);
             }
             catch (e) {
@@ -90,9 +90,9 @@ class CalendarService {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const { data: session } = yield SquareService_1.SquareService.getItemById(payload.itemId);
-                const sessionAdultTicketId = session.item_data.variations[0].id;
-                const sessionChildTicketId = session.item_data.variations[1].id;
-                const sessionMasterTicketId = session.item_data.variations[2].id;
+                const sessionAdultTicketId = session.itemData.variations[0].id;
+                const sessionChildTicketId = session.itemData.variations[1].id;
+                const sessionMasterTicketId = session.itemData.variations[2].id;
                 const { data: adultInventoryCounts } = yield SquareService_1.SquareService.getCalendarDateSessionInventoryCountByCatalogObject(sessionAdultTicketId);
                 const { data: childInventoryCounts } = yield SquareService_1.SquareService.getCalendarDateSessionInventoryCountByCatalogObject(sessionChildTicketId);
                 const { data: masterInventoryCounts } = yield SquareService_1.SquareService.getCalendarDateSessionInventoryCountByCatalogObject(sessionMasterTicketId);
@@ -101,15 +101,15 @@ class CalendarService {
                 const masterInventoryCount = masterInventoryCounts.counts[0].quantity;
                 yield SquareService_1.SquareService.updateTicketCounts([
                     {
-                        catalog_object_id: sessionAdultTicketId,
+                        catalogObjectId: sessionAdultTicketId,
                         quantity: adultInventoryCount - payload.inventoryCount
                     },
                     {
-                        catalog_object_id: sessionChildTicketId,
+                        catalogObjectId: sessionChildTicketId,
                         quantity: childInventoryCount - payload.inventoryCount
                     },
                     {
-                        catalog_object_id: sessionMasterTicketId,
+                        catalogObjectId: sessionMasterTicketId,
                         quantity: masterInventoryCount - payload.inventoryCount
                     }
                 ], 'remove');

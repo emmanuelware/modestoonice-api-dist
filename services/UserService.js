@@ -39,13 +39,13 @@ class UserService {
                 const kidTickets = payload.childTicketCount || 0;
                 const ticketTypeIDs = yield SquareService_1.SquareService.getTicketVariationIDsByDate(payload.sessionDate);
                 const ticketTypes = [
-                    { catalog_object_id: ticketTypeIDs[0], quantity: adultTickets },
-                    { catalog_object_id: ticketTypeIDs[1], quantity: kidTickets },
-                    { catalog_object_id: ticketTypeIDs[2], quantity: adultTickets + kidTickets }
+                    { catalogObjectId: ticketTypeIDs[0], quantity: adultTickets },
+                    { catalogObjectId: ticketTypeIDs[1], quantity: kidTickets },
+                    { catalogObjectId: ticketTypeIDs[2], quantity: adultTickets + kidTickets }
                 ];
                 for (let i = 0; i < ticketTypes.length; i++) {
                     const ticketType = ticketTypes[i];
-                    const { data: inventoryCountResponse } = yield SquareService_1.SquareService.getCalendarDateSessionInventoryCountByCatalogObject(ticketType.catalog_object_id);
+                    const { data: inventoryCountResponse } = yield SquareService_1.SquareService.getCalendarDateSessionInventoryCountByCatalogObject(ticketType.catalogObjectId);
                     const quantity = +inventoryCountResponse.counts[0].quantity;
                     if (quantity < ticketType.quantity) {
                         return ResponseService_1.ResponseBuilder(null, 'Ticket amount not available', true);
@@ -756,7 +756,7 @@ class UserService {
                         record.userSkaterWaiverText = 'Skater Waiver(s) signed';
                     }
                     const { data: squareItem } = yield SquareService_1.SquareService.getItemById(record.itemId);
-                    record.session = squareItem && squareItem.item_data ? squareItem.item_data.name : 'Not found (valid)';
+                    record.session = squareItem && squareItem.itemData ? squareItem.itemData.name : 'Not found (valid)';
                     return ResponseService_1.ResponseBuilder(record, null, false);
                 }
                 else {
@@ -815,21 +815,21 @@ class UserService {
             try {
                 const { data: sessions } = yield SquareService_1.SquareService.findCalendarDateSessionByDate(payload.selectedDate);
                 for (let i = 0; i < sessions.length; i++) {
-                    const sessionAdultTicketId = sessions[i].item_data.variations[0].id;
-                    const sessionChildTicketId = sessions[i].item_data.variations[1].id;
-                    const sessionMasterTicketId = sessions[i].item_data.variations[2].id;
+                    const sessionAdultTicketId = sessions[i].itemData.variations[0].id;
+                    const sessionChildTicketId = sessions[i].itemData.variations[1].id;
+                    const sessionMasterTicketId = sessions[i].itemData.variations[2].id;
                     logging_1.generateLogs('NodeApi', 'UserService', 'addDomoBooking', `Updating inventory for ${sessionAdultTicketId} and ${sessionMasterTicketId}`);
                     yield SquareService_1.SquareService.updateTicketCounts([
                         {
-                            catalog_object_id: sessionAdultTicketId,
+                            catalogObjectId: sessionAdultTicketId,
                             quantity: 1
                         },
                         {
-                            catalog_object_id: sessionChildTicketId,
+                            catalogObjectId: sessionChildTicketId,
                             quantity: 0
                         },
                         {
-                            catalog_object_id: sessionMasterTicketId,
+                            catalogObjectId: sessionMasterTicketId,
                             quantity: 1
                         }
                     ], 'remove');

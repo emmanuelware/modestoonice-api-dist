@@ -28,29 +28,29 @@ function inventoryChangeListener() {
                     if (!res.err) {
                         for (let i = 0; i < res.data.length; i++) {
                             const session = res.data[i];
-                            logging_1.generateLogs(environmentName, processName, 'findCalendarDateSessions', `Checking date: ${session.item_data.name}`);
+                            logging_1.generateLogs(environmentName, processName, 'findCalendarDateSessions', `Checking date: ${session.itemData.name}`);
                             yield rx_helpers_1.wait(300).catch(err => console.error(err));
-                            if (!session.item_data.variations[0] ||
-                                !session.item_data.variations[0].inventory ||
-                                !session.item_data.variations[1] ||
-                                !session.item_data.variations[1].inventory ||
-                                !session.item_data.variations[2] ||
-                                !session.item_data.variations[2].inventory) {
-                                logging_1.generateLogs(environmentName, processName, 'findCalendarDateSessions', `Session data not available for ${session.item_data.name}`);
+                            if (!session.itemData.variations[0] ||
+                                !session.itemData.variations[0].inventory ||
+                                !session.itemData.variations[1] ||
+                                !session.itemData.variations[1].inventory ||
+                                !session.itemData.variations[2] ||
+                                !session.itemData.variations[2].inventory) {
+                                logging_1.generateLogs(environmentName, processName, 'findCalendarDateSessions', `Session data not available for ${session.itemData.name}`);
                                 continue;
                             }
-                            if (!session.item_data.variations[2] || !session.item_data.variations[2].inventory) {
-                                logging_1.generateLogs(environmentName, processName, 'findCalendarDateSessions', `Session inventory not available for ${session.item_data.name}`);
+                            if (!session.itemData.variations[2] || !session.itemData.variations[2].inventory) {
+                                logging_1.generateLogs(environmentName, processName, 'findCalendarDateSessions', `Session inventory not available for ${session.itemData.name}`);
                                 continue;
                             }
-                            const adultTicketSum = +session.item_data.variations[0].inventory.counts[0].quantity;
-                            const kidTicketSum = +session.item_data.variations[1].inventory.counts[0].quantity;
+                            const adultTicketSum = +session.itemData.variations[0].inventory.counts[0].quantity;
+                            const kidTicketSum = +session.itemData.variations[1].inventory.counts[0].quantity;
                             const currentMasterTicketSum = adultTicketSum + kidTicketSum - 160;
-                            const masterTicketSum = +session.item_data.variations[2].inventory.counts[0].quantity;
+                            const masterTicketSum = +session.itemData.variations[2].inventory.counts[0].quantity;
                             if (currentMasterTicketSum >= 0 && currentMasterTicketSum !== masterTicketSum) {
-                                logging_1.generateLogs(environmentName, processName, 'findCalendarDateSessions', `Updating master count for: ${session.item_data.name}`);
+                                logging_1.generateLogs(environmentName, processName, 'findCalendarDateSessions', `Updating master count for: ${session.itemData.name}`);
                                 yield rx_helpers_1.wait(random_second_1.getRandomMilliseconds()).catch(err => console.error(err));
-                                yield SquareService_1.SquareService.updateMasterCount(currentMasterTicketSum, masterTicketSum, session.item_data.variations[2].id).catch(err => console.error(err));
+                                yield SquareService_1.SquareService.updateMasterCount(currentMasterTicketSum, masterTicketSum, session.itemData.variations[2].id).catch(err => console.error(err));
                             }
                         }
                         resolve(null);

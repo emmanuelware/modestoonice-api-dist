@@ -33,10 +33,14 @@ const square_1 = require("./routes/square");
 const system_1 = require("./routes/system");
 const user_1 = require("./routes/user");
 const body = require('koa-body');
+const morgan = require("koa-morgan");
 const cors = require("koa2-cors");
 const jwt = require("jsonwebtoken");
 const koa = require("koa");
 const mysql = require("mysql2/promise");
+BigInt.prototype.toJSON = function () {
+    return this.toString();
+};
 const Sentry = require("@sentry/node");
 if (process.env.ENV_MODE && process.env.ENV_MODE === 'prod') {
     Sentry.init({
@@ -52,6 +56,7 @@ if (process.env.ENV_MODE && process.env.ENV_MODE === 'prod') {
     });
 }
 const app = (global.app = new koa());
+app.use(morgan('short'));
 app.on('error', (err, ctx) => {
     if (process.env.ENV_MODE === 'prod') {
         if (ctx.sentry !== false) {

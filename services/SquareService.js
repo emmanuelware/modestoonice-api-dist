@@ -97,7 +97,7 @@ class SquareService {
                     {
                         type: 'ADJUSTMENT',
                         adjustment: {
-                            catalogObjectId: inventoryAdjustments[0].catalog_object_id,
+                            catalogObjectId: inventoryAdjustments[0].catalogObjectId,
                             locationId: locationId,
                             fromState: fromState[adjustmentType],
                             toState: toState[adjustmentType],
@@ -108,7 +108,7 @@ class SquareService {
                     {
                         type: 'ADJUSTMENT',
                         adjustment: {
-                            catalogObjectId: inventoryAdjustments[1].catalog_object_id,
+                            catalogObjectId: inventoryAdjustments[1].catalogObjectId,
                             locationId: locationId,
                             fromState: fromState[adjustmentType],
                             toState: toState[adjustmentType],
@@ -119,7 +119,7 @@ class SquareService {
                     {
                         type: 'ADJUSTMENT',
                         adjustment: {
-                            catalogObjectId: inventoryAdjustments[2].catalog_object_id,
+                            catalogObjectId: inventoryAdjustments[2].catalogObjectId,
                             locationId: locationId,
                             fromState: fromState[adjustmentType],
                             toState: toState[adjustmentType],
@@ -166,6 +166,7 @@ class SquareService {
     static processPayment(payload) {
         return __awaiter(this, void 0, void 0, function* () {
             const idempotencyKey = crypto_1.randomBytes(64).toString('hex');
+            console.log('payload', payload);
             const request = {
                 cardNonce: payload.nonce,
                 amountMoney: {
@@ -178,7 +179,8 @@ class SquareService {
                 transactionsAPI
                     .charge(locationId, request)
                     .then(function (data) {
-                    resolve(ResponseService_1.ResponseBuilder(data, 'Payment successful', false));
+                    console.log('data', data);
+                    resolve(ResponseService_1.ResponseBuilder(data.result, 'Payment successful', false));
                 }, function (error) {
                     console.error(error);
                     resolve(ResponseService_1.ResponseBuilder(error.response.text, 'Payment failure', true));
@@ -192,7 +194,7 @@ class SquareService {
             try {
                 return yield new Promise(resolve => {
                     inventoryAPI.retrieveInventoryCount(itemId).then(data => {
-                        resolve(ResponseService_1.ResponseBuilder(data, null, false));
+                        resolve(ResponseService_1.ResponseBuilder(data.result, null, false));
                     }, error => {
                         console.error(error);
                         resolve(ResponseService_1.ResponseBuilder(error.response ? error.response.text : null, null, true));
@@ -214,16 +216,22 @@ class SquareService {
                     const body = {};
                     const date = moment(_date).format(constants_1.MOMENT_FORMAT_DATE);
                     catalogAPI.searchCatalogObjects(body).then((data) => __awaiter(this, void 0, void 0, function* () {
+                        if (!data.result.objects) {
+                            resolve(ResponseService_1.ResponseBuilder([], null, false));
+                            return;
+                        }
                         const sessions = data.result.objects.filter(object => {
                             if (object.itemData && object.itemData.name && object.itemData.name.includes(date)) {
                                 return object;
                             }
                         });
                         yield Promise.all(sessions.map((session) => __awaiter(this, void 0, void 0, function* () {
-                            yield Promise.all(session.itemData.variations.map((sessionVariation) => __awaiter(this, void 0, void 0, function* () {
-                                const { data: inventoryCount } = yield this.getCalendarDateSessionInventoryCountByCatalogObject(sessionVariation.id);
-                                sessionVariation.inventory = inventoryCount;
-                            })));
+                            if (session.itemData.variations) {
+                                yield Promise.all(session.itemData.variations.map((sessionVariation) => __awaiter(this, void 0, void 0, function* () {
+                                    const { data: inventoryCount } = yield this.getCalendarDateSessionInventoryCountByCatalogObject(sessionVariation.id);
+                                    sessionVariation.inventory = inventoryCount;
+                                })));
+                            }
                         })));
                         resolve(ResponseService_1.ResponseBuilder(sessions, null, false));
                     }), error => {
@@ -249,9 +257,9 @@ class SquareService {
                     catalogAPI
                         .searchCatalogObjects(body)
                         .then((data) => __awaiter(this, void 0, void 0, function* () {
-                        const months = ['Nov ', 'Dec ', 'Jan '];
+                        const months = ['Oct', 'Nov ', 'Dec ', 'Jan'];
                         let sessions = [];
-                        for (let i = 0; i < 3; i++) {
+                        for (let i = 0; i < 4; i++) {
                             const currentMonthSessions = data.result.objects.filter(object => {
                                 if (object.itemData && object.itemData.name && object.itemData.name.includes(months[i])) {
                                     return object;
@@ -303,7 +311,7 @@ class SquareService {
                             version: payload.version
                         } }))
                         .then(data => {
-                        resolve(ResponseService_1.ResponseBuilder(data, null, false));
+                        resolve(ResponseService_1.ResponseBuilder(data.result, null, false));
                     }, error => {
                         console.error(error);
                         resolve(ResponseService_1.ResponseBuilder(error.response.text, null, true));
@@ -334,13 +342,24 @@ class SquareService {
                         }
                     })
                         .then(data => {
-                        resolve(ResponseService_1.ResponseBuilder(data, null, false));
+                        resolve(ResponseService_1.ResponseBuilder(data.result, null, false));
                     }, error => {
                         console.error(error);
                         resolve(ResponseService_1.ResponseBuilder(error.response.text, null, true));
                     });
                 });
-                const newCatalogObjectId = newCatalogObject.catalog_object.id;
+                const newDefaultVariationId = newCatalogObject.catalogObject.itemData.variations[0].id;
+                console.log('newDefaultVariationId', newDefaultVariationId);
+                const variationObjectIds = [newDefaultVariationId];
+                const deleteBody = {
+                    objectIds: variationObjectIds
+                };
+                const { data: deleteResponse } = yield new Promise(resolve => {
+                    catalogApi.batchDeleteCatalogObjects(deleteBody).then(data => {
+                        resolve(ResponseService_1.ResponseBuilder(data.result, null, false));
+                    });
+                });
+                const newCatalogObjectId = newCatalogObject.catalogObject.id;
                 console.log('newCatalogObject.id', newCatalogObjectId);
                 const { data: adultTicketData } = yield new Promise(resolve => {
                     catalogAPI
@@ -353,7 +372,7 @@ class SquareService {
                                 itemId: newCatalogObjectId,
                                 name: constants_1.ADULT_TICKET_VARIATION_NAME,
                                 priceMoney: {
-                                    amount: 1500,
+                                    amount: 1600,
                                     currency: 'USD'
                                 },
                                 pricingType: 'FIXED_PRICING',
@@ -362,13 +381,13 @@ class SquareService {
                         }
                     })
                         .then(data => {
-                        resolve(ResponseService_1.ResponseBuilder(data, null, false));
+                        resolve(ResponseService_1.ResponseBuilder(data.result, null, false));
                     }, error => {
                         console.error(error);
                         resolve(ResponseService_1.ResponseBuilder(error.response.text, null, true));
                     });
                 });
-                const newAdultTicketId = adultTicketData.catalog_object.id;
+                const newAdultTicketId = adultTicketData.catalogObject.id;
                 console.log('newAdultTicketId', newAdultTicketId);
                 const { data: childTicketData } = yield new Promise(resolve => {
                     catalogAPI
@@ -390,13 +409,13 @@ class SquareService {
                         }
                     })
                         .then(data => {
-                        resolve(ResponseService_1.ResponseBuilder(data, null, false));
+                        resolve(ResponseService_1.ResponseBuilder(data.result, null, false));
                     }, error => {
                         console.error(error);
                         resolve(ResponseService_1.ResponseBuilder(error.response.text, null, true));
                     });
                 });
-                const newChildTicketId = childTicketData.catalog_object.id;
+                const newChildTicketId = childTicketData.catalogObject.id;
                 console.log('newChildTicketId', newChildTicketId);
                 const { data: masterTicketData } = yield new Promise(resolve => {
                     catalogAPI
@@ -418,13 +437,13 @@ class SquareService {
                         }
                     })
                         .then(data => {
-                        resolve(ResponseService_1.ResponseBuilder(data, null, false));
+                        resolve(ResponseService_1.ResponseBuilder(data.result, null, false));
                     }, error => {
                         console.error(error);
                         resolve(ResponseService_1.ResponseBuilder(error.response.text, null, true));
                     });
                 });
-                const newMasterTicketId = masterTicketData.catalog_object.id;
+                const newMasterTicketId = masterTicketData.catalogObject.id;
                 console.log('newMasterTicketId', newMasterTicketId);
                 const timestamp = moment()
                     .format('YYYY-MM-DDTHH:mm:ss.000Z')
@@ -437,7 +456,7 @@ class SquareService {
                         ignoreUnchangedCounts: false,
                         changes: [
                             {
-                                type: 'physicalCount',
+                                type: 'PHYSICAL_COUNT',
                                 physicalCount: {
                                     catalogObjectId: newAdultTicketId,
                                     state: 'IN_STOCK',
@@ -447,7 +466,7 @@ class SquareService {
                                 }
                             },
                             {
-                                type: 'physicalCount',
+                                type: 'PHYSICAL_COUNT',
                                 physicalCount: {
                                     catalogObjectId: newChildTicketId,
                                     state: 'IN_STOCK',
@@ -457,7 +476,7 @@ class SquareService {
                                 }
                             },
                             {
-                                type: 'physicalCount',
+                                type: 'PHYSICAL_COUNT',
                                 physicalCount: {
                                     catalogObjectId: newMasterTicketId,
                                     state: 'IN_STOCK',
@@ -469,18 +488,18 @@ class SquareService {
                         ]
                     })
                         .then(data => {
-                        console.log('batchChangeInventory.data', data);
-                        resolve(ResponseService_1.ResponseBuilder(data, null, false));
+                        console.log('batchChangeInventory.data.statusCode', data.statusCode);
+                        resolve(ResponseService_1.ResponseBuilder(data.result, null, false));
                     })
                         .catch(error => {
                         console.error(error);
                         resolve(ResponseService_1.ResponseBuilder(error.response.text, null, true));
                     });
                 });
-                return ResponseService_1.ResponseBuilder(null, null, false);
+                return ResponseService_1.ResponseBuilder(null, 'Created session', false);
             }
             catch (e) {
-                return ResponseService_1.ResponseBuilder(null, null, true, {
+                return ResponseService_1.ResponseBuilder(null, 'Could not create session', true, {
                     error: e,
                     log: true
                 });
@@ -616,7 +635,7 @@ class SquareService {
                     transactionsAPI
                         .listTransactions(locationId)
                         .then(data => {
-                        resolve(ResponseService_1.ResponseBuilder(data, null, false));
+                        resolve(ResponseService_1.ResponseBuilder(data.result, null, false));
                     }, error => {
                         resolve(ResponseService_1.ResponseBuilder(error.response.text, null, true));
                     });
