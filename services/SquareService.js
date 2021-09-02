@@ -257,9 +257,13 @@ class SquareService {
                     catalogAPI
                         .searchCatalogObjects(body)
                         .then((data) => __awaiter(this, void 0, void 0, function* () {
-                        const months = ['Oct', 'Nov ', 'Dec ', 'Jan'];
+                        const months = ['Nov ', 'Dec ', 'Jan'];
                         let sessions = [];
-                        for (let i = 0; i < 4; i++) {
+                        if (!data.result.objects) {
+                            resolve(ResponseService_1.ResponseBuilder([], null, false));
+                            return;
+                        }
+                        for (let i = 0; i < 3; i++) {
                             const currentMonthSessions = data.result.objects.filter(object => {
                                 if (object.itemData && object.itemData.name && object.itemData.name.includes(months[i])) {
                                     return object;
