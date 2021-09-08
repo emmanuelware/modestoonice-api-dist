@@ -1256,7 +1256,7 @@ class SystemService {
     static getBirthdaySessions() {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const [sessions] = yield global.db.query('SELECT * FROM birthdaySession ORDER BY datetime LIMIT 200');
+                const [sessions] = yield global.db.query('SELECT * FROM birthdaySession ORDER BY datetime');
                 return ResponseService_1.ResponseBuilder(sessions, null, false);
             }
             catch (err) {

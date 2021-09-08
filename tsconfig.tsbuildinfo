@@ -4430,7 +4430,7 @@
         "signature": "54cb4add36949d48c5dbe88e1244d43cc6267f032650c200dacdc96e159e369c"
       },
       "../src/services/systemservice.ts": {
-        "version": "5c7c8ea31b7b6f07326b045cd702d41cc4703d5a3c9b1401473a19138f11a0fa",
+        "version": "a6830e4fe5f703610a1998b5632f17906ce271fc3ae5638704650db626bf7ec1",
         "signature": "1fc3c851ad3be375926cd8017c1f2c6dc868cd1b2d02bc4244bad18e75ef9250"
       },
       "../src/models/system.ts": {
@@ -23128,6 +23128,7 @@
       "../node_modules/square/dist/models/v1updateemployeerolerequest.d.ts",
       "../node_modules/square/dist/index.d.ts",
       "../node_modules/exceljs/index.d.ts",
+      "../src/services/squareservice.ts",
       "../src/services/calendarservice.ts",
       "../src/services/userservice.ts",
       "../src/models/user.ts",
@@ -23358,7 +23359,6 @@
       "../src/routes/square-public.ts",
       "../src/routes/square.ts",
       "../src/common/interfaces/birthday.ts",
-      "../src/services/systemservice.ts",
       "../src/models/system.ts",
       "../src/routes/system.ts",
       "../src/routes/user.ts",
@@ -23443,7 +23443,7 @@
       "../node_modules/@types/semver/index.d.ts",
       "../node_modules/@types/xml2js/lib/processors.d.ts",
       "../node_modules/@types/xml2js/index.d.ts",
-      "../src/services/squareservice.ts"
+      "../src/services/systemservice.ts"
     ]
   },
   "version": "3.7.7"
