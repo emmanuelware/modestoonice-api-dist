@@ -5,7 +5,4 @@ const coupon_1 = require("../models/coupon");
 const router = new Router();
 router.get('/coupon/:code', coupon_1.Coupon.getCouponByCode);
 router.get('/coupon', coupon_1.Coupon.getCoupons);
-router.post('/coupon', coupon_1.Coupon.addCoupon);
-router.put('/coupon', coupon_1.Coupon.updateCoupon);
-router.delete('/coupon', coupon_1.Coupon.deleteCoupon);
 exports.default = router.routes();

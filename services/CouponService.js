@@ -10,11 +10,16 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const ResponseService_1 = require("./ResponseService");
+const constants_1 = require("../common/constants");
+const moment = require("moment");
 class CouponService {
     static getCoupons() {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const [coupons] = yield global.db.query('SELECT * FROM coupon');
+                const [coupons] = yield global.db.query('SELECT * FROM coupon WHERE deletedFlag = 0');
+                coupons.map(el => {
+                    el = this.formatCouponDatesAndTimes(el);
+                });
                 return ResponseService_1.ResponseBuilder(coupons, null, false);
             }
             catch (e) {
@@ -28,11 +33,11 @@ class CouponService {
     static getCouponByCode(code) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const [[coupon]] = yield global.db.query('SELECT * FROM coupon WHERE code = :code', {
+                const [[coupon]] = yield global.db.query('SELECT * FROM coupon WHERE code = :code AND deletedFlag = 0', {
                     code: code
                 });
                 if (coupon) {
-                    return ResponseService_1.ResponseBuilder(coupon, null, false);
+                    return ResponseService_1.ResponseBuilder(this.formatCouponDatesAndTimes(coupon), null, false);
                 }
                 else {
                     return ResponseService_1.ResponseBuilder(null, 'Coupon code not found', true);
@@ -46,104 +51,9 @@ class CouponService {
             }
         });
     }
-    static addCoupon(payload) {
-        return __awaiter(this, void 0, void 0, function* () {
-            try {
-                yield global.db.query(`
-        INSERT INTO coupon (
-          amount, 
-          type, 
-          code, 
-          tag,
-          startDate,
-          endDate,
-          startTime,
-          endTime,
-          redeemableSunday,
-          redeemableMonday,
-          redeemableTuesday,
-          redeemableWednesday,
-          redeemableThursday,
-          redeemableFriday,
-          redeemableSaturday,
-          dateEntered
-        ) VALUES (
-          :amount, 
-          :type, 
-          :code, 
-          :tag,
-          :startDate,
-          :endDate,
-          :startTime,
-          :endTime,
-          :redeemableSunday,
-          :redeemableMonday,
-          :redeemableTuesday,
-          :redeemableWednesday,
-          :redeemableThursday,
-          :redeemableFriday,
-          :redeemableSaturday,
-          NOW())`, {
-                    amount: payload.amount,
-                    type: payload.type,
-                    code: payload.code,
-                    tag: payload.tag,
-                    startDate: payload.startDate,
-                    endDate: payload.endDate,
-                    startTime: payload.startTime,
-                    endTime: payload.endTime,
-                    redeemableSunday: payload.redeemableSunday,
-                    redeemableMonday: payload.redeemableMonday,
-                    redeemableTuesday: payload.redeemableTuesday,
-                    redeemableWednesday: payload.redeemableWednesday,
-                    redeemableThursday: payload.redeemableThursday,
-                    redeemableFriday: payload.redeemableFriday,
-                    redeemableSaturday: payload.redeemableSaturday
-                });
-                return ResponseService_1.ResponseBuilder(null, null, false);
-            }
-            catch (e) {
-                return ResponseService_1.ResponseBuilder(null, null, true, {
-                    error: e,
-                    log: true
-                });
-            }
-        });
-    }
-    static updateCoupon(payload) {
-        return __awaiter(this, void 0, void 0, function* () {
-            try {
-                yield global.db.query('UPDATE coupon SET amount = :amount, type = :type, code = :code WHERE id = :id', {
-                    id: payload.id,
-                    amount: payload.amount,
-                    type: payload.type,
-                    code: payload.code
-                });
-                return ResponseService_1.ResponseBuilder(null, null, false);
-            }
-            catch (e) {
-                return ResponseService_1.ResponseBuilder(null, null, true, {
-                    error: e,
-                    log: true
-                });
-            }
-        });
-    }
-    static deleteCoupon(couponId) {
-        return __awaiter(this, void 0, void 0, function* () {
-            try {
-                yield global.db.query('DELETE FROM coupon WHERE id = :id', {
-                    id: couponId
-                });
-                return ResponseService_1.ResponseBuilder(null, null, false);
-            }
-            catch (e) {
-                return ResponseService_1.ResponseBuilder(null, null, true, {
-                    error: e,
-                    log: true
-                });
-            }
-        });
+    static formatCouponDatesAndTimes(coupon) {
+        const { startDate, endDate, startTime, endTime } = coupon;
+        return Object.assign(Object.assign({}, coupon), { startDate: startDate ? moment(startDate).format(constants_1.SQL_DATE_FORMAT) : null, endDate: endDate ? moment(endDate).format(constants_1.SQL_DATE_FORMAT) : null, startTime: startTime ? moment(`1970-01-01 ${startTime}`).format(constants_1.SQL_TIME_FORMAT) : null, endTime: endTime ? moment(`1970-01-01 ${endTime}`).format(constants_1.SQL_TIME_FORMAT) : null });
     }
 }
 exports.CouponService = CouponService;

@@ -1287,5 +1287,134 @@ class SystemService {
             }
         });
     }
+    static createCoupon(payload) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                yield global.db.query(`
+        INSERT INTO coupon (
+          amount, 
+          type, 
+          code, 
+          tag,
+          startDate,
+          endDate,
+          startTime,
+          endTime,
+          redeemableSunday,
+          redeemableMonday,
+          redeemableTuesday,
+          redeemableWednesday,
+          redeemableThursday,
+          redeemableFriday,
+          redeemableSaturday,
+          dateEntered
+        ) VALUES (
+          :amount, 
+          :type, 
+          :code, 
+          :tag,
+          :startDate,
+          :endDate,
+          :startTime,
+          :endTime,
+          :redeemableSunday,
+          :redeemableMonday,
+          :redeemableTuesday,
+          :redeemableWednesday,
+          :redeemableThursday,
+          :redeemableFriday,
+          :redeemableSaturday,
+          NOW())`, {
+                    amount: payload.amount,
+                    type: payload.type,
+                    code: payload.code,
+                    tag: payload.tag,
+                    startDate: payload.startDate,
+                    endDate: payload.endDate,
+                    startTime: payload.startTime,
+                    endTime: payload.endTime,
+                    redeemableSunday: payload.redeemableSunday,
+                    redeemableMonday: payload.redeemableMonday,
+                    redeemableTuesday: payload.redeemableTuesday,
+                    redeemableWednesday: payload.redeemableWednesday,
+                    redeemableThursday: payload.redeemableThursday,
+                    redeemableFriday: payload.redeemableFriday,
+                    redeemableSaturday: payload.redeemableSaturday
+                });
+                return ResponseService_1.ResponseBuilder(null, null, false);
+            }
+            catch (e) {
+                return ResponseService_1.ResponseBuilder(null, null, true, {
+                    error: e,
+                    log: true
+                });
+            }
+        });
+    }
+    static updateCoupon(couponId, payload) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                yield global.db.query(`
+        UPDATE coupon 
+        SET 
+          amount = :amount,
+          type = :type,
+          code = :code,
+          tag = :tag,
+          startDate = :startDate,
+          endDate = :endDate,
+          startTime = :startTime,
+          endTime = :endTime,
+          redeemableSunday = :redeemableSunday,
+          redeemableMonday = :redeemableMonday,
+          redeemableTuesday = :redeemableTuesday,
+          redeemableWednesday = :redeemableWednesday,
+          redeemableThursday = :redeemableThursday,
+          redeemableFriday = :redeemableFriday,
+          redeemableSaturday = :redeemableSaturday
+        WHERE id = :couponId`, {
+                    couponId,
+                    amount: payload.amount,
+                    type: payload.type,
+                    code: payload.code,
+                    tag: payload.tag,
+                    startDate: payload.startDate,
+                    endDate: payload.endDate,
+                    startTime: payload.startTime,
+                    endTime: payload.endTime,
+                    redeemableSunday: payload.redeemableSunday,
+                    redeemableMonday: payload.redeemableMonday,
+                    redeemableTuesday: payload.redeemableTuesday,
+                    redeemableWednesday: payload.redeemableWednesday,
+                    redeemableThursday: payload.redeemableThursday,
+                    redeemableFriday: payload.redeemableFriday,
+                    redeemableSaturday: payload.redeemableSaturday
+                });
+                return ResponseService_1.ResponseBuilder(null, 'Updated coupon', false);
+            }
+            catch (e) {
+                return ResponseService_1.ResponseBuilder(null, null, true, {
+                    error: e,
+                    log: true
+                });
+            }
+        });
+    }
+    static deleteCouponById(couponId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                yield global.db.query('UPDATE coupon SET deletedFlag = 1 WHERE id = :id', {
+                    id: couponId
+                });
+                return ResponseService_1.ResponseBuilder(null, 'Coupon deleted', false);
+            }
+            catch (e) {
+                return ResponseService_1.ResponseBuilder(null, null, true, {
+                    error: e,
+                    log: true
+                });
+            }
+        });
+    }
 }
 exports.SystemService = SystemService;

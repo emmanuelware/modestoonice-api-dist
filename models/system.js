@@ -337,5 +337,32 @@ class System {
             ctx.body = ResponseService_1.ResponseHandler(ctx, res);
         });
     }
+    static createCoupon(ctx) {
+        return __awaiter(this, void 0, void 0, function* () {
+            if (ctx.state.user.role < constants_1.ADMIN_ROLE) {
+                return;
+            }
+            const res = yield SystemService_1.SystemService.createCoupon(ctx.request.body);
+            ctx.body = ResponseService_1.ResponseHandler(ctx, res);
+        });
+    }
+    static updateCoupon(ctx) {
+        return __awaiter(this, void 0, void 0, function* () {
+            if (ctx.state.user.role < constants_1.ADMIN_ROLE) {
+                return;
+            }
+            const res = yield SystemService_1.SystemService.updateCoupon(ctx.params.id, ctx.request.body);
+            ctx.body = ResponseService_1.ResponseHandler(ctx, res);
+        });
+    }
+    static deleteCouponById(ctx) {
+        return __awaiter(this, void 0, void 0, function* () {
+            if (ctx.state.user.role < constants_1.ADMIN_ROLE) {
+                return;
+            }
+            const res = yield SystemService_1.SystemService.deleteCouponById(ctx.params.id);
+            ctx.body = ResponseService_1.ResponseHandler(ctx, res);
+        });
+    }
 }
 exports.System = System;

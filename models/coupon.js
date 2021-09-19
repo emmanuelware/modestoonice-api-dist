@@ -24,23 +24,5 @@ class Coupon {
             ctx.body = ResponseService_1.ResponseHandler(ctx, res);
         });
     }
-    static addCoupon(ctx) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const res = yield CouponService_1.CouponService.addCoupon(ctx.request.body);
-            ctx.body = ResponseService_1.ResponseHandler(ctx, res);
-        });
-    }
-    static updateCoupon(ctx) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const res = yield CouponService_1.CouponService.updateCoupon(ctx.request.body);
-            ctx.body = ResponseService_1.ResponseHandler(ctx, res);
-        });
-    }
-    static deleteCoupon(ctx) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const res = yield CouponService_1.CouponService.deleteCoupon(ctx.params.id);
-            ctx.body = ResponseService_1.ResponseHandler(ctx, res);
-        });
-    }
 }
 exports.Coupon = Coupon;
