@@ -413,23 +413,6 @@ class BirthdayService {
                     })));
                     extrasHtml += '</b></p>';
                 }
-                if (birthdayPackage.skatersIncluded >= 15) {
-                    const emailPayload = {
-                        firstName: payload.firstName || '',
-                        lastName: payload.lastName || '',
-                        confirmationNumber,
-                        sessionDate: moment(session.datetime).format('MMM D, YYYY') + ' at ' + moment(session.datetime).format('h:mm a'),
-                        adultTicketCount: 0,
-                        childTicketCount: birthdayPackage.skatersIncluded,
-                        total: dollarAmount.toFixed(2),
-                        packageName: packageRecord.name,
-                        pizzaText,
-                        extrasHtml,
-                        phone: payload.phone,
-                        email: payload.email
-                    };
-                    yield EmailService_1.EmailService.sendFifteenOrMoreTicketsBoughtEmail(emailPayload);
-                }
                 yield EmailService_1.EmailService.sendEmail(payload.email, email_constants_1.DEFAULT_EMAIL_SENDER, 'Modesto On Ice | Your Birthday Information', `
         <h3>Thanks for booking your birthday with Modesto On Ice!</h3>
 
