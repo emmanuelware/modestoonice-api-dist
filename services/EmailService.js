@@ -220,10 +220,14 @@ class EmailService {
 
         <hr>
 
-        <p><a href="${process.env.DOMAIN}/skater-waiver?cn=${payload.confirmationNumber}&type=birthdayBooking">Sign your skater waiver</a> before you get to the rink!</p>
+        <p>**** Skater Waiver ****</p>
+        <p>All skaters are required to have a Waiver.  If additional waivers are needed under your Confirmation Number, please share the following link and your Confirmation number to everyone in your group for a smoother check-in when you arrive at the ice rink.  </p>
 
-        <p>Having trouble viewing the link? Copy and paste this in your browser: ${process.env.DOMAIN}/skater-waiver?cn=${payload.confirmationNumber}&type=birthdayBooking</p>
-      
+        <p>
+          <a href="${process.env.DOMAIN}/skater-waiver?cn=${payload.confirmationNumber}&type=session">Click here</a> or copy and paste this in your browser:
+        </p>
+
+        <p>${process.env.DOMAIN}/skater-waiver?cn=${payload.confirmationNumber}&type=session</p>
         `);
                 return ResponseService_1.ResponseBuilder(null, null, false);
             }
@@ -257,9 +261,14 @@ class EmailService {
 
         <hr>
 
-        <p><a href="${payload.domain}/skater-waiver?cn=${payload.confirmationNumber}&type=birthdayBooking">Sign your skater waiver</a> before you get to the rink!</p>
+        <p>**** Skater Waiver ****</p>
+        <p>All skaters are required to have a Waiver.  If additional waivers are needed under your Confirmation Number, please share the following link and your Confirmation number to everyone in your group for a smoother check-in when you arrive at the ice rink.  </p>
 
-        <p>Having trouble viewing the link? Copy and paste this in your browser: ${payload.domain}/skater-waiver?cn=${payload.confirmationNumber}&type=birthdayBooking</p>
+        <p>
+          <a href="${process.env.DOMAIN}/skater-waiver?cn=${payload.confirmationNumber}&type=birthdayBooking">Click here</a> or copy and paste this in your browser:
+        </p>
+
+        <p>${process.env.DOMAIN}/skater-waiver?cn=${payload.confirmationNumber}&type=birthdayBooking</p>
       `);
                 return ResponseService_1.ResponseBuilder(null, 'Sent email', false);
             }
@@ -283,9 +292,14 @@ class EmailService {
 
         <hr>
 
-        <p><a href="https://tickets.modestoonice.com/skater-waiver?cn=${payload.confirmationNumber}&type=pass">Sign your skater waiver</a> before you get to the rink!</p>
+        <p>**** Skater Waiver ****</p>
+        <p>All skaters are required to have a Waiver.  If additional waivers are needed under your Confirmation Number, please share the following link and your Confirmation number to everyone in your group for a smoother check-in when you arrive at the ice rink.  </p>
 
-        <p>Having trouble viewing the link? Copy and paste this in your browser: https://tickets.modestoonice.com/skater-waiver?cn=${payload.confirmationNumber}&type=pass</p>
+        <p>
+          <a href="${process.env.DOMAIN}/skater-waiver?cn=${payload.confirmationNumber}&type=session">Click here</a> or copy and paste this in your browser:
+        </p>
+
+        <p>${process.env.DOMAIN}/skater-waiver?cn=${payload.confirmationNumber}&type=session</p>
       `);
                 return ResponseService_1.ResponseBuilder(null, 'Sent email', false);
             }

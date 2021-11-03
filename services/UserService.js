@@ -25,6 +25,64 @@ class UserService {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 logging_1.generateLogs('NodeApi', 'UserService', 'bookSession', `Starting to book session.`);
+                if (payload.couponCode && payload.couponCode.toLowerCase() !== 'group') {
+                    const [[couponRecord]] = yield global.db.query('SELECT * FROM coupon WHERE code = :code', {
+                        code: payload.couponCode
+                    });
+                    const currentDate = moment();
+                    if (couponRecord.usedFlag) {
+                        return ResponseService_1.ResponseBuilder(null, 'Coupon already redeemed', true);
+                    }
+                    if (couponRecord.startDate && moment(couponRecord.startDate).isAfter(currentDate)) {
+                        return ResponseService_1.ResponseBuilder(null, 'Coupon is not yet valid (start date)', true);
+                    }
+                    if (couponRecord.startTime && moment(couponRecord.startTime, 'hh:mm:ss').isAfter(currentDate)) {
+                        return ResponseService_1.ResponseBuilder(null, 'Coupon is not yet valid (start time)', true);
+                    }
+                    if (couponRecord.endDate && moment(couponRecord.endDate).isBefore(currentDate)) {
+                        return ResponseService_1.ResponseBuilder(null, 'Coupon is expired (end date)', true);
+                    }
+                    if (couponRecord.endTime && moment(couponRecord.endTime, 'hh:mm:ss').isBefore(currentDate)) {
+                        return ResponseService_1.ResponseBuilder(null, 'Coupon is expired (end time)', true);
+                    }
+                    switch (currentDate.day()) {
+                        case 0:
+                            if (!couponRecord.redeemableSunday) {
+                                return ResponseService_1.ResponseBuilder(null, 'Coupon not redeemable on Sunday', true);
+                            }
+                            break;
+                        case 1:
+                            if (!couponRecord.redeemableMonday) {
+                                return ResponseService_1.ResponseBuilder(null, 'Coupon not redeemable on Monday', true);
+                            }
+                            break;
+                        case 2:
+                            if (!couponRecord.redeemableTuesday) {
+                                return ResponseService_1.ResponseBuilder(null, 'Coupon not redeemable on Tuesday', true);
+                            }
+                            break;
+                        case 3:
+                            if (!couponRecord.redeemableWednesday) {
+                                return ResponseService_1.ResponseBuilder(null, 'Coupon not redeemable on Wednesday', true);
+                            }
+                            break;
+                        case 4:
+                            if (!couponRecord.redeemableThursday) {
+                                return ResponseService_1.ResponseBuilder(null, 'Coupon not redeemable on Thursday', true);
+                            }
+                            break;
+                        case 5:
+                            if (!couponRecord.redeemableFriday) {
+                                return ResponseService_1.ResponseBuilder(null, 'Coupon not redeemable on Friday', true);
+                            }
+                            break;
+                        case 6:
+                            if (!couponRecord.redeemableSaturday) {
+                                return ResponseService_1.ResponseBuilder(null, 'Coupon not redeemable on Saturday', true);
+                            }
+                            break;
+                    }
+                }
                 if (!payload.sessionId) {
                     return ResponseService_1.ResponseBuilder(null, 'Session not selected or not found', true);
                 }
@@ -64,12 +122,12 @@ class UserService {
                         return ResponseService_1.ResponseBuilder(null, 'Could not store waiver', true);
                     });
                 }
+                logging_1.generateLogs('NodeApi', 'UserService', 'bookSession', `Updating ticket count.`);
+                yield SquareService_1.SquareService.updateTicketCounts(ticketTypes, 'remove').catch(err => {
+                    return ResponseService_1.ResponseBuilder(null, 'Could not update inventory', true);
+                });
                 let paymentResponse = null;
                 if (payload.total) {
-                    logging_1.generateLogs('NodeApi', 'UserService', 'bookSession', `Updating ticket count.`);
-                    yield SquareService_1.SquareService.updateTicketCounts(ticketTypes, 'remove').catch(err => {
-                        return ResponseService_1.ResponseBuilder(null, 'Could not update inventory', true);
-                    });
                     logging_1.generateLogs('NodeApi', 'UserService', 'bookSession', `Total found: ${payload.total}.`);
                     paymentResponse = yield SquareService_1.SquareService.processPayment({
                         amount: payload.amount,
@@ -107,6 +165,7 @@ class UserService {
           confirmationNumber,
           adultTickets,
           childTickets,
+          couponCode,
           dateEntered
         ) VALUES (
           :userId,
@@ -120,6 +179,7 @@ class UserService {
           :confirmationNumber,
           :adultTickets,
           :childTickets,
+          :couponCode,
           NOW()
         )
       `, {
@@ -133,7 +193,8 @@ class UserService {
                     phone: payload.phone || null,
                     confirmationNumber: confirmationNumber,
                     adultTickets: payload.adultTicketCount,
-                    childTickets: payload.childTicketCount
+                    childTickets: payload.childTicketCount,
+                    couponCode: payload.couponCode || null
                 });
                 if (payload.selectedUserPass) {
                     logging_1.generateLogs('NodeApi', 'UserService', 'bookSession', `Inserting user pass usage.`);
@@ -184,22 +245,34 @@ class UserService {
 
         <hr>
 
-        <p><a href="${process.env.DOMAIN}/skater-waiver?cn=${confirmationNumber}&type=session">Sign your skater waiver</a> before you get to the rink!</p>
+        <p>**** Skater Waiver ****</p>
+        <p>All skaters are required to have a Waiver.  If additional waivers are needed under your Confirmation Number, please share the following link and your Confirmation number to everyone in your group for a smoother check-in when you arrive at the ice rink.  </p>
 
-        <p>Having trouble viewing the link? Copy and paste this in your browser: ${process.env.DOMAIN}/skater-waiver?cn=${confirmationNumber}&type=session</p>
+        <p>
+          <a href="${process.env.DOMAIN}/skater-waiver?cn=${confirmationNumber}&type=session">Click here</a> or copy and paste this in your browser:
+        </p>
+
+        <p>${process.env.DOMAIN}/skater-waiver?cn=${confirmationNumber}&type=session</p>
 
         <hr>
 
         <p>Use the barcode below at the ticket booth!</p>
 
-        <img alt="Your barcode" src="http://www.barcodes4.me/barcode/c128a/${confirmationNumber}.png?height=400&resolution=4">
+        <img alt="Your barcode" src="https://www.webarcode.com/barcode/image.php?code=${confirmationNumber}&type=C128A&xres=1&height=100&width=200&font=3&output=png&style=197">
         
         <hr>
 
-        <p class="attrition">Barcodes generated by <a href="https://the-refinery.io">Cleveland Web Design company, The Refinery</a>.</p>
+        <p class="attrition">Barcodes generated by <a href="https://www.webarcode.com">www.webarcode.com</a>.</p>
       `).catch(err => {
                     logging_1.generateLogs('NodeApi', 'UserService', 'bookSession', `Could not email customer.`);
                 });
+                if (payload.couponCode && payload.couponCode.toLowerCase() !== 'group') {
+                    yield global.db.query(`
+          UPDATE coupon SET usedFlag = 1 WHERE code = :code
+        `, {
+                        code: payload.couponCode
+                    });
+                }
                 return Object.assign(Object.assign({}, paymentResponse), { data: {
                         confirmationNumber: confirmationNumber
                     } });
@@ -307,19 +380,24 @@ class UserService {
 
         <hr>
 
-        <p><a href="${process.env.DOMAIN}/skater-waiver?cn=${confirmationNumber}&type=seasonPass">Sign your skater waiver</a> before you get to the rink!</p>
+        <p>**** Skater Waiver ****</p>
+        <p>All skaters are required to have a Waiver.  If additional waivers are needed under your Confirmation Number, please share the following link and your Confirmation number to everyone in your group for a smoother check-in when you arrive at the ice rink.  </p>
 
-        <p>Having trouble viewing the link? Copy and paste this in your browser: ${process.env.DOMAIN}/skater-waiver?cn=${confirmationNumber}&type=seasonPass</p>
+        <p>
+          <a href="${process.env.DOMAIN}/skater-waiver?cn=${confirmationNumber}&type=birthdayBooking">Click here</a> or copy and paste this in your browser:
+        </p>
+
+        <p>${process.env.DOMAIN}/skater-waiver?cn=${confirmationNumber}&type=birthdayBooking</p>
 
         <hr>
 
         <p>Use the barcode below at the ticket booth!</p>
 
-        <img alt="Your barcode" src="http://www.barcodes4.me/barcode/c128a/${confirmationNumber}.png?height=400&resolution=4">
+        <img alt="Your barcode" src="https://www.webarcode.com/barcode/image.php?code=${confirmationNumber}&type=C128A&xres=1&height=100&width=200&font=3&output=png&style=197">
         
         <hr>
 
-        <p class="attrition">Barcodes generated by <a href="https://the-refinery.io">Cleveland Web Design company, The Refinery</a>.</p>
+        <p class="attrition">Barcodes generated by <a href="https://www.webarcode.com">www.webarcode.com</a>.</p>
       `);
                 return Object.assign(Object.assign({}, paymentResponse), { data: Object.assign(Object.assign({}, paymentResponse.data), { confirmationNumber: confirmationNumber }) });
             }
@@ -397,10 +475,7 @@ class UserService {
         nameOfParticipant,
         dateOfBirth,
         phoneNumber,
-        mailingAddressLine1,
-        mailingAddressLine2,
         mailingAddressCity,
-        mailingAddressState,
         mailingAddressZip,
         emailAddress,
         referral,
@@ -415,10 +490,7 @@ class UserService {
         :nameOfParticipant,
         :dateOfBirth,
         :phoneNumber,
-        :mailingAddressLine1,
-        :mailingAddressLine2,
         :mailingAddressCity,
-        :mailingAddressState,
         :mailingAddressZip,
         :emailAddress,
         :referral,
@@ -435,10 +507,7 @@ class UserService {
                         ? moment(payload.dateOfBirth).format(constants_1.MOMENT_STORING_DATE)
                         : null,
                     phoneNumber: payload.phoneNumber || null,
-                    mailingAddressLine1: payload.mailingAddressLine1 || null,
-                    mailingAddressLine2: payload.mailingAddressLine2 || null,
                     mailingAddressCity: payload.mailingAddressCity || null,
-                    mailingAddressState: payload.mailingAddressState || null,
                     mailingAddressZip: payload.mailingAddressZip || null,
                     emailAddress: payload.emailAddress || null,
                     referral: payload.referral || null,
@@ -566,17 +635,14 @@ class UserService {
     static editSkaterWaiver(id, waiver) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const { nameOfParticipant, dateOfBirth, phoneNumber, mailingAddressLine1, mailingAddressLine2, mailingAddressCity, mailingAddressState, mailingAddressZip, emailAddress, referral, signatureName, signatureDate, emergencyPhoneNumber, minorSignatures } = waiver;
+                const { nameOfParticipant, dateOfBirth, phoneNumber, mailingAddressCity, mailingAddressZip, emailAddress, referral, signatureName, signatureDate, emergencyPhoneNumber, minorSignatures } = waiver;
                 yield global.db.query(`
         UPDATE userSkaterWaiver
         SET
         nameOfParticipant = :nameOfParticipant,
         dateOfBirth = :dateOfBirth,
         phoneNumber = :phoneNumber,
-        mailingAddressLine1 = :mailingAddressLine1,
-        mailingAddressLine2 = :mailingAddressLine2,
         mailingAddressCity = :mailingAddressCity,
-        mailingAddressState = :mailingAddressState,
         mailingAddressZip = :mailingAddressZip,
         emailAddress = :emailAddress,
         referral = :referral,
@@ -589,10 +655,7 @@ class UserService {
                     nameOfParticipant,
                     dateOfBirth,
                     phoneNumber,
-                    mailingAddressLine1,
-                    mailingAddressLine2,
                     mailingAddressCity,
-                    mailingAddressState,
                     mailingAddressZip,
                     emailAddress,
                     referral,

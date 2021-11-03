@@ -319,6 +319,7 @@ class BirthdayService {
           userPhone,
           confirmationNumber,
           totalPrice,
+          guestOfHonor,
           notes,
           dateEntered
         ) VALUES (
@@ -332,6 +333,7 @@ class BirthdayService {
           :userPhone,
           :confirmationNumber,
           :totalPrice,
+          :guestOfHonor,
           :notes,
           NOW()
         )
@@ -346,6 +348,7 @@ class BirthdayService {
                     userPhone: payload.phone,
                     confirmationNumber: confirmationNumber,
                     totalPrice: dollarAmount,
+                    guestOfHonor: payload.guestOfHonor,
                     notes: payload.notes
                 });
                 logging_1.generateLogs('NodeApi', 'BirthdayService', 'bookBirthday', `Inserting birthday party extras into the database.`);
@@ -464,9 +467,14 @@ class BirthdayService {
 
         <hr>
 
-        <p><a href="${process.env.DOMAIN}/skater-waiver?cn=${confirmationNumber}&type=birthdayBooking">Sign your skater waiver</a> before you get to the rink!</p>
+        <p>**** Skater Waiver ****</p>
+        <p>All skaters are required to have a Waiver.  If additional waivers are needed under your Confirmation Number, please share the following link and your Confirmation number to everyone in your group for a smoother check-in when you arrive at the ice rink.  </p>
 
-        <p>Having trouble viewing the link? Copy and paste this in your browser: ${process.env.DOMAIN}/skater-waiver?cn=${confirmationNumber}&type=birthdayBooking</p>
+        <p>
+          <a href="${process.env.DOMAIN}/skater-waiver?cn=${confirmationNumber}&type=birthdayBooking">Click here</a> or copy and paste this in your browser:
+        </p>
+
+        <p>${process.env.DOMAIN}/skater-waiver?cn=${confirmationNumber}&type=birthdayBooking</p>
 
         <hr>
 
