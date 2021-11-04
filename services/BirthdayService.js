@@ -52,7 +52,7 @@ class BirthdayService {
     static getBirthdayPackages() {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const [birthdayPackages] = yield global.db.query('SELECT * FROM birthdayPackage');
+                const [birthdayPackages] = yield global.db.query('SELECT * FROM birthdayPackage ORDER BY sortOrder ASC');
                 yield Promise.all(birthdayPackages.map((birthdayPackage) => __awaiter(this, void 0, void 0, function* () {
                     const [details] = yield global.db.query('SELECT * FROM birthdayPackageDetail WHERE birthdayPackageId = :id', {
                         id: birthdayPackage.id
