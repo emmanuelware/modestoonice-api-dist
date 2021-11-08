@@ -43,9 +43,14 @@ function inventoryChangeListener() {
                                 logging_1.generateLogs(environmentName, processName, 'findCalendarDateSessions', `Session inventory not available for ${session.itemData.name}`);
                                 continue;
                             }
+                            let amountToSubtract = 160;
+                            if (session.itemData.name.includes('Nov 19')) {
+                                logging_1.generateLogs(environmentName, processName, 'findCalendarDateSessions', `Setting amountToSubtract to 120 for: ${session.itemData.name}`);
+                                amountToSubtract = 120;
+                            }
                             const adultTicketSum = +session.itemData.variations[0].inventory.counts[0].quantity;
                             const kidTicketSum = +session.itemData.variations[1].inventory.counts[0].quantity;
-                            const currentMasterTicketSum = adultTicketSum + kidTicketSum - 160;
+                            const currentMasterTicketSum = adultTicketSum + kidTicketSum - amountToSubtract;
                             const masterTicketSum = +session.itemData.variations[2].inventory.counts[0].quantity;
                             if (currentMasterTicketSum >= 0 && currentMasterTicketSum !== masterTicketSum) {
                                 logging_1.generateLogs(environmentName, processName, 'findCalendarDateSessions', `Updating master count for: ${session.itemData.name}`);

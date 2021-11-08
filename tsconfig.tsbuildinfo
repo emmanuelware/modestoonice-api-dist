@@ -4718,7 +4718,7 @@
         "signature": "8e609bb71c20b858c77f0e9f90bb1319db8477b13f9f965f1a1e18524bf50881"
       },
       "../src/cron/runticketcountmonitor.ts": {
-        "version": "7ce182a9b1e27133e908419657c7c3029e447beb1a37efa19a4f30d57cf0d704",
+        "version": "22b4aa86ea7402b6bc514d62df4cd1b4a40942792cfc9195b538e3bf5a35e4f3",
         "signature": "43e818adf60173644896298637f47b01d5819b17eda46eaa32d0c7d64724d012"
       },
       "../src/services/docservice.ts": {
@@ -4780,6 +4780,7 @@
       "pretty": true,
       "removeComments": true,
       "target": 2,
+      "project": "../tsconfig.json",
       "configFilePath": "../tsconfig.json"
     },
     "referencedMap": {
@@ -23331,6 +23332,7 @@
       "../node_modules/aws-sdk/lib/core.d.ts",
       "../node_modules/aws-sdk/index.d.ts",
       "../src/services/s3service.ts",
+      "../src/services/birthdayservice.ts",
       "../src/models/birthday.ts",
       "../src/routes/birthday-public.ts",
       "../src/routes/birthday.ts",
@@ -23433,7 +23435,6 @@
       "../src/common/random-second.ts",
       "../node_modules/@types/pdfkit/index.d.ts",
       "../src/cron/rundailybirthdaybookingreport.ts",
-      "../src/cron/runticketcountmonitor.ts",
       "../src/services/docservice.ts",
       "../src/models/doc.ts",
       "../src/utils/args.ts",
@@ -23446,7 +23447,7 @@
       "../node_modules/@types/semver/index.d.ts",
       "../node_modules/@types/xml2js/lib/processors.d.ts",
       "../node_modules/@types/xml2js/index.d.ts",
-      "../src/services/birthdayservice.ts"
+      "../src/cron/runticketcountmonitor.ts"
     ]
   },
   "version": "3.7.7"
