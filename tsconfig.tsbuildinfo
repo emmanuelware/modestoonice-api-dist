@@ -4218,7 +4218,7 @@
         "signature": "8c869f99dbdf3b22d5b590e13fb432f64714222607737037afbe9bdb1857dcc3"
       },
       "../src/services/squareservice.ts": {
-        "version": "e324fc4b0990d2a838466b9e4e215b9d50441a1a65381c41108a1ab9c8b8e9c5",
+        "version": "cc13626ff07010bd83066c8ede38fcab6b2f84f99dabffb2173f21853a3a2cbe",
         "signature": "aebd04b73089d7e188d94f845618e0437e97e0667a8213e4b2aa764dd70706b3"
       },
       "../src/services/calendarservice.ts": {
@@ -23310,7 +23310,6 @@
       "../node_modules/square/dist/models/v1updateemployeerolerequest.d.ts",
       "../node_modules/square/dist/index.d.ts",
       "../node_modules/exceljs/index.d.ts",
-      "../src/services/squareservice.ts",
       "../src/services/calendarservice.ts",
       "../src/services/userservice.ts",
       "../src/models/user.ts",
@@ -23435,6 +23434,7 @@
       "../src/common/random-second.ts",
       "../node_modules/@types/pdfkit/index.d.ts",
       "../src/cron/rundailybirthdaybookingreport.ts",
+      "../src/cron/runticketcountmonitor.ts",
       "../src/services/docservice.ts",
       "../src/models/doc.ts",
       "../src/utils/args.ts",
@@ -23447,7 +23447,7 @@
       "../node_modules/@types/semver/index.d.ts",
       "../node_modules/@types/xml2js/lib/processors.d.ts",
       "../node_modules/@types/xml2js/index.d.ts",
-      "../src/cron/runticketcountmonitor.ts"
+      "../src/services/squareservice.ts"
     ]
   },
   "version": "3.7.7"

@@ -661,6 +661,8 @@ class SquareService {
                     ordersApi
                         .searchOrders({
                         locationIds: [locationId],
+                        returnEntries: false,
+                        limit: 10000,
                         query: {
                             filter: {
                                 stateFilter: {
@@ -668,8 +670,8 @@ class SquareService {
                                 },
                                 dateTimeFilter: {
                                     closedAt: {
-                                        startAt: '2018-03-03T20:00:00+00:00',
-                                        endAt: '2021-03-04T21:54:45+00:00'
+                                        startAt: `${startDate}T00:00:00+00:00`,
+                                        endAt: `${endDate}T00:00:00+00:00`
                                     }
                                 }
                             },
@@ -677,51 +679,68 @@ class SquareService {
                                 sortField: 'CLOSED_AT',
                                 sortOrder: 'DESC'
                             }
-                        },
-                        returnEntries: true
+                        }
                     })
                         .then((data) => __awaiter(this, void 0, void 0, function* () {
                         let workbook = new Excel.Workbook();
                         let worksheet = workbook.addWorksheet('Transactions');
                         worksheet.columns = [
+                            { header: 'Id', key: 'id' },
                             { header: 'Date', key: 'date' },
                             { header: 'Time', key: 'time' },
-                            { header: 'Time Zone', key: 'timeZone' },
-                            { header: 'Category', key: 'category' },
-                            { header: 'Item', key: 'item' },
-                            { header: 'Qty', key: 'quantity' },
-                            { header: 'Price Point', key: 'pricePoint' },
-                            { header: 'SKU', key: 'SKU' },
-                            { header: 'Modifiers Applied', key: 'modifiersApplied' },
-                            { header: 'Gross Sales', key: 'grossSales' },
-                            { header: 'Discounts', key: 'discounts' },
-                            { header: 'Net Sales', key: 'netSales' },
-                            { header: 'Tax', key: 'tax' },
-                            { header: 'Transaction ID', key: 'transactionId' },
-                            { header: 'Payment ID', key: 'paymentId' },
-                            { header: 'Device Name', key: 'deviceName' },
-                            { header: 'Notes', key: 'notes' },
-                            { header: 'Details', key: 'details' },
-                            { header: 'Event Type', key: 'eventType' },
-                            { header: 'Location', key: 'location' },
-                            { header: 'Dining Options', key: 'diningOptions' },
-                            { header: 'Customer ID', key: 'customerId' },
-                            { header: 'Customer Name', key: 'customerName' },
-                            { header: 'Customer Reference ID', key: 'customerReferenceId' },
-                            { header: 'Unit', key: 'unit' },
-                            { header: 'Count', key: 'count' }
+                            { header: 'Session', key: 'session' },
+                            { header: 'First name', key: 'firstName' },
+                            { header: 'Last name', key: 'lastName' },
+                            { header: 'Email', key: 'email' },
+                            { header: 'Phone', key: 'phone' },
+                            { header: 'Confirmation number', key: 'confirmationNumber' },
+                            { header: 'Adult tickets', key: 'adultTickets' },
+                            { header: 'Child tickets', key: 'childTickets' },
+                            { header: 'Pass type', key: 'passType' },
+                            { header: 'Total', key: 'total' }
                         ];
                         worksheet.columns.forEach(column => {
                             column.width = column.header.length < 12 ? 12 : column.header.length;
                         });
-                        console.log(data.result);
-                        worksheet.addRow(null);
+                        const sessionCache = new Map();
+                        for (let i = 0; i < data.result.orders.length; i++) {
+                            const order = data.result.orders[i];
+                            const [[dbRecord]] = yield global.db.query('SELECT * FROM userTicket WHERE transactionId = :orderId', {
+                                orderId: order.id
+                            });
+                            let sessionName = null;
+                            if (dbRecord && dbRecord.itemId) {
+                                if (sessionCache.get(dbRecord.itemId)) {
+                                    sessionName = sessionCache.get(dbRecord.itemId);
+                                }
+                                else {
+                                    const { data: session } = yield SquareService.getItemById(dbRecord.itemId);
+                                    sessionName = session.itemData.name;
+                                    sessionCache.set(dbRecord.itemId, session.itemData.name);
+                                }
+                            }
+                            worksheet.addRow({
+                                id: order.id,
+                                date: moment(order.createdAt).format(constants_1.MOMENT_FORMAT_DATE),
+                                time: moment(order.createdAt).format(constants_1.MOMENT_FORMAT_TIME),
+                                session: sessionName,
+                                firstName: dbRecord ? dbRecord.firstName : '',
+                                lastName: dbRecord ? dbRecord.lastName : '',
+                                email: dbRecord ? dbRecord.email : '',
+                                phone: dbRecord ? dbRecord.phone : '',
+                                confirmationNumber: dbRecord ? dbRecord.confirmationNumber : '',
+                                adultTickets: dbRecord ? dbRecord.adultTickets : '',
+                                childTickets: dbRecord ? dbRecord.childTickets : '',
+                                passType: dbRecord ? dbRecord.passType : '',
+                                total: (Number(order.totalMoney.amount) / 100).toFixed(2)
+                            });
+                        }
                         const buffer = yield workbook.xlsx.writeBuffer();
                         const base64 = Buffer.from(buffer).toString('base64');
                         resolve(ResponseService_1.ResponseBuilder({ base64 }, null, false));
                     }), error => {
                         console.error(error);
-                        resolve(ResponseService_1.ResponseBuilder(error.response.text, null, true));
+                        resolve(ResponseService_1.ResponseBuilder(error.response ? error.response.text : 'An error ocurred', null, true));
                     });
                 });
             }
