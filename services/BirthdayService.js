@@ -161,7 +161,7 @@ class BirthdayService {
     static getBirthdayExtras() {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const [birthdayExtras] = yield global.db.query('SELECT * FROM birthdayExtra');
+                const [birthdayExtras] = yield global.db.query('SELECT * FROM birthdayExtra ORDER BY name ASC');
                 yield Promise.all(birthdayExtras.map((extra) => __awaiter(this, void 0, void 0, function* () {
                     const { data: imageUrl } = yield this.getBirthdayExtraImageById(extra.id);
                     extra.imageUrl = imageUrl;

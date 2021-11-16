@@ -4306,7 +4306,7 @@
         "signature": "16df84d49e2043ebeb7694da69ad39f5285d9cc70eaa1118da07ddad423fe6a1"
       },
       "../src/services/birthdayservice.ts": {
-        "version": "b9db78386d02b73b94b7b0b8d0e6dc9164f2946cbcbd7975e2ce64678ce3dfdb",
+        "version": "d78a8316009a2006679dc7d40187b70b0c99862949a1ab1f411cdd4795058eb2",
         "signature": "99085597de44cf34f2c2a1180a286cab198a67d533696ebeedf3fae403063db5"
       },
       "../src/models/birthday.ts": {
@@ -4780,7 +4780,6 @@
       "pretty": true,
       "removeComments": true,
       "target": 2,
-      "project": "../tsconfig.json",
       "configFilePath": "../tsconfig.json"
     },
     "referencedMap": {
@@ -23310,6 +23309,7 @@
       "../node_modules/square/dist/models/v1updateemployeerolerequest.d.ts",
       "../node_modules/square/dist/index.d.ts",
       "../node_modules/exceljs/index.d.ts",
+      "../src/services/squareservice.ts",
       "../src/services/calendarservice.ts",
       "../src/services/userservice.ts",
       "../src/models/user.ts",
@@ -23331,7 +23331,6 @@
       "../node_modules/aws-sdk/lib/core.d.ts",
       "../node_modules/aws-sdk/index.d.ts",
       "../src/services/s3service.ts",
-      "../src/services/birthdayservice.ts",
       "../src/models/birthday.ts",
       "../src/routes/birthday-public.ts",
       "../src/routes/birthday.ts",
@@ -23447,7 +23446,7 @@
       "../node_modules/@types/semver/index.d.ts",
       "../node_modules/@types/xml2js/lib/processors.d.ts",
       "../node_modules/@types/xml2js/index.d.ts",
-      "../src/services/squareservice.ts"
+      "../src/services/birthdayservice.ts"
     ]
   },
   "version": "3.7.7"
