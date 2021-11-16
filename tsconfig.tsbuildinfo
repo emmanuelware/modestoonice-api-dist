@@ -4218,7 +4218,7 @@
         "signature": "8c869f99dbdf3b22d5b590e13fb432f64714222607737037afbe9bdb1857dcc3"
       },
       "../src/services/squareservice.ts": {
-        "version": "cc13626ff07010bd83066c8ede38fcab6b2f84f99dabffb2173f21853a3a2cbe",
+        "version": "4b7e36b8d4d8d2090db90610a08325f1c6cb6d4644c53bdaf6739f20682b8803",
         "signature": "aebd04b73089d7e188d94f845618e0437e97e0667a8213e4b2aa764dd70706b3"
       },
       "../src/services/calendarservice.ts": {

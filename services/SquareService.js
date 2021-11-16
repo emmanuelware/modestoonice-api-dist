@@ -656,6 +656,48 @@ class SquareService {
     static getTransactions(startDate, endDate) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
+                const findDbRecord = (transactionId) => __awaiter(this, void 0, void 0, function* () {
+                    const [[ticketRecord]] = yield global.db.query('SELECT * FROM userTicket WHERE transactionId = :transactionId', {
+                        transactionId
+                    });
+                    if (ticketRecord) {
+                        return Object.assign(Object.assign({}, ticketRecord), { transactionType: 'userTicket' });
+                    }
+                    const [[birthdayBookingRecord]] = yield global.db.query(`
+          SELECT
+            userFirstName AS firstName, 
+            userLastName as lastName, 
+            userEmail AS email, 
+            userPhone AS phone, 
+            confirmationNumber
+          FROM birthdayBooking
+          WHERE transactionId = :transactionId`, {
+                        transactionId
+                    });
+                    if (birthdayBookingRecord) {
+                        return Object.assign(Object.assign({}, birthdayBookingRecord), { transactionType: 'birthdayBooking' });
+                    }
+                    const [[userPassRecord]] = yield global.db.query(`
+          SELECT 
+            u.name AS firstName,
+            u.email AS email,
+            u.phone AS phone,
+            up.confirmationCode
+          FROM userPass up
+          LEFT JOIN user u ON u.id = up.userId
+          WHERE up.transactionId = :transactionId`, {
+                        transactionId
+                    });
+                    if (userPassRecord) {
+                        return Object.assign(Object.assign({}, userPassRecord), { transactionType: 'userPass' });
+                    }
+                    const [[lessonBookingRecord]] = yield global.db.query('SELECT * FROM lessonBooking WHERE transactionId = :transactionId', {
+                        transactionId
+                    });
+                    if (lessonBookingRecord) {
+                        return Object.assign(Object.assign({}, lessonBookingRecord), { transactionType: 'lessonBooking' });
+                    }
+                });
                 console.log(startDate, endDate);
                 return yield new Promise(resolve => {
                     ordersApi
@@ -697,7 +739,8 @@ class SquareService {
                             { header: 'Adult tickets', key: 'adultTickets' },
                             { header: 'Child tickets', key: 'childTickets' },
                             { header: 'Pass type', key: 'passType' },
-                            { header: 'Total', key: 'total' }
+                            { header: 'Total', key: 'total' },
+                            { header: 'Transaction type', key: 'transactionType' }
                         ];
                         worksheet.columns.forEach(column => {
                             column.width = column.header.length < 12 ? 12 : column.header.length;
@@ -705,9 +748,7 @@ class SquareService {
                         const sessionCache = new Map();
                         for (let i = 0; i < data.result.orders.length; i++) {
                             const order = data.result.orders[i];
-                            const [[dbRecord]] = yield global.db.query('SELECT * FROM userTicket WHERE transactionId = :orderId', {
-                                orderId: order.id
-                            });
+                            const dbRecord = yield findDbRecord(order.id);
                             let sessionName = null;
                             if (dbRecord && dbRecord.itemId) {
                                 if (sessionCache.get(dbRecord.itemId)) {
@@ -732,7 +773,8 @@ class SquareService {
                                 adultTickets: dbRecord ? dbRecord.adultTickets : '',
                                 childTickets: dbRecord ? dbRecord.childTickets : '',
                                 passType: dbRecord ? dbRecord.passType : '',
-                                total: (Number(order.totalMoney.amount) / 100).toFixed(2)
+                                total: (Number(order.totalMoney.amount) / 100).toFixed(2),
+                                transactionType: dbRecord ? dbRecord.transactionType : ''
                             });
                         }
                         const buffer = yield workbook.xlsx.writeBuffer();
