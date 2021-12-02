@@ -286,21 +286,14 @@ class SystemService {
         ON sw.id = swm.userSkaterWaiverId
 
         WHERE sw.nameOfParticipant LIKE :query
-        OR sw.dateOfBirth LIKE :query
         OR sw.phoneNumber LIKE :query
-        OR sw.mailingAddressCity LIKE :query
-        OR sw.mailingAddressZip LIKE :query
-        OR sw.emailAddress LIKE :query
-        OR sw.referral LIKE :query
-        OR sw.signatureName LIKE :query
-        OR sw.signatureDate LIKE :query
         OR sw.parentGuardianSignature LIKE :query
         OR sw.emergencyPhoneNumber LIKE :query
-        OR swm.dateOfBirth LIKE :query
         OR swm.firstName LIKE :query
         OR swm.lastName LIKE :query
+        LIMIT 25
           `, {
-                    query: `%${query}%`
+                    query: `${query}%`
                 });
                 return ResponseService_1.ResponseBuilder(waivers, null, false);
             }

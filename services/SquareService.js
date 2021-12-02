@@ -13,13 +13,14 @@ const ResponseService_1 = require("./ResponseService");
 const UtilService_1 = require("./UtilService");
 const constants_1 = require("../common/constants");
 const rx_helpers_1 = require("../common/rx.helpers");
-const crypto_1 = require("crypto");
-const moment = require("moment");
+const args_1 = require("../utils/args");
 const square_1 = require("square");
 const logging_1 = require("../utils/logging");
+const crypto_1 = require("crypto");
 const Excel = require("exceljs");
+const moment = require("moment");
 const path = require('path');
-const executableEnv = require('dotenv').config({ path: path.join(__dirname, '../.env') });
+const executableEnv = require('dotenv').config({ path: args_1.getArgs().envPath || path.join(__dirname, '../.env') });
 const applicationId = process.env.SQUARE_APP_ID;
 const accessToken = process.env.SQUARE_TOKEN;
 const locationId = process.env.SQUARE_LOCATION_ID;
@@ -161,6 +162,56 @@ class SquareService {
                 logging_1.generateLogs('Crontab', 'SquareService', 'updateMasterCount', `Updated counts: ${counts}`);
             })
                 .catch(err => console.log('ERROR, NOT UPDATED: ' + err));
+        });
+    }
+    static setMasterCount(adultTicketPreSaleCount, childTicketPreSaleCount, masterTicketPreSaleCount, adultCatalogObjectId, childCatalogObjectId, masterCatalogObjectId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const timestamp = moment()
+                .format('YYYY-MM-DDTHH:mm:ss.000Z')
+                .toString();
+            yield inventoryAPI
+                .batchChangeInventory({
+                idempotencyKey: generateIdempotencyKey(),
+                ignoreUnchangedCounts: false,
+                changes: [
+                    {
+                        type: 'PHYSICAL_COUNT',
+                        physicalCount: {
+                            catalogObjectId: adultCatalogObjectId,
+                            locationId: locationId,
+                            state: 'IN_STOCK',
+                            quantity: adultTicketPreSaleCount.toString(),
+                            occurredAt: timestamp
+                        }
+                    },
+                    {
+                        type: 'PHYSICAL_COUNT',
+                        physicalCount: {
+                            catalogObjectId: childCatalogObjectId,
+                            locationId: locationId,
+                            state: 'IN_STOCK',
+                            quantity: childTicketPreSaleCount.toString(),
+                            occurredAt: timestamp
+                        }
+                    },
+                    {
+                        type: 'PHYSICAL_COUNT',
+                        physicalCount: {
+                            catalogObjectId: masterCatalogObjectId,
+                            locationId: locationId,
+                            state: 'IN_STOCK',
+                            quantity: masterTicketPreSaleCount.toString(),
+                            occurredAt: timestamp
+                        }
+                    }
+                ]
+            })
+                .then(counts => {
+                logging_1.generateLogs('Crontab', 'SquareService', 'updateMasterCount', `Updated counts: ${counts}`);
+            })
+                .catch(err => {
+                console.error(err);
+            });
         });
     }
     static processPayment(payload) {

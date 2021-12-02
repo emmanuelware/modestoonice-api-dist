@@ -1825,6 +1825,10 @@
         "version": "7171cd33d251e2785cf0a7d847109d6ad3b95c092892d4f46393a4031fb72fee",
         "signature": "5c8bfe50ba34c09ff3a0687bdd9c395be17321cc1144194b6912cbcf077d8a72"
       },
+      "../src/utils/args.ts": {
+        "version": "afc4acddd66a02a78b88268a7bf94132e183b9b472ade96c1a9f22bd6f1e7965",
+        "signature": "0aa8c966bb88e0d6bf033ac84c9a1a370123a9383bd02c7dcf2eaeaed6bea8ed"
+      },
       "../node_modules/square/dist/shim/index.d.ts": {
         "version": "ccd5044240397aa849ea503dc7b98df5803fc56747c217204a2dc102fcd639c6",
         "signature": "ccd5044240397aa849ea503dc7b98df5803fc56747c217204a2dc102fcd639c6"
@@ -4218,8 +4222,8 @@
         "signature": "8c869f99dbdf3b22d5b590e13fb432f64714222607737037afbe9bdb1857dcc3"
       },
       "../src/services/squareservice.ts": {
-        "version": "4b7e36b8d4d8d2090db90610a08325f1c6cb6d4644c53bdaf6739f20682b8803",
-        "signature": "aebd04b73089d7e188d94f845618e0437e97e0667a8213e4b2aa764dd70706b3"
+        "version": "26a9796b1570258477c3ebefd42d24ad30d9fe56e131db758f6166e45e3002c3",
+        "signature": "6f5e3044038673c8c37238241a7386a538c152fb77abb43d75aff82921863acf"
       },
       "../src/services/calendarservice.ts": {
         "version": "e086174b41972adef5ac414766e4a6da46d63e4483d95e2ab3fbca9aa079ca1d",
@@ -4430,7 +4434,7 @@
         "signature": "54cb4add36949d48c5dbe88e1244d43cc6267f032650c200dacdc96e159e369c"
       },
       "../src/services/systemservice.ts": {
-        "version": "b0292d475022be910b9b99fe53bf5e598c79eaa329dccc134be8533f5903d2c2",
+        "version": "4b4ebef90649e190606bcf551b58a90f324b45e9351c6cef40f7f9a041db0b73",
         "signature": "e5e55d5b2f32813955bf69278c7643e99da92ceb4d85b2ea45cc580b5cf657e7"
       },
       "../src/models/system.ts": {
@@ -4721,6 +4725,10 @@
         "version": "22b4aa86ea7402b6bc514d62df4cd1b4a40942792cfc9195b538e3bf5a35e4f3",
         "signature": "43e818adf60173644896298637f47b01d5819b17eda46eaa32d0c7d64724d012"
       },
+      "../src/cron/runticketpresalemonitor.ts": {
+        "version": "7326e0307241ae0dde9cded40c72222503945bb935ed75f230f690b84aa3361b",
+        "signature": "43e818adf60173644896298637f47b01d5819b17eda46eaa32d0c7d64724d012"
+      },
       "../src/services/docservice.ts": {
         "version": "be81c57e1bc41b927450cb52b1858a855070f1505cd3db9fbc564bcf2a6e6f58",
         "signature": "7e4ea133518ef0558c03a6e7e9c92b4beb7cda037b33767c3e602e6e78edaee6"
@@ -4728,10 +4736,6 @@
       "../src/models/doc.ts": {
         "version": "3a1bcd0fbb52f9ef5e4f8f32b6999e2b4688ff7a34dcecafd66f2e171962e697",
         "signature": "fc9aaa80069748701fa26ac3d1f56854946781f3ac0e7e4c3114053a1eebd0d9"
-      },
-      "../src/utils/args.ts": {
-        "version": "dd3fd3ebb3266851ad7a55053f15f35dc27a974250f2d74e9099f16f4f19f436",
-        "signature": "271820746615b42507edb09d0bc5d54d552d4753bd4364c272e75b9f0352fa2d"
       },
       "../src/utils/rx.ts": {
         "version": "7171cd33d251e2785cf0a7d847109d6ad3b95c092892d4f46393a4031fb72fee",
@@ -4780,6 +4784,7 @@
       "pretty": true,
       "removeComments": true,
       "target": 2,
+      "project": "../tsconfig.json",
       "configFilePath": "../tsconfig.json"
     },
     "referencedMap": {
@@ -8197,6 +8202,10 @@
       "../src/common/rx.helpers.ts": [
         "../node_modules/rxjs/index.d.ts",
         "../node_modules/rxjs/operators/index.d.ts",
+        "../node_modules/@types/node/util.d.ts",
+        "../node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../src/utils/args.ts": [
         "../node_modules/@types/node/util.d.ts",
         "../node_modules/@types/node/ts3.2/util.d.ts"
       ],
@@ -12788,11 +12797,12 @@
         "../src/common/interfaces/square.ts",
         "../src/common/interfaces/tickets.ts",
         "../src/common/rx.helpers.ts",
-        "../node_modules/@types/node/crypto.d.ts",
-        "../node_modules/moment/moment.d.ts",
+        "../src/utils/args.ts",
         "../node_modules/square/dist/index.d.ts",
         "../src/utils/logging.ts",
+        "../node_modules/@types/node/crypto.d.ts",
         "../node_modules/exceljs/index.d.ts",
+        "../node_modules/moment/moment.d.ts",
         "../node_modules/@types/node/util.d.ts",
         "../node_modules/@types/node/ts3.2/util.d.ts"
       ],
@@ -13647,6 +13657,17 @@
         "../node_modules/@types/node/util.d.ts",
         "../node_modules/@types/node/ts3.2/util.d.ts"
       ],
+      "../src/cron/runticketpresalemonitor.ts": [
+        "../src/services/squareservice.ts",
+        "../src/common/rx.helpers.ts",
+        "../src/common/random-second.ts",
+        "../src/utils/args.ts",
+        "../src/utils/logging.ts",
+        "../src/common/constants.ts",
+        "../node_modules/moment/moment.d.ts",
+        "../node_modules/@types/node/util.d.ts",
+        "../node_modules/@types/node/ts3.2/util.d.ts"
+      ],
       "../src/services/docservice.ts": [
         "../src/services/responseservice.ts",
         "../src/services/utilservice.ts",
@@ -13659,10 +13680,6 @@
       ],
       "../src/models/doc.ts": [
         "../src/services/docservice.ts",
-        "../node_modules/@types/node/util.d.ts",
-        "../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../src/utils/args.ts": [
         "../node_modules/@types/node/util.d.ts",
         "../node_modules/@types/node/ts3.2/util.d.ts"
       ],
@@ -22711,6 +22728,7 @@
       "../node_modules/rxjs/internal/operators/zipall.d.ts",
       "../node_modules/rxjs/operators/index.d.ts",
       "../src/common/rx.helpers.ts",
+      "../src/utils/args.ts",
       "../node_modules/square/dist/shim/index.d.ts",
       "../node_modules/square/dist/filewrapper.d.ts",
       "../node_modules/square/dist/http/httprequest.d.ts",
@@ -23309,7 +23327,6 @@
       "../node_modules/square/dist/models/v1updateemployeerolerequest.d.ts",
       "../node_modules/square/dist/index.d.ts",
       "../node_modules/exceljs/index.d.ts",
-      "../src/services/squareservice.ts",
       "../src/services/calendarservice.ts",
       "../src/services/userservice.ts",
       "../src/models/user.ts",
@@ -23331,6 +23348,7 @@
       "../node_modules/aws-sdk/lib/core.d.ts",
       "../node_modules/aws-sdk/index.d.ts",
       "../src/services/s3service.ts",
+      "../src/services/birthdayservice.ts",
       "../src/models/birthday.ts",
       "../src/routes/birthday-public.ts",
       "../src/routes/birthday.ts",
@@ -23361,7 +23379,6 @@
       "../src/routes/square-public.ts",
       "../src/routes/square.ts",
       "../src/common/interfaces/birthday.ts",
-      "../src/services/systemservice.ts",
       "../src/models/system.ts",
       "../src/routes/system.ts",
       "../src/routes/user.ts",
@@ -23434,9 +23451,9 @@
       "../node_modules/@types/pdfkit/index.d.ts",
       "../src/cron/rundailybirthdaybookingreport.ts",
       "../src/cron/runticketcountmonitor.ts",
+      "../src/cron/runticketpresalemonitor.ts",
       "../src/services/docservice.ts",
       "../src/models/doc.ts",
-      "../src/utils/args.ts",
       "../src/utils/rx.ts",
       "../node_modules/@types/agent-base/index.d.ts",
       "../node_modules/@types/bunyan/index.d.ts",
@@ -23446,7 +23463,8 @@
       "../node_modules/@types/semver/index.d.ts",
       "../node_modules/@types/xml2js/lib/processors.d.ts",
       "../node_modules/@types/xml2js/index.d.ts",
-      "../src/services/birthdayservice.ts"
+      "../src/services/squareservice.ts",
+      "../src/services/systemservice.ts"
     ]
   },
   "version": "3.7.7"
