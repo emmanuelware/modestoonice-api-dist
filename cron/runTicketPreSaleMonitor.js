@@ -47,7 +47,7 @@ function inventoryChangeListener() {
                             const session = res.data[i];
                             logging_1.generateLogs(environmentName, processName, 'findCalendarDateSessions', `Checking date: ${session.itemData.name}`);
                             yield rx_helpers_1.wait(300).catch(err => console.error(err));
-                            if (moment(session.itemData.name).isBefore(moment().add(1, 'days'))) {
+                            if (moment(session.itemData.name).isBefore(moment().add(12, 'hours'))) {
                                 logging_1.generateLogs(environmentName, processName, 'findCalendarDateSessions', `Date is not at least one day in the future; skipping`);
                                 continue;
                             }
