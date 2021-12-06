@@ -90,7 +90,8 @@ class System {
             if (ctx.state.user.role < constants_1.EMPLOYEE_ROLE) {
                 return;
             }
-            const res = yield SystemService_1.SystemService.searchSystemSkaterWaivers(ctx.params.query);
+            const performDeepSearch = ctx.query.performDeepSearch === '1' ? true : false;
+            const res = yield SystemService_1.SystemService.searchSystemSkaterWaivers(ctx.params.query, performDeepSearch);
             ctx.body = ResponseService_1.ResponseHandler(ctx, res);
         });
     }

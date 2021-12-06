@@ -4434,11 +4434,11 @@
         "signature": "54cb4add36949d48c5dbe88e1244d43cc6267f032650c200dacdc96e159e369c"
       },
       "../src/services/systemservice.ts": {
-        "version": "4b4ebef90649e190606bcf551b58a90f324b45e9351c6cef40f7f9a041db0b73",
-        "signature": "e5e55d5b2f32813955bf69278c7643e99da92ceb4d85b2ea45cc580b5cf657e7"
+        "version": "8567fb7a652a77db88eb49fdf6248dedd07fa2e12992e67346126aa9d787ff3a",
+        "signature": "5ffa1d5460ac7050c15363513ae5888b230ac7beec47ba49c01876449e34518e"
       },
       "../src/models/system.ts": {
-        "version": "efee43095307cd65983affe6bd6212001c1b6e9baace84b4dd177945631343be",
+        "version": "4480846fee4115e8b51b5215342fb7940edb40cf6e534be331469c1cc396d69b",
         "signature": "708c91dad0512e1435bd21aca9c8a070ba83c263ae814ee7d908035c53534a73"
       },
       "../src/routes/system.ts": {
@@ -4784,7 +4784,6 @@
       "pretty": true,
       "removeComments": true,
       "target": 2,
-      "project": "../tsconfig.json",
       "configFilePath": "../tsconfig.json"
     },
     "referencedMap": {
@@ -23380,7 +23379,6 @@
       "../src/routes/square-public.ts",
       "../src/routes/square.ts",
       "../src/common/interfaces/birthday.ts",
-      "../src/services/systemservice.ts",
       "../src/models/system.ts",
       "../src/routes/system.ts",
       "../src/routes/user.ts",
@@ -23453,6 +23451,7 @@
       "../node_modules/@types/pdfkit/index.d.ts",
       "../src/cron/rundailybirthdaybookingreport.ts",
       "../src/cron/runticketcountmonitor.ts",
+      "../src/cron/runticketpresalemonitor.ts",
       "../src/services/docservice.ts",
       "../src/models/doc.ts",
       "../src/utils/rx.ts",
@@ -23464,7 +23463,7 @@
       "../node_modules/@types/semver/index.d.ts",
       "../node_modules/@types/xml2js/lib/processors.d.ts",
       "../node_modules/@types/xml2js/index.d.ts",
-      "../src/cron/runticketpresalemonitor.ts"
+      "../src/services/systemservice.ts"
     ]
   },
   "version": "3.7.7"

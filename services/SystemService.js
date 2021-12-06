@@ -259,10 +259,10 @@ class SystemService {
             }
         });
     }
-    static searchSystemSkaterWaivers(query) {
+    static searchSystemSkaterWaivers(query, performDeepSearch = false) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const [waivers] = yield global.db.query(`
+                let sql = `
         SELECT 
           sw.*,
           swm.firstName AS minorFirstName, 
@@ -283,17 +283,31 @@ class SystemService {
         FROM userSkaterWaiver sw
         
         LEFT JOIN userSkaterWaiverMinor swm
-        ON sw.id = swm.userSkaterWaiverId
-
-        WHERE sw.nameOfParticipant LIKE :query
-        OR sw.phoneNumber LIKE :query
-        OR sw.parentGuardianSignature LIKE :query
-        OR sw.emergencyPhoneNumber LIKE :query
-        OR swm.firstName LIKE :query
-        OR swm.lastName LIKE :query
-        LIMIT 25
-          `, {
-                    query: `${query}%`
+        ON sw.id = swm.userSkaterWaiverId 
+      `;
+                if (performDeepSearch) {
+                    sql += ` 
+          WHERE sw.nameOfParticipant LIKE :query
+          OR REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(sw.phoneNumber, '-', ''), ')', ''), '(', ''), ' ', ''), '+', ''), '1', '') LIKE :query
+          OR sw.confirmationNumber LIKE :query
+          OR sw.parentGuardianSignature LIKE :query
+          OR sw.emergencyPhoneNumber LIKE :query
+          OR swm.firstName LIKE :query
+          OR swm.lastName LIKE :query
+          LIMIT 25
+        `;
+                }
+                else {
+                    sql += ` 
+          WHERE sw.nameOfParticipant = :query
+          OR REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(sw.phoneNumber, '-', ''), ')', ''), '(', ''), ' ', ''), '+', ''), '1', '') = :query
+          OR sw.confirmationNumber = :query
+          OR sw.emergencyPhoneNumber = :query
+          LIMIT 25
+        `;
+                }
+                const [waivers] = yield global.db.query(sql, {
+                    query: performDeepSearch ? `%${query}%` : query
                 });
                 return ResponseService_1.ResponseBuilder(waivers, null, false);
             }
