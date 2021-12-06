@@ -288,7 +288,7 @@ class SystemService {
                 if (performDeepSearch) {
                     sql += ` 
           WHERE sw.nameOfParticipant LIKE :query
-          OR REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(sw.phoneNumber, '-', ''), ')', ''), '(', ''), ' ', ''), '+', ''), '1', '') LIKE :query
+          OR REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(sw.phoneNumber, '-', ''), ')', ''), '(', ''), ' ', ''), '+', ''), '+1', '') LIKE :query
           OR sw.confirmationNumber LIKE :query
           OR sw.parentGuardianSignature LIKE :query
           OR sw.emergencyPhoneNumber LIKE :query
@@ -300,7 +300,7 @@ class SystemService {
                 else {
                     sql += ` 
           WHERE sw.nameOfParticipant = :query
-          OR REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(sw.phoneNumber, '-', ''), ')', ''), '(', ''), ' ', ''), '+', ''), '1', '') = :query
+          OR REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(sw.phoneNumber, '-', ''), ')', ''), '(', ''), ' ', ''), '+', ''), '+1', '') = :query
           OR sw.confirmationNumber = :query
           OR sw.emergencyPhoneNumber = :query
           LIMIT 25

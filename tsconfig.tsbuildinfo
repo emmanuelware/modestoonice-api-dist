@@ -4434,7 +4434,7 @@
         "signature": "54cb4add36949d48c5dbe88e1244d43cc6267f032650c200dacdc96e159e369c"
       },
       "../src/services/systemservice.ts": {
-        "version": "8567fb7a652a77db88eb49fdf6248dedd07fa2e12992e67346126aa9d787ff3a",
+        "version": "1dcbc51ef7b35ca99a2cca4370851f321d841213fee97c94c4903d274b2ec6b9",
         "signature": "5ffa1d5460ac7050c15363513ae5888b230ac7beec47ba49c01876449e34518e"
       },
       "../src/models/system.ts": {
@@ -4784,6 +4784,7 @@
       "pretty": true,
       "removeComments": true,
       "target": 2,
+      "project": "../tsconfig.json",
       "configFilePath": "../tsconfig.json"
     },
     "referencedMap": {
