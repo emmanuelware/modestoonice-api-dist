@@ -154,6 +154,22 @@ class SystemService {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const [waivers] = yield global.db.query('SELECT * FROM userSkaterWaiver LIMIT 200');
+                for (let i = 0; i < waivers.length; i++) {
+                    const [minors] = yield global.db.query('SELECT * FROM userSkaterWaiverMinor WHERE userSkaterWaiverId = :waiverId', {
+                        waiverId: waivers[i].id
+                    });
+                    if (minors && minors.length) {
+                        try {
+                            waivers[i].minors = minors.map(el => `${el.firstName} ${el.lastName}`);
+                        }
+                        catch (err) {
+                            console.warn(err);
+                        }
+                    }
+                    else {
+                        waivers[i].minors = null;
+                    }
+                }
                 return ResponseService_1.ResponseBuilder(waivers, null, false);
             }
             catch (err) {
@@ -288,7 +304,7 @@ class SystemService {
                 if (performDeepSearch) {
                     sql += ` 
           WHERE sw.nameOfParticipant LIKE :query
-          OR REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(sw.phoneNumber, '-', ''), ')', ''), '(', ''), ' ', ''), '+', ''), '+1', '') LIKE :query
+          OR REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(sw.phoneNumber, '-', ''), ')', ''), '(', ''), ' ', ''), '+1', '') LIKE :query
           OR sw.confirmationNumber LIKE :query
           OR sw.parentGuardianSignature LIKE :query
           OR sw.emergencyPhoneNumber LIKE :query
@@ -300,7 +316,7 @@ class SystemService {
                 else {
                     sql += ` 
           WHERE sw.nameOfParticipant = :query
-          OR REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(sw.phoneNumber, '-', ''), ')', ''), '(', ''), ' ', ''), '+', ''), '+1', '') = :query
+          OR REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(sw.phoneNumber, '-', ''), ')', ''), '(', ''), ' ', ''), '+1', '') = :query
           OR sw.confirmationNumber = :query
           OR sw.emergencyPhoneNumber = :query
           LIMIT 25
@@ -309,6 +325,22 @@ class SystemService {
                 const [waivers] = yield global.db.query(sql, {
                     query: performDeepSearch ? `%${query}%` : query
                 });
+                for (let i = 0; i < waivers.length; i++) {
+                    const [minors] = yield global.db.query('SELECT * FROM userSkaterWaiverMinor WHERE userSkaterWaiverId = :waiverId', {
+                        waiverId: waivers[i].id
+                    });
+                    if (minors && minors.length) {
+                        try {
+                            waivers[i].minors = minors.map(el => `${el.firstName} ${el.lastName}`);
+                        }
+                        catch (err) {
+                            console.warn(err);
+                        }
+                    }
+                    else {
+                        waivers[i].minors = null;
+                    }
+                }
                 return ResponseService_1.ResponseBuilder(waivers, null, false);
             }
             catch (err) {
