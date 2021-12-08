@@ -4713,6 +4713,10 @@
         "version": "7ea73a348821fa04ee4332d2c3adaa0e7fb958062d65b697cee845a5ab5754bd",
         "signature": "9148d989f668632854de8e83ba325d8633d3c86e46d53c53523d78d58755f752"
       },
+      "../src/cron/consts.ts": {
+        "version": "4ff55bbb875c14e96c38a10f1fdb574e5fdc16b9a0dbc2a797234c7f5621dae1",
+        "signature": "a3307449f9a0176bb690a8aaf389c14dd86e69b09900b96c915ddd2e0d8c623e"
+      },
       "../node_modules/@types/pdfkit/index.d.ts": {
         "version": "8b011f9d5e40634b56e30e3acc5d7476a61ea98c7d3d6f72fdebe2948a526655",
         "signature": "8b011f9d5e40634b56e30e3acc5d7476a61ea98c7d3d6f72fdebe2948a526655"
@@ -4722,11 +4726,11 @@
         "signature": "8e609bb71c20b858c77f0e9f90bb1319db8477b13f9f965f1a1e18524bf50881"
       },
       "../src/cron/runticketcountmonitor.ts": {
-        "version": "22b4aa86ea7402b6bc514d62df4cd1b4a40942792cfc9195b538e3bf5a35e4f3",
+        "version": "c45c6fc4588e9ed81f453ce95f4fc95a2fad55a8cbc7853efe2c6bc8915a4dba",
         "signature": "43e818adf60173644896298637f47b01d5819b17eda46eaa32d0c7d64724d012"
       },
       "../src/cron/runticketpresalemonitor.ts": {
-        "version": "8487a47fa135a731b8088f3ea7733b49a88a2855de27a56946ebc4d11753d888",
+        "version": "72af970f418f8807b2a03b74c16386a3c8724caa450d9b891b0e67380e9eeb07",
         "signature": "43e818adf60173644896298637f47b01d5819b17eda46eaa32d0c7d64724d012"
       },
       "../src/services/docservice.ts": {
@@ -4784,7 +4788,6 @@
       "pretty": true,
       "removeComments": true,
       "target": 2,
-      "project": "../tsconfig.json",
       "configFilePath": "../tsconfig.json"
     },
     "referencedMap": {
@@ -13631,6 +13634,10 @@
         "../node_modules/@types/node/util.d.ts",
         "../node_modules/@types/node/ts3.2/util.d.ts"
       ],
+      "../src/cron/consts.ts": [
+        "../node_modules/@types/node/util.d.ts",
+        "../node_modules/@types/node/ts3.2/util.d.ts"
+      ],
       "../node_modules/@types/pdfkit/index.d.ts": [
         "../node_modules/@types/node/ts3.2/index.d.ts",
         "../node_modules/@types/node/util.d.ts",
@@ -13654,6 +13661,7 @@
         "../src/utils/logging.ts",
         "../src/common/random-second.ts",
         "../src/common/rx.helpers.ts",
+        "../src/cron/consts.ts",
         "../node_modules/@types/node/util.d.ts",
         "../node_modules/@types/node/ts3.2/util.d.ts"
       ],
@@ -13664,6 +13672,7 @@
         "../src/utils/args.ts",
         "../src/utils/logging.ts",
         "../src/common/constants.ts",
+        "../src/cron/consts.ts",
         "../node_modules/moment/moment.d.ts",
         "../node_modules/@types/node/util.d.ts",
         "../node_modules/@types/node/ts3.2/util.d.ts"
@@ -23380,6 +23389,7 @@
       "../src/routes/square-public.ts",
       "../src/routes/square.ts",
       "../src/common/interfaces/birthday.ts",
+      "../src/services/systemservice.ts",
       "../src/models/system.ts",
       "../src/routes/system.ts",
       "../src/routes/user.ts",
@@ -23449,10 +23459,9 @@
       "../src/app.ts",
       "../src/common/environment.ts",
       "../src/common/random-second.ts",
+      "../src/cron/consts.ts",
       "../node_modules/@types/pdfkit/index.d.ts",
       "../src/cron/rundailybirthdaybookingreport.ts",
-      "../src/cron/runticketcountmonitor.ts",
-      "../src/cron/runticketpresalemonitor.ts",
       "../src/services/docservice.ts",
       "../src/models/doc.ts",
       "../src/utils/rx.ts",
@@ -23464,7 +23473,8 @@
       "../node_modules/@types/semver/index.d.ts",
       "../node_modules/@types/xml2js/lib/processors.d.ts",
       "../node_modules/@types/xml2js/index.d.ts",
-      "../src/services/systemservice.ts"
+      "../src/cron/runticketcountmonitor.ts",
+      "../src/cron/runticketpresalemonitor.ts"
     ]
   },
   "version": "3.7.7"

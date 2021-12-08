@@ -14,6 +14,7 @@ const SquareService_1 = require("../services/SquareService");
 const logging_1 = require("../utils/logging");
 const random_second_1 = require("../common/random-second");
 const rx_helpers_1 = require("../common/rx.helpers");
+const consts_1 = require("./consts");
 const path = require('path');
 require('dotenv').config({ path: path.join(__dirname, '.env') });
 const environmentName = 'Crontab';
@@ -30,6 +31,9 @@ function inventoryChangeListener() {
                             const session = res.data[i];
                             logging_1.generateLogs(environmentName, processName, 'findCalendarDateSessions', `Checking date: ${session.itemData.name}`);
                             yield rx_helpers_1.wait(300).catch(err => console.error(err));
+                            if (consts_1.SESSIONS_TO_IGNORE.includes(session.itemData.name)) {
+                                logging_1.generateLogs(environmentName, processName, 'findCalendarDateSessions', `Skipping, found in SESSIONS_TO_IGNORE: ${session.itemData.name}`);
+                            }
                             if (!session.itemData.variations[0] ||
                                 !session.itemData.variations[0].inventory ||
                                 !session.itemData.variations[1] ||

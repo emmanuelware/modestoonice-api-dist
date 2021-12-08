@@ -16,6 +16,7 @@ const random_second_1 = require("../common/random-second");
 const args_1 = require("../utils/args");
 const logging_1 = require("../utils/logging");
 const constants_1 = require("../common/constants");
+const consts_1 = require("./consts");
 const moment = require("moment");
 const mysql = require("mysql2/promise");
 const path = require('path');
@@ -47,6 +48,9 @@ function inventoryChangeListener() {
                             const session = res.data[i];
                             logging_1.generateLogs(environmentName, processName, 'findCalendarDateSessions', `Checking date: ${session.itemData.name}`);
                             yield rx_helpers_1.wait(300).catch(err => console.error(err));
+                            if (consts_1.SESSIONS_TO_IGNORE.includes(session.itemData.name)) {
+                                logging_1.generateLogs(environmentName, processName, 'findCalendarDateSessions', `Skipping, found in SESSIONS_TO_IGNORE: ${session.itemData.name}`);
+                            }
                             if (moment(session.itemData.name).isBefore(moment().add(12, 'hours'))) {
                                 logging_1.generateLogs(environmentName, processName, 'findCalendarDateSessions', `Date is not at least one day in the future; skipping`);
                                 continue;
