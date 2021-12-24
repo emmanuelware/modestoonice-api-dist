@@ -43,5 +43,11 @@ class Square {
             ctx.body = ResponseService_1.ResponseHandler(ctx, res);
         });
     }
+    static getTransactionStatus(ctx) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const res = yield SquareService_1.SquareService.getTransactionStatus();
+            ctx.body = ResponseService_1.ResponseHandler(ctx, res);
+        });
+    }
 }
 exports.Square = Square;

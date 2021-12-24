@@ -704,9 +704,24 @@ class SquareService {
             }
         });
     }
+    static getTransactionStatus() {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const [[record]] = yield global.db.query('SELECT * FROM appCache');
+                return ResponseService_1.ResponseBuilder(record, null, false);
+            }
+            catch (err) {
+                return ResponseService_1.ResponseBuilder(null, null, true, {
+                    error: err,
+                    log: true
+                });
+            }
+        });
+    }
     static getTransactions(startDate, endDate) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
+                yield global.db.query('UPDATE appCache SET squareReportTotalResults = 0, squareReportCurrentIndex = 0');
                 const findDbRecord = (transactionId) => __awaiter(this, void 0, void 0, function* () {
                     const [[ticketRecord]] = yield global.db.query('SELECT * FROM userTicket WHERE transactionId = :transactionId', {
                         transactionId
@@ -749,7 +764,8 @@ class SquareService {
                         return Object.assign(Object.assign({}, lessonBookingRecord), { transactionType: 'lessonBooking' });
                     }
                 });
-                console.log(startDate, endDate);
+                console.log('SquareService:getTransactions.startDate', startDate);
+                console.log('SquareService:getTransactions.endDate', endDate);
                 return yield new Promise(resolve => {
                     ordersApi
                         .searchOrders({
@@ -764,7 +780,7 @@ class SquareService {
                                 dateTimeFilter: {
                                     closedAt: {
                                         startAt: `${startDate}T00:00:00+00:00`,
-                                        endAt: `${endDate}T00:00:00+00:00`
+                                        endAt: `${endDate}T23:59:59+00:00`
                                     }
                                 }
                             },
@@ -775,6 +791,7 @@ class SquareService {
                         }
                     })
                         .then((data) => __awaiter(this, void 0, void 0, function* () {
+                        console.log('SquareService:getTransactions.data.result.orders.length', data.result.orders.length);
                         let workbook = new Excel.Workbook();
                         let worksheet = workbook.addWorksheet('Transactions');
                         worksheet.columns = [
@@ -796,19 +813,24 @@ class SquareService {
                         worksheet.columns.forEach(column => {
                             column.width = column.header.length < 12 ? 12 : column.header.length;
                         });
-                        const sessionCache = new Map();
+                        yield global.db.query('UPDATE appCache SET squareReportTotalResults = :squareReportTotalResults', {
+                            squareReportTotalResults: data.result.orders.length
+                        });
                         for (let i = 0; i < data.result.orders.length; i++) {
+                            yield global.db.query('UPDATE appCache SET squareReportCurrentIndex = :squareReportCurrentIndex', {
+                                squareReportCurrentIndex: i
+                            });
                             const order = data.result.orders[i];
                             const dbRecord = yield findDbRecord(order.id);
                             let sessionName = null;
                             if (dbRecord && dbRecord.itemId) {
-                                if (sessionCache.get(dbRecord.itemId)) {
-                                    sessionName = sessionCache.get(dbRecord.itemId);
+                                if (SquareService.sessionCache.get(dbRecord.itemId)) {
+                                    sessionName = SquareService.sessionCache.get(dbRecord.itemId);
                                 }
                                 else {
                                     const { data: session } = yield SquareService.getItemById(dbRecord.itemId);
                                     sessionName = session.itemData.name;
-                                    sessionCache.set(dbRecord.itemId, session.itemData.name);
+                                    SquareService.sessionCache.set(dbRecord.itemId, session.itemData.name);
                                 }
                             }
                             worksheet.addRow({
@@ -847,3 +869,4 @@ class SquareService {
     }
 }
 exports.SquareService = SquareService;
+SquareService.sessionCache = new Map();

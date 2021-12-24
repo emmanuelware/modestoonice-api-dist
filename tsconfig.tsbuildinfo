@@ -4222,8 +4222,8 @@
         "signature": "8c869f99dbdf3b22d5b590e13fb432f64714222607737037afbe9bdb1857dcc3"
       },
       "../src/services/squareservice.ts": {
-        "version": "26a9796b1570258477c3ebefd42d24ad30d9fe56e131db758f6166e45e3002c3",
-        "signature": "6f5e3044038673c8c37238241a7386a538c152fb77abb43d75aff82921863acf"
+        "version": "c43839015185ae52bbcbf684f9b905096a5b1a2767bc227da4c62be71d724497",
+        "signature": "03d424abffe7d1f3d6aa3d09e7df9f522c12a84fecc25691c26a888bc04e0d69"
       },
       "../src/services/calendarservice.ts": {
         "version": "e086174b41972adef5ac414766e4a6da46d63e4483d95e2ab3fbca9aa079ca1d",
@@ -4418,15 +4418,15 @@
         "signature": "46a0b34e1264c4d25ca6646ff0e6cfaa7275ea1ae5a6bc23d4dfd84edf2f2b2e"
       },
       "../src/models/square.ts": {
-        "version": "7199a1a156aac058e7035bc8b0e7dd9481c3a48f83af91691fbb6004ac584581",
-        "signature": "005ef080f465040412d151c7ebd08d2f81c69d6da91fd054c6cbe1cfc3013051"
+        "version": "de7ad574c01bc3d79d1c00195b332a0d6f78724b3d53e6e9d9afba17d152df66",
+        "signature": "8f5ed21b1db9f5555f1e829b156a5e52f4c3c286a4173d0da61f343ab040b63f"
       },
       "../src/routes/square-public.ts": {
         "version": "22397ce13a8d4048602c515f2b59e99158e9442dc8b52c6d4ff747646e62e650",
         "signature": "46a0b34e1264c4d25ca6646ff0e6cfaa7275ea1ae5a6bc23d4dfd84edf2f2b2e"
       },
       "../src/routes/square.ts": {
-        "version": "12a1e3ef8d05d4894781d0e5bd6c90debdb8f6e0609b671cf1e8e7f7be5c77b5",
+        "version": "f0369e28adbdce7d872d6403e2cf391efc57c4d727400ed4a7d2649c22fc01c6",
         "signature": "46a0b34e1264c4d25ca6646ff0e6cfaa7275ea1ae5a6bc23d4dfd84edf2f2b2e"
       },
       "../src/common/interfaces/birthday.ts": {
@@ -4788,6 +4788,7 @@
       "pretty": true,
       "removeComments": true,
       "target": 2,
+      "project": "../tsconfig.json",
       "configFilePath": "../tsconfig.json"
     },
     "referencedMap": {
@@ -23336,7 +23337,6 @@
       "../node_modules/square/dist/models/v1updateemployeerolerequest.d.ts",
       "../node_modules/square/dist/index.d.ts",
       "../node_modules/exceljs/index.d.ts",
-      "../src/services/squareservice.ts",
       "../src/services/calendarservice.ts",
       "../src/services/userservice.ts",
       "../src/models/user.ts",
@@ -23462,6 +23462,8 @@
       "../src/cron/consts.ts",
       "../node_modules/@types/pdfkit/index.d.ts",
       "../src/cron/rundailybirthdaybookingreport.ts",
+      "../src/cron/runticketcountmonitor.ts",
+      "../src/cron/runticketpresalemonitor.ts",
       "../src/services/docservice.ts",
       "../src/models/doc.ts",
       "../src/utils/rx.ts",
@@ -23473,8 +23475,7 @@
       "../node_modules/@types/semver/index.d.ts",
       "../node_modules/@types/xml2js/lib/processors.d.ts",
       "../node_modules/@types/xml2js/index.d.ts",
-      "../src/cron/runticketcountmonitor.ts",
-      "../src/cron/runticketpresalemonitor.ts"
+      "../src/services/squareservice.ts"
     ]
   },
   "version": "3.7.7"
