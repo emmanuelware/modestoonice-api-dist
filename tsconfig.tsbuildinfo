@@ -1150,8 +1150,8 @@
         "signature": "5b38cf4c8407702d9badfb4811a1e666fc4f7a2f74315b1f5a240455660b9939"
       },
       "../src/common/interfaces/tickets.ts": {
-        "version": "f95276434fb5c488bc5d5691eaa0d17014ac36dba273332c042a482c260bbb50",
-        "signature": "dd16c3cd4f566eaf9d96340d4cd0d3cebb9f15584af7d5cbc4c02495bd243f51"
+        "version": "b11c01587e8f41b0f799ead858f69ebc672fe74942c86b80a024b6ddd96d5cce",
+        "signature": "7025e3e6eb74d6831712c6867b4210184d5cb4ac3b21e21c19f88bebd07914d8"
       },
       "../node_modules/rxjs/internal/subscription.d.ts": {
         "version": "6cb35d83d21a7e72bd00398c93302749bcd38349d0cc5e76ff3a90c6d1498a4d",
@@ -4230,8 +4230,8 @@
         "signature": "48ca598625fe343f924f823a900f87a8d3b0eab8b5a52f3f2c493f365f9f918a"
       },
       "../src/services/userservice.ts": {
-        "version": "5d1bf33cc3cbf4e88e7f60a7e11b7c696aeb5c2f9ee1663ae98e851b66df52b6",
-        "signature": "65933c5492d5bcadee9ff1450922fba552f992e2f8db83d1d2c4305b6c95c466"
+        "version": "da9e6ae39022a4d53c9c49f0f56e0d37c137ca605a09a8ec75706ff0819293de",
+        "signature": "c5c5d2915316bb6d8e9751109735265df057bb0d798121975923d1bb9dbe962e"
       },
       "../src/models/user.ts": {
         "version": "9fb85ebaf95c9affdfe84f22c1c5def19fff957d4b249de417399ab36aa6d38b",
@@ -23337,8 +23337,8 @@
       "../node_modules/square/dist/models/v1updateemployeerolerequest.d.ts",
       "../node_modules/square/dist/index.d.ts",
       "../node_modules/exceljs/index.d.ts",
+      "../src/services/squareservice.ts",
       "../src/services/calendarservice.ts",
-      "../src/services/userservice.ts",
       "../src/models/user.ts",
       "../src/routes/auth-public.ts",
       "../src/routes/auth.ts",
@@ -23475,7 +23475,7 @@
       "../node_modules/@types/semver/index.d.ts",
       "../node_modules/@types/xml2js/lib/processors.d.ts",
       "../node_modules/@types/xml2js/index.d.ts",
-      "../src/services/squareservice.ts"
+      "../src/services/userservice.ts"
     ]
   },
   "version": "3.7.7"

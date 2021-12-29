@@ -25,63 +25,9 @@ class UserService {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 logging_1.generateLogs('NodeApi', 'UserService', 'bookSession', `Starting to book session.`);
-                if (payload.couponCode && payload.couponCode.toLowerCase() !== 'group') {
-                    const [[couponRecord]] = yield global.db.query('SELECT * FROM coupon WHERE code = :code', {
-                        code: payload.couponCode
-                    });
-                    const currentDate = moment();
-                    if (couponRecord.usedFlag) {
-                        return ResponseService_1.ResponseBuilder(null, 'Coupon already redeemed', true);
-                    }
-                    if (couponRecord.startDate && moment(couponRecord.startDate).isAfter(currentDate)) {
-                        return ResponseService_1.ResponseBuilder(null, 'Coupon is not yet valid (start date)', true);
-                    }
-                    if (couponRecord.startTime && moment(couponRecord.startTime, 'hh:mm:ss').isAfter(currentDate)) {
-                        return ResponseService_1.ResponseBuilder(null, 'Coupon is not yet valid (start time)', true);
-                    }
-                    if (couponRecord.endDate && moment(couponRecord.endDate).isBefore(currentDate)) {
-                        return ResponseService_1.ResponseBuilder(null, 'Coupon is expired (end date)', true);
-                    }
-                    if (couponRecord.endTime && moment(couponRecord.endTime, 'hh:mm:ss').isBefore(currentDate)) {
-                        return ResponseService_1.ResponseBuilder(null, 'Coupon is expired (end time)', true);
-                    }
-                    switch (currentDate.day()) {
-                        case 0:
-                            if (!couponRecord.redeemableSunday) {
-                                return ResponseService_1.ResponseBuilder(null, 'Coupon not redeemable on Sunday', true);
-                            }
-                            break;
-                        case 1:
-                            if (!couponRecord.redeemableMonday) {
-                                return ResponseService_1.ResponseBuilder(null, 'Coupon not redeemable on Monday', true);
-                            }
-                            break;
-                        case 2:
-                            if (!couponRecord.redeemableTuesday) {
-                                return ResponseService_1.ResponseBuilder(null, 'Coupon not redeemable on Tuesday', true);
-                            }
-                            break;
-                        case 3:
-                            if (!couponRecord.redeemableWednesday) {
-                                return ResponseService_1.ResponseBuilder(null, 'Coupon not redeemable on Wednesday', true);
-                            }
-                            break;
-                        case 4:
-                            if (!couponRecord.redeemableThursday) {
-                                return ResponseService_1.ResponseBuilder(null, 'Coupon not redeemable on Thursday', true);
-                            }
-                            break;
-                        case 5:
-                            if (!couponRecord.redeemableFriday) {
-                                return ResponseService_1.ResponseBuilder(null, 'Coupon not redeemable on Friday', true);
-                            }
-                            break;
-                        case 6:
-                            if (!couponRecord.redeemableSaturday) {
-                                return ResponseService_1.ResponseBuilder(null, 'Coupon not redeemable on Saturday', true);
-                            }
-                            break;
-                    }
+                const couponValidation = yield UserService.checkCouponCodeValidity(payload.couponCodes);
+                if (couponValidation.err) {
+                    return couponValidation;
                 }
                 if (!payload.sessionId) {
                     return ResponseService_1.ResponseBuilder(null, 'Session not selected or not found', true);
@@ -152,7 +98,7 @@ class UserService {
                         }
                     }
                 }
-                yield global.db.query(`
+                const [newTicketRecord] = yield global.db.query(`
         INSERT INTO userTicket (
           userId,
           passId,
@@ -165,7 +111,6 @@ class UserService {
           confirmationNumber,
           adultTickets,
           childTickets,
-          couponCode,
           dateEntered
         ) VALUES (
           :userId,
@@ -179,7 +124,6 @@ class UserService {
           :confirmationNumber,
           :adultTickets,
           :childTickets,
-          :couponCode,
           NOW()
         )
       `, {
@@ -193,8 +137,7 @@ class UserService {
                     phone: payload.phone || null,
                     confirmationNumber: confirmationNumber,
                     adultTickets: payload.adultTicketCount,
-                    childTickets: payload.childTicketCount,
-                    couponCode: payload.couponCode || null
+                    childTickets: payload.childTicketCount
                 });
                 if (payload.selectedUserPass) {
                     logging_1.generateLogs('NodeApi', 'UserService', 'bookSession', `Inserting user pass usage.`);
@@ -266,19 +209,37 @@ class UserService {
       `).catch(err => {
                     logging_1.generateLogs('NodeApi', 'UserService', 'bookSession', `Could not email customer.`);
                 });
-                if (payload.couponCode && payload.couponCode.toLowerCase() !== 'group') {
-                    yield global.db.query(`
-          UPDATE coupon SET usedFlag = 1 WHERE code = :code
-        `, {
-                        code: payload.couponCode
-                    });
+                if (payload.couponCodes && payload.couponCodes.length) {
+                    for (let i = 0; i < payload.couponCodes.length; i++) {
+                        if (payload.couponCodes[i].toUpperCase() === 'GROUP') {
+                            continue;
+                        }
+                        yield global.db.query(`UPDATE coupon SET usedFlag = 1 WHERE code = :code`, {
+                            code: payload.couponCodes[i]
+                        });
+                        logging_1.generateLogs('NodeApi', 'UserService', 'bookSession', `newTicketRecord.insertId: ${newTicketRecord.insertId}`);
+                        yield global.db.query(`
+            INSERT INTO userTicketCoupon (
+              userTicketId,
+              couponCode,
+              dateEntered
+            ) VALUES (
+              :userTicketId,
+              :couponCode,
+              NOW()
+            )
+          `, {
+                            userTicketId: newTicketRecord.insertId,
+                            couponCode: payload.couponCodes[i]
+                        });
+                    }
                 }
                 return Object.assign(Object.assign({}, paymentResponse), { data: {
                         confirmationNumber: confirmationNumber
                     } });
             }
             catch (e) {
-                return ResponseService_1.ResponseBuilder(null, null, true, {
+                return ResponseService_1.ResponseBuilder(null, 'An error ocurred with your transaction. Please contact us before making another transaction.', true, {
                     error: e,
                     log: true
                 });
@@ -905,6 +866,73 @@ class UserService {
                     log: true
                 });
             }
+        });
+    }
+    static checkCouponCodeValidity(couponCodes) {
+        return __awaiter(this, void 0, void 0, function* () {
+            for (let i = 0; i < couponCodes.length; i++) {
+                const couponCode = couponCodes[i];
+                const [[couponRecord]] = yield global.db.query('SELECT * FROM coupon WHERE code = :code', {
+                    code: couponCode
+                });
+                if (!couponRecord || !couponRecord.id) {
+                    return ResponseService_1.ResponseBuilder(null, 'Coupon not found', true);
+                }
+                const currentDate = moment();
+                if (couponRecord.usedFlag) {
+                    return ResponseService_1.ResponseBuilder(null, 'Coupon already redeemed', true);
+                }
+                if (couponRecord.startDate && moment(couponRecord.startDate).isAfter(currentDate)) {
+                    return ResponseService_1.ResponseBuilder(null, 'Coupon is not yet valid (start date)', true);
+                }
+                if (couponRecord.startTime && moment(couponRecord.startTime, 'hh:mm:ss').isAfter(currentDate)) {
+                    return ResponseService_1.ResponseBuilder(null, 'Coupon is not yet valid (start time)', true);
+                }
+                if (couponRecord.endDate && moment(couponRecord.endDate).isBefore(currentDate)) {
+                    return ResponseService_1.ResponseBuilder(null, 'Coupon is expired (end date)', true);
+                }
+                if (couponRecord.endTime && moment(couponRecord.endTime, 'hh:mm:ss').isBefore(currentDate)) {
+                    return ResponseService_1.ResponseBuilder(null, 'Coupon is expired (end time)', true);
+                }
+                switch (currentDate.day()) {
+                    case 0:
+                        if (!couponRecord.redeemableSunday) {
+                            return ResponseService_1.ResponseBuilder(null, 'Coupon not redeemable on Sunday', true);
+                        }
+                        break;
+                    case 1:
+                        if (!couponRecord.redeemableMonday) {
+                            return ResponseService_1.ResponseBuilder(null, 'Coupon not redeemable on Monday', true);
+                        }
+                        break;
+                    case 2:
+                        if (!couponRecord.redeemableTuesday) {
+                            return ResponseService_1.ResponseBuilder(null, 'Coupon not redeemable on Tuesday', true);
+                        }
+                        break;
+                    case 3:
+                        if (!couponRecord.redeemableWednesday) {
+                            return ResponseService_1.ResponseBuilder(null, 'Coupon not redeemable on Wednesday', true);
+                        }
+                        break;
+                    case 4:
+                        if (!couponRecord.redeemableThursday) {
+                            return ResponseService_1.ResponseBuilder(null, 'Coupon not redeemable on Thursday', true);
+                        }
+                        break;
+                    case 5:
+                        if (!couponRecord.redeemableFriday) {
+                            return ResponseService_1.ResponseBuilder(null, 'Coupon not redeemable on Friday', true);
+                        }
+                        break;
+                    case 6:
+                        if (!couponRecord.redeemableSaturday) {
+                            return ResponseService_1.ResponseBuilder(null, 'Coupon not redeemable on Saturday', true);
+                        }
+                        break;
+                }
+            }
+            return ResponseService_1.ResponseBuilder(null, null, false);
         });
     }
 }
