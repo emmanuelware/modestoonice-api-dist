@@ -4730,7 +4730,7 @@
         "signature": "43e818adf60173644896298637f47b01d5819b17eda46eaa32d0c7d64724d012"
       },
       "../src/cron/runticketpresalemonitor.ts": {
-        "version": "72af970f418f8807b2a03b74c16386a3c8724caa450d9b891b0e67380e9eeb07",
+        "version": "7182328cd7b1718df1b06606fe5ebf6e91bc24018a666e14cc4292fd24529c0d",
         "signature": "43e818adf60173644896298637f47b01d5819b17eda46eaa32d0c7d64724d012"
       },
       "../src/services/docservice.ts": {
@@ -23339,6 +23339,7 @@
       "../node_modules/exceljs/index.d.ts",
       "../src/services/squareservice.ts",
       "../src/services/calendarservice.ts",
+      "../src/services/userservice.ts",
       "../src/models/user.ts",
       "../src/routes/auth-public.ts",
       "../src/routes/auth.ts",
@@ -23463,7 +23464,6 @@
       "../node_modules/@types/pdfkit/index.d.ts",
       "../src/cron/rundailybirthdaybookingreport.ts",
       "../src/cron/runticketcountmonitor.ts",
-      "../src/cron/runticketpresalemonitor.ts",
       "../src/services/docservice.ts",
       "../src/models/doc.ts",
       "../src/utils/rx.ts",
@@ -23475,7 +23475,7 @@
       "../node_modules/@types/semver/index.d.ts",
       "../node_modules/@types/xml2js/lib/processors.d.ts",
       "../node_modules/@types/xml2js/index.d.ts",
-      "../src/services/userservice.ts"
+      "../src/cron/runticketpresalemonitor.ts"
     ]
   },
   "version": "3.7.7"

@@ -69,7 +69,8 @@ function inventoryChangeListener() {
                                 continue;
                             }
                             let maximumSessionInventory = 160;
-                            if (session.itemData.name.includes('Nov 19')) {
+                            if (session.itemData.name.includes('Nov 19') ||
+                                session.itemData.name === ('Dec 31 2021 22:15')) {
                                 logging_1.generateLogs(environmentName, processName, 'findCalendarDateSessions', `Setting maximumSessionInventory to 120 for: ${session.itemData.name}`);
                                 maximumSessionInventory = 120;
                             }
