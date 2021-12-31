@@ -47,11 +47,11 @@ function inventoryChangeListener() {
                         for (let i = 0; i < res.data.length; i++) {
                             const session = res.data[i];
                             logging_1.generateLogs(environmentName, processName, 'findCalendarDateSessions', `Checking date: ${session.itemData.name}`);
-                            yield rx_helpers_1.wait(300).catch(err => console.error(err));
+                            yield rx_helpers_1.wait(30).catch(err => console.error(err));
                             if (consts_1.SESSIONS_TO_IGNORE.includes(session.itemData.name)) {
                                 logging_1.generateLogs(environmentName, processName, 'findCalendarDateSessions', `Skipping, found in SESSIONS_TO_IGNORE: ${session.itemData.name}`);
                             }
-                            if (moment(session.itemData.name).isBefore(moment().add(12, 'hours'))) {
+                            if (moment(session.itemData.name).isBefore(moment().add(30, 'minutes'))) {
                                 logging_1.generateLogs(environmentName, processName, 'findCalendarDateSessions', `Date is not at least one day in the future; skipping`);
                                 continue;
                             }
