@@ -85,5 +85,9 @@
     "prettier": "1.15.2",
     "supertest": "~3.0.0",
     "typescript": "^3.7.7"
+  },
+  "volta": {
+    "node": "10.16.3",
+    "npm": "6.9.0"
   }
 }
