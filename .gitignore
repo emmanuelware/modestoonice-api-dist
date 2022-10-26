@@ -1,0 +1,8 @@
+# Editors
+.DS_Store
+
+# Logs and environment
+.env
+node_modules
+logs/
+npm-debug*
