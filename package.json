@@ -21,7 +21,7 @@
     "dev-ar": "./node_modules/nodemon/bin/nodemon.js -e ts --exec \"npm run compile-ar\"",
     "compile-ar": "npm run tsc-ar && node test-v2.js",
     "tsc-ar": "tsc --pretty --lib 'dom','es2015','es2017' --types 'node' test-v2.ts",
-    "build": "tsc -p tsconfig.json && cd .. && cd modestoonice-api-dist && git pull && rm -rf * && cp -R ../modestoonice-api/dist/* ../modestoonice-api/package.json ../modestoonice-api/package-lock.json . && git add -A && git commit -m 'Chore; prod' && git push && echo 'Done - prod'"
+    "build": "tsc -p tsconfig.json && cd .. && cd modestoonice-api-dist && git pull && rm -rf * && cp -R ../modestoonice-api/dist/* ../modestoonice-api/package.json ../modestoonice-api/.gitignore ../modestoonice-api/package-lock.json . && git add -A && git commit -m 'Chore; prod' && git push && echo 'Done - prod'"
   },
   "engines": {
     "node": "~8.2.1"
