@@ -708,7 +708,11 @@ class SystemService {
                             return session;
                         }
                     });
-                    yield SquareService_1.SquareService.updateMasterTicketCount(catalogItem.itemData.variations[1].id, birthdayPackage.skatersIncluded).catch(err => {
+                    var masterCountVariation = catalogItem.itemData.variations.find(x => x.itemVariationData && x.itemVariationData.name === "Master ticket count");
+                    if (!masterCountVariation) {
+                        return ResponseService_1.ResponseBuilder(null, 'An error ocurred. Error code AdjInv.587', true);
+                    }
+                    yield SquareService_1.SquareService.updateMasterTicketCount(masterCountVariation.id, birthdayPackage.skatersIncluded).catch(err => {
                         return ResponseService_1.ResponseBuilder(null, 'An error ocurred. Error code AdjInv.587', true);
                     });
                 }

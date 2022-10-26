@@ -4310,7 +4310,7 @@
         "signature": "16df84d49e2043ebeb7694da69ad39f5285d9cc70eaa1118da07ddad423fe6a1"
       },
       "../src/services/BirthdayService.ts": {
-        "version": "d78a8316009a2006679dc7d40187b70b0c99862949a1ab1f411cdd4795058eb2",
+        "version": "7da651c6f1eff0621ecbae3bd7c4220ef75ca1b39619f0ad91e78a8f5f693561",
         "signature": "99085597de44cf34f2c2a1180a286cab198a67d533696ebeedf3fae403063db5"
       },
       "../src/models/birthday.ts": {
@@ -4434,7 +4434,7 @@
         "signature": "54cb4add36949d48c5dbe88e1244d43cc6267f032650c200dacdc96e159e369c"
       },
       "../src/services/SystemService.ts": {
-        "version": "c2937888215d2a467b6e29f01d023b0365ee26995164eac0c1eb4ef5dc5847bc",
+        "version": "0dcd085b9b00f8f64b11bfc07476aec90acf59acb45508975a20ad8d03306d62",
         "signature": "5ffa1d5460ac7050c15363513ae5888b230ac7beec47ba49c01876449e34518e"
       },
       "../src/models/system.ts": {
@@ -4792,6 +4792,7 @@
       "pretty": true,
       "removeComments": true,
       "target": 2,
+      "project": "../tsconfig.json",
       "configFilePath": "../tsconfig.json"
     },
     "referencedMap": {
@@ -23352,6 +23353,7 @@
       "../node_modules/exceljs/index.d.ts",
       "../src/services/SquareService.ts",
       "../src/services/CalendarService.ts",
+      "../src/services/UserService.ts",
       "../src/models/user.ts",
       "../src/routes/auth-public.ts",
       "../src/routes/auth.ts",
@@ -23371,7 +23373,6 @@
       "../node_modules/aws-sdk/lib/core.d.ts",
       "../node_modules/aws-sdk/index.d.ts",
       "../src/services/S3Service.ts",
-      "../src/services/BirthdayService.ts",
       "../src/models/birthday.ts",
       "../src/routes/birthday-public.ts",
       "../src/routes/birthday.ts",
@@ -23402,7 +23403,6 @@
       "../src/routes/square-public.ts",
       "../src/routes/square.ts",
       "../src/common/interfaces/Birthday.ts",
-      "../src/services/SystemService.ts",
       "../src/models/system.ts",
       "../src/routes/system.ts",
       "../src/routes/user.ts",
@@ -23489,7 +23489,8 @@
       "../node_modules/@types/semver/index.d.ts",
       "../node_modules/@types/xml2js/lib/processors.d.ts",
       "../node_modules/@types/xml2js/index.d.ts",
-      "../src/services/UserService.ts"
+      "../src/services/BirthdayService.ts",
+      "../src/services/SystemService.ts"
     ]
   },
   "version": "3.7.7"
