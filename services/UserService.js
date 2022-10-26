@@ -63,7 +63,7 @@ class UserService {
                     });
                     skaterWaiverRecord = _skaterWaiverRecord;
                 }
-                if (!skaterWaiverRecord) {
+                if (!skaterWaiverRecord && payload.skaterWaiver) {
                     this.storeSkaterWaiver(Object.assign(Object.assign({}, payload.skaterWaiver), { userId: userId || null })).catch(err => {
                         return ResponseService_1.ResponseBuilder(null, 'Could not store waiver', true);
                     });
@@ -303,7 +303,7 @@ class UserService {
                 const [[skaterWaiverRecord]] = yield global.db.query('SELECT * FROM userSkaterWaiver WHERE userId = :userId', {
                     userId: userId
                 });
-                if (!skaterWaiverRecord) {
+                if (!skaterWaiverRecord && payload.skaterWaiver) {
                     yield this.storeSkaterWaiver(Object.assign(Object.assign({}, payload.skaterWaiver), { userId: userId }));
                 }
                 const paymentResponse = yield SquareService_1.SquareService.processPayment({
