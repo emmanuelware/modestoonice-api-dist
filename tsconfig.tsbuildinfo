@@ -4230,7 +4230,7 @@
         "signature": "48ca598625fe343f924f823a900f87a8d3b0eab8b5a52f3f2c493f365f9f918a"
       },
       "../src/services/UserService.ts": {
-        "version": "da9e6ae39022a4d53c9c49f0f56e0d37c137ca605a09a8ec75706ff0819293de",
+        "version": "45b8c1946914e27d45017a33902d24a8ed8ee6ec0215890a7a7b916739b83386",
         "signature": "c5c5d2915316bb6d8e9751109735265df057bb0d798121975923d1bb9dbe962e"
       },
       "../src/models/user.ts": {
@@ -22402,6 +22402,7 @@
       "../src/services/EmailService.ts",
       "../src/services/UtilService.ts",
       "../src/utils/logging.ts",
+      "../src/services/AuthService.ts",
       "../src/common/interfaces/Square.ts",
       "../node_modules/aws-sdk/lib/error.d.ts",
       "../node_modules/aws-sdk/lib/credentials.d.ts",
@@ -23351,7 +23352,6 @@
       "../node_modules/exceljs/index.d.ts",
       "../src/services/SquareService.ts",
       "../src/services/CalendarService.ts",
-      "../src/services/UserService.ts",
       "../src/models/user.ts",
       "../src/routes/auth-public.ts",
       "../src/routes/auth.ts",
@@ -23489,7 +23489,7 @@
       "../node_modules/@types/semver/index.d.ts",
       "../node_modules/@types/xml2js/lib/processors.d.ts",
       "../node_modules/@types/xml2js/index.d.ts",
-      "../src/services/AuthService.ts"
+      "../src/services/UserService.ts"
     ]
   },
   "version": "3.7.7"
