@@ -4230,7 +4230,7 @@
         "signature": "48ca598625fe343f924f823a900f87a8d3b0eab8b5a52f3f2c493f365f9f918a"
       },
       "../src/services/UserService.ts": {
-        "version": "ea0a491eaf64d8ab81706c8fcb7358f89b8ef3741ceeccc0c3bd911bedf3d56b",
+        "version": "9df3a7faf0c89f90070ac1f87bf13b5751bec3795d919d4629069ea4f752be1f",
         "signature": "c5c5d2915316bb6d8e9751109735265df057bb0d798121975923d1bb9dbe962e"
       },
       "../src/models/user.ts": {
@@ -4434,7 +4434,7 @@
         "signature": "54cb4add36949d48c5dbe88e1244d43cc6267f032650c200dacdc96e159e369c"
       },
       "../src/services/SystemService.ts": {
-        "version": "0dcd085b9b00f8f64b11bfc07476aec90acf59acb45508975a20ad8d03306d62",
+        "version": "eba1703bcd65cd61fd285cf6157d45c76cf7976efc4c421a1a558c717f945212",
         "signature": "5ffa1d5460ac7050c15363513ae5888b230ac7beec47ba49c01876449e34518e"
       },
       "../src/models/system.ts": {
@@ -23353,7 +23353,6 @@
       "../node_modules/exceljs/index.d.ts",
       "../src/services/SquareService.ts",
       "../src/services/CalendarService.ts",
-      "../src/services/UserService.ts",
       "../src/models/user.ts",
       "../src/routes/auth-public.ts",
       "../src/routes/auth.ts",
@@ -23373,6 +23372,7 @@
       "../node_modules/aws-sdk/lib/core.d.ts",
       "../node_modules/aws-sdk/index.d.ts",
       "../src/services/S3Service.ts",
+      "../src/services/BirthdayService.ts",
       "../src/models/birthday.ts",
       "../src/routes/birthday-public.ts",
       "../src/routes/birthday.ts",
@@ -23382,7 +23382,6 @@
       "../src/services/ConfigService.ts",
       "../src/models/config.ts",
       "../src/routes/config.ts",
-      "../src/services/CouponService.ts",
       "../src/models/coupon.ts",
       "../src/routes/coupon.ts",
       "../src/models/email.ts",
@@ -23489,7 +23488,8 @@
       "../node_modules/@types/semver/index.d.ts",
       "../node_modules/@types/xml2js/lib/processors.d.ts",
       "../node_modules/@types/xml2js/index.d.ts",
-      "../src/services/BirthdayService.ts",
+      "../src/services/UserService.ts",
+      "../src/services/CouponService.ts",
       "../src/services/SystemService.ts"
     ]
   },

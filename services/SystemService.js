@@ -308,6 +308,7 @@ class SystemService {
           OR sw.confirmationNumber LIKE :query
           OR sw.parentGuardianSignature LIKE :query
           OR sw.emergencyPhoneNumber LIKE :query
+          OR sw.waiverReferenceNumber = :query
           OR swm.firstName LIKE :query
           OR swm.lastName LIKE :query
           LIMIT 25
@@ -319,6 +320,7 @@ class SystemService {
           OR REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(sw.phoneNumber, '-', ''), ')', ''), '(', ''), ' ', ''), '+1', '') = :query
           OR sw.confirmationNumber = :query
           OR sw.emergencyPhoneNumber = :query
+          OR sw.waiverReferenceNumber = :query
           LIMIT 25
         `;
                 }
