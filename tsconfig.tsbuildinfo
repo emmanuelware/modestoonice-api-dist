@@ -4230,7 +4230,7 @@
         "signature": "48ca598625fe343f924f823a900f87a8d3b0eab8b5a52f3f2c493f365f9f918a"
       },
       "../src/services/UserService.ts": {
-        "version": "9df3a7faf0c89f90070ac1f87bf13b5751bec3795d919d4629069ea4f752be1f",
+        "version": "5e4eb4c3bac1a4340f92079fb19b1bb995ca4060271282f4af5209c7e127f939",
         "signature": "c5c5d2915316bb6d8e9751109735265df057bb0d798121975923d1bb9dbe962e"
       },
       "../src/models/user.ts": {
@@ -4730,7 +4730,7 @@
         "signature": "43e818adf60173644896298637f47b01d5819b17eda46eaa32d0c7d64724d012"
       },
       "../src/cron/runTicketPreSaleMonitor.ts": {
-        "version": "7877c5fbb7df060d6c5027cc1d63364ab956b0554106d3024a780b05ca22c7be",
+        "version": "a492ff76bbe5e29733623257365db003cdf936ffb68df12ef9af78c7068ee10d",
         "signature": "43e818adf60173644896298637f47b01d5819b17eda46eaa32d0c7d64724d012"
       },
       "../src/services/DocService.ts": {
@@ -23382,6 +23382,7 @@
       "../src/services/ConfigService.ts",
       "../src/models/config.ts",
       "../src/routes/config.ts",
+      "../src/services/CouponService.ts",
       "../src/models/coupon.ts",
       "../src/routes/coupon.ts",
       "../src/models/email.ts",
@@ -23402,6 +23403,7 @@
       "../src/routes/square-public.ts",
       "../src/routes/square.ts",
       "../src/common/interfaces/Birthday.ts",
+      "../src/services/SystemService.ts",
       "../src/models/system.ts",
       "../src/routes/system.ts",
       "../src/routes/user.ts",
@@ -23475,7 +23477,6 @@
       "../node_modules/@types/pdfkit/index.d.ts",
       "../src/cron/runDailyBirthdayBookingReport.ts",
       "../src/cron/runTicketCountMonitor.ts",
-      "../src/cron/runTicketPreSaleMonitor.ts",
       "../src/services/DocService.ts",
       "../src/models/doc.ts",
       "../src/scripts/squareDump.ts",
@@ -23489,8 +23490,7 @@
       "../node_modules/@types/xml2js/lib/processors.d.ts",
       "../node_modules/@types/xml2js/index.d.ts",
       "../src/services/UserService.ts",
-      "../src/services/CouponService.ts",
-      "../src/services/SystemService.ts"
+      "../src/cron/runTicketPreSaleMonitor.ts"
     ]
   },
   "version": "3.7.7"
