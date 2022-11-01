@@ -236,6 +236,26 @@ class SystemService {
             }
         });
     }
+    static getSystemSkaterWaiverByReferenceNumber(waiverReferenceNumber) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const [[skaterWaiver]] = yield global.db.query('SELECT * FROM userSkaterWaiver WHERE waiverReferenceNumber = :waiverReferenceNumber', {
+                    waiverReferenceNumber
+                });
+                const [skaterWaiverMinorSignatures] = yield global.db.query('SELECT swm.* FROM userSkaterWaiverMinor swm LEFT JOIN userSkaterWaiver sw ON sw.id = swm.userSkaterWaiverId WHERE sw.waiverReferenceNumber = :waiverReferenceNumber', { waiverReferenceNumber });
+                return ResponseService_1.ResponseBuilder({
+                    skaterWaiver,
+                    skaterWaiverMinorSignatures
+                }, null, false);
+            }
+            catch (err) {
+                return ResponseService_1.ResponseBuilder(null, null, true, {
+                    error: err,
+                    log: true
+                });
+            }
+        });
+    }
     static getSystemPassById(passId) {
         return __awaiter(this, void 0, void 0, function* () {
             try {

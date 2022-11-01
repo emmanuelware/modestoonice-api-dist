@@ -5,6 +5,7 @@ const system_1 = require("../models/system");
 const router = new Router();
 router.get('/system/email/season-start-barcodes', system_1.System.sendSeasonBarcodeReminders);
 router.get('/system/waiver/search/:query', system_1.System.searchSystemSkaterWaivers);
+router.get('/system/waiver/reference-number/:waiverReferenceNumber', system_1.System.getSystemSkaterWaiverByReferenceNumber);
 router.get('/system/waiver/:waiverId', system_1.System.getSystemSkaterWaiverById);
 router.get('/system/waiver', system_1.System.getSystemSkaterWaivers);
 router.get('/system/pass/search/:query', system_1.System.searchSystemUserPasses);

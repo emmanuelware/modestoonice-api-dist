@@ -4434,15 +4434,15 @@
         "signature": "54cb4add36949d48c5dbe88e1244d43cc6267f032650c200dacdc96e159e369c"
       },
       "../src/services/SystemService.ts": {
-        "version": "eba1703bcd65cd61fd285cf6157d45c76cf7976efc4c421a1a558c717f945212",
-        "signature": "5ffa1d5460ac7050c15363513ae5888b230ac7beec47ba49c01876449e34518e"
+        "version": "b93fda0e336a94b84d267413941beb3f058d6f07c29e7f959baabfcc13f2204d",
+        "signature": "bea57dc279ed0163446da2a831c588fb1f2951bdb4846844df168baf609ba6be"
       },
       "../src/models/system.ts": {
-        "version": "4480846fee4115e8b51b5215342fb7940edb40cf6e534be331469c1cc396d69b",
-        "signature": "708c91dad0512e1435bd21aca9c8a070ba83c263ae814ee7d908035c53534a73"
+        "version": "f04bee0917af2f2763ee5f51a4d43c4f246a41e8e0fbddfc9106eaa03f886eaf",
+        "signature": "3237c8ce926fa2ab79c46564813966afffb11576a2dab3880090f1751a71d1f2"
       },
       "../src/routes/system.ts": {
-        "version": "f12a7a1f96fd51b650055a2bf1510e2efc9accc8b7a41b0d2556def0712539ec",
+        "version": "b1fa505c920399b32fcc7f980a671be73954150b03b176ccc7960644a3165192",
         "signature": "46a0b34e1264c4d25ca6646ff0e6cfaa7275ea1ae5a6bc23d4dfd84edf2f2b2e"
       },
       "../src/routes/user.ts": {
@@ -4792,7 +4792,6 @@
       "pretty": true,
       "removeComments": true,
       "target": 2,
-      "project": "../tsconfig.json",
       "configFilePath": "../tsconfig.json"
     },
     "referencedMap": {
@@ -23353,6 +23352,7 @@
       "../node_modules/exceljs/index.d.ts",
       "../src/services/SquareService.ts",
       "../src/services/CalendarService.ts",
+      "../src/services/UserService.ts",
       "../src/models/user.ts",
       "../src/routes/auth-public.ts",
       "../src/routes/auth.ts",
@@ -23405,7 +23405,6 @@
       "../src/common/interfaces/Birthday.ts",
       "../src/services/SystemService.ts",
       "../src/models/system.ts",
-      "../src/routes/system.ts",
       "../src/routes/user.ts",
       "../node_modules/@types/accepts/index.d.ts",
       "../node_modules/@types/keygrip/index.d.ts",
@@ -23477,6 +23476,7 @@
       "../node_modules/@types/pdfkit/index.d.ts",
       "../src/cron/runDailyBirthdayBookingReport.ts",
       "../src/cron/runTicketCountMonitor.ts",
+      "../src/cron/runTicketPreSaleMonitor.ts",
       "../src/services/DocService.ts",
       "../src/models/doc.ts",
       "../src/scripts/squareDump.ts",
@@ -23489,8 +23489,7 @@
       "../node_modules/@types/semver/index.d.ts",
       "../node_modules/@types/xml2js/lib/processors.d.ts",
       "../node_modules/@types/xml2js/index.d.ts",
-      "../src/services/UserService.ts",
-      "../src/cron/runTicketPreSaleMonitor.ts"
+      "../src/routes/system.ts"
     ]
   },
   "version": "3.7.7"

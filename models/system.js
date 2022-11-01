@@ -76,6 +76,15 @@ class System {
             ctx.body = ResponseService_1.ResponseHandler(ctx, res);
         });
     }
+    static getSystemSkaterWaiverByReferenceNumber(ctx) {
+        return __awaiter(this, void 0, void 0, function* () {
+            if (ctx.state.user.role < constants_1.EMPLOYEE_ROLE) {
+                return;
+            }
+            const res = yield SystemService_1.SystemService.getSystemSkaterWaiverByReferenceNumber(ctx.params.waiverReferenceNumber);
+            ctx.body = ResponseService_1.ResponseHandler(ctx, res);
+        });
+    }
     static getSystemPassById(ctx) {
         return __awaiter(this, void 0, void 0, function* () {
             if (ctx.state.user.role < constants_1.EMPLOYEE_ROLE) {
