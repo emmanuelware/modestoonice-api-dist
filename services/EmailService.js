@@ -186,7 +186,7 @@ class EmailService {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 yield EmailService.sendEmail(payload.email, email_constants_1.DEFAULT_EMAIL_SENDER, 'Modesto On Ice | Your Birthday Booking Information Has Been Updated', `
-        <h3>Thanks for booking your birthday with Modesto On Ice!</h3>
+        <h3>Thanks for booking your party with Modesto On Ice!</h3>
 
         <p>Below is your updated birthday booking information</p>
 
@@ -216,12 +216,8 @@ class EmailService {
 
         <hr>
 
-        <p>Downloadable, customizable invitations can be found at <a href="https://www.modestoonice.com/invitations">https://www.modestoonice.com/invitations</a>!</p>
-
-        <hr>
-
         <p>**** Skater Waiver ****</p>
-        <p>All skaters are required to have a Waiver.  If additional waivers are needed under your Confirmation Number, please share the following link and your Confirmation number to everyone in your group for a smoother check-in when you arrive at the ice rink.  </p>
+        <p>All skaters are required to have a Waiver. which becomes valid for the entire season. One waiver per adult, age 18 and older.  Minors must have their Waiver completed by an adult, and multiple minors can be on an Adult's waiver. Maximize your ice time and submit your waiver before you get to the rink!  </p>
 
         <p>
           <a href="${process.env.DOMAIN}/skater-waiver?cn=${payload.confirmationNumber}&type=session">Click here</a> or copy and paste this in your browser:
@@ -243,7 +239,7 @@ class EmailService {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 yield EmailService.sendEmail(payload.email, email_constants_1.DEFAULT_EMAIL_SENDER, 'Modesto On Ice | Your Birthday Information', `
-        <h3>Thanks for booking your birthday with Modesto On Ice!</h3>
+        <h3>Thanks for booking your party with Modesto On Ice!</h3>
 
         <p>Below is your birthday booking information</p>
 
@@ -257,12 +253,8 @@ class EmailService {
 
         <hr>
 
-        <p>Downloadable, customizable invitations can be found at <a href="https://www.modestoonice.com/invitations">https://www.modestoonice.com/invitations</a>!</p>
-
-        <hr>
-
         <p>**** Skater Waiver ****</p>
-        <p>All skaters are required to have a Waiver.  If additional waivers are needed under your Confirmation Number, please share the following link and your Confirmation number to everyone in your group for a smoother check-in when you arrive at the ice rink.  </p>
+        <p>All skaters are required to have a Waiver. which becomes valid for the entire season. One waiver per adult, age 18 and older.  Minors must have their Waiver completed by an adult, and multiple minors can be on an Adult's waiver. Maximize your ice time and submit your waiver before you get to the rink!  </p>
 
         <p>
           <a href="${process.env.DOMAIN}/skater-waiver?cn=${payload.confirmationNumber}&type=birthdayBooking">Click here</a> or copy and paste this in your browser:

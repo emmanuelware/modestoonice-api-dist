@@ -199,7 +199,7 @@ class UserService {
 
         <hr>
 
-        <p>Use the barcode below at the ticket booth!</p>
+        <p>Use the barcode below to check-in at the ticket booth!</p>
 
         <img alt="Your barcode" src="https://www.webarcode.com/barcode/image.php?code=${confirmationNumber}&type=C128A&xres=1&height=100&width=200&font=3&output=png&style=197">
         
@@ -352,7 +352,7 @@ class UserService {
 
         <hr>
 
-        <p>Use the barcode below at the ticket booth!</p>
+        <p>Use the barcode below to check-in at the ticket booth!</p>
 
         <img alt="Your barcode" src="https://www.webarcode.com/barcode/image.php?code=${confirmationNumber}&type=C128A&xres=1&height=100&width=200&font=3&output=png&style=197">
         
