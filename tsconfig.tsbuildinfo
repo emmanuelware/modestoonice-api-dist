@@ -1150,8 +1150,8 @@
         "signature": "5b38cf4c8407702d9badfb4811a1e666fc4f7a2f74315b1f5a240455660b9939"
       },
       "../src/common/interfaces/Tickets.ts": {
-        "version": "b11c01587e8f41b0f799ead858f69ebc672fe74942c86b80a024b6ddd96d5cce",
-        "signature": "7025e3e6eb74d6831712c6867b4210184d5cb4ac3b21e21c19f88bebd07914d8"
+        "version": "78de422d399d26f198524b6536ef1a2ceaa83b34204d52b0272c6abf7aad123a",
+        "signature": "f41a2bfe005b2b4f483120db3f0d24f26b149039f3fbc11c9bcf4211b3201b87"
       },
       "../node_modules/rxjs/internal/Subscription.d.ts": {
         "version": "6cb35d83d21a7e72bd00398c93302749bcd38349d0cc5e76ff3a90c6d1498a4d",
@@ -4222,15 +4222,15 @@
         "signature": "8c869f99dbdf3b22d5b590e13fb432f64714222607737037afbe9bdb1857dcc3"
       },
       "../src/services/SquareService.ts": {
-        "version": "c43839015185ae52bbcbf684f9b905096a5b1a2767bc227da4c62be71d724497",
-        "signature": "03d424abffe7d1f3d6aa3d09e7df9f522c12a84fecc25691c26a888bc04e0d69"
+        "version": "a60d15e094dd175fbeac39d3528cd9da95f296c4b54d13f0bf6fe1204fa8289b",
+        "signature": "aa86fa0247bb5faf700f10aaecc4c67a6870d80ea8e96eccc58a472f8a62fc0a"
       },
       "../src/services/CalendarService.ts": {
         "version": "e086174b41972adef5ac414766e4a6da46d63e4483d95e2ab3fbca9aa079ca1d",
         "signature": "48ca598625fe343f924f823a900f87a8d3b0eab8b5a52f3f2c493f365f9f918a"
       },
       "../src/services/UserService.ts": {
-        "version": "0ce957cf1a1a7bc97285cc8acbc26be9e4bb2400cc96ffa8f874e0fb29a2199e",
+        "version": "3d6e872dfb4914c300b60317e53c2d53d5e636e0e41e1dbf9aa09f3e2a349714",
         "signature": "c5c5d2915316bb6d8e9751109735265df057bb0d798121975923d1bb9dbe962e"
       },
       "../src/models/user.ts": {
@@ -4310,7 +4310,7 @@
         "signature": "16df84d49e2043ebeb7694da69ad39f5285d9cc70eaa1118da07ddad423fe6a1"
       },
       "../src/services/BirthdayService.ts": {
-        "version": "d53fd26cae0e626d9e9d4f68807d42d3eb6d30666b6983268cdfce828c686078",
+        "version": "32cb9df8c90c178768517a628162da34224ad481ca4474e5f13629b2e50846ca",
         "signature": "99085597de44cf34f2c2a1180a286cab198a67d533696ebeedf3fae403063db5"
       },
       "../src/models/birthday.ts": {
@@ -4390,7 +4390,7 @@
         "signature": "46a0b34e1264c4d25ca6646ff0e6cfaa7275ea1ae5a6bc23d4dfd84edf2f2b2e"
       },
       "../src/services/LessonService.ts": {
-        "version": "d094566587c138167e09601b74fd91590ca567a750d77168ddeb85792bd9de6a",
+        "version": "0612ec807112c29f6eaf8965236c16225c9df8ce853bb322c13d7c67a1ed62c4",
         "signature": "4c0b1dacb16157236fe2ffc253d8a1c74dae3121efa2f75dec26fb15b49965e8"
       },
       "../src/models/lesson.ts": {
@@ -22400,6 +22400,7 @@
       "../node_modules/@sendgrid/client/index.d.ts",
       "../node_modules/@sendgrid/mail/src/mail.d.ts",
       "../node_modules/@sendgrid/mail/index.d.ts",
+      "../src/services/EmailService.ts",
       "../src/services/UtilService.ts",
       "../src/utils/logging.ts",
       "../src/services/AuthService.ts",
@@ -23390,7 +23391,6 @@
       "../src/models/faq.ts",
       "../src/routes/faq-public.ts",
       "../src/routes/faq.ts",
-      "../src/services/LessonService.ts",
       "../src/models/lesson.ts",
       "../src/routes/lesson-public.ts",
       "../src/services/ReservationService.ts",
@@ -23401,6 +23401,7 @@
       "../src/routes/square-public.ts",
       "../src/routes/square.ts",
       "../src/common/interfaces/Birthday.ts",
+      "../src/services/SystemService.ts",
       "../src/models/system.ts",
       "../src/routes/system.ts",
       "../src/routes/user.ts",
@@ -23487,10 +23488,9 @@
       "../node_modules/@types/semver/index.d.ts",
       "../node_modules/@types/xml2js/lib/processors.d.ts",
       "../node_modules/@types/xml2js/index.d.ts",
-      "../src/services/EmailService.ts",
       "../src/services/UserService.ts",
       "../src/services/BirthdayService.ts",
-      "../src/services/SystemService.ts"
+      "../src/services/LessonService.ts"
     ]
   },
   "version": "3.7.7"

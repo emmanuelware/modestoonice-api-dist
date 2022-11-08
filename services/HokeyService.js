@@ -18,7 +18,7 @@ const logging_1 = require("../utils/logging");
 const constants_1 = require("../common/constants");
 const email_constants_1 = require("../common/email.constants");
 const moment = require("moment");
-class LessonService {
+class HokeyService {
     static getLessons() {
         return __awaiter(this, void 0, void 0, function* () {
             try {
@@ -53,15 +53,16 @@ class LessonService {
                 yield UserService_1.UserService.storeSkaterWaiver(payload.waiver);
                 let paymentResponse = null;
                 logging_1.generateLogs('NodeApi', 'LessonService', 'bookLesson', `Total found: ${payload.amount}.`);
-                try {
-                    paymentResponse = yield SquareService_1.SquareService.processPayment({
-                        amount: payload.amount,
-                        locationId: payload.locationId,
-                        sourceId: payload.sourceId
-                    });
-                }
-                catch (e) {
-                    return ResponseService_1.ResponseBuilder(e.message, 'Payment could not be processed', true);
+                paymentResponse = yield SquareService_1.SquareService.processPayment({
+                    amount: payload.amount,
+                    nonce: payload.nonce
+                });
+                if (!paymentResponse ||
+                    !paymentResponse.data ||
+                    !paymentResponse.data.transaction ||
+                    !paymentResponse.data.transaction.id) {
+                    console.log(paymentResponse);
+                    return ResponseService_1.ResponseBuilder(null, 'Payment could not be processed', true);
                 }
                 const [insert] = yield global.db.query(`
         INSERT INTO lessonBooking (
@@ -90,7 +91,7 @@ class LessonService {
                     email: payload.email || null,
                     phone: payload.phone || null,
                     confirmationNumber: confirmationNumber,
-                    transactionId: paymentResponse.data.payment.id
+                    transactionId: paymentResponse.data.transaction.id
                 });
                 for (let i = 0; i < payload.participants.length; i++) {
                     const item = payload.participants[i];
@@ -157,7 +158,7 @@ class LessonService {
                     } });
             }
             catch (err) {
-                return ResponseService_1.ResponseBuilder(err.message, "An error has occurred", true, {
+                return ResponseService_1.ResponseBuilder(null, null, true, {
                     error: err,
                     log: true
                 });
@@ -165,4 +166,4 @@ class LessonService {
         });
     }
 }
-exports.LessonService = LessonService;
+exports.HokeyService = HokeyService;

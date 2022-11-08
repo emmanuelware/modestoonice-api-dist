@@ -28,10 +28,11 @@ const squareConnect = new square_1.Client({
     environment: process.env.ENV_MODE === 'prod' ? square_1.Environment.Production : square_1.Environment.Sandbox,
     accessToken
 });
-const { catalogApi, inventoryApi, transactionsApi, ordersApi } = squareConnect;
+const { catalogApi, inventoryApi, transactionsApi, ordersApi, paymentsApi } = squareConnect;
 const catalogAPI = catalogApi;
 const inventoryAPI = inventoryApi;
 const transactionsAPI = transactionsApi;
+const paymentsAPI = paymentsApi;
 function generateItemId() {
     return `#${UtilService_1.UtilService.generateRandomString(24).toUpperCase()}`;
 }
@@ -216,28 +217,29 @@ class SquareService {
     }
     static processPayment(payload) {
         return __awaiter(this, void 0, void 0, function* () {
-            const idempotencyKey = crypto_1.randomBytes(64).toString('hex');
+            const idempotencyKey = crypto_1.randomBytes(20).toString('hex');
             console.log('payload', payload);
-            const request = {
-                cardNonce: payload.nonce,
+            const payment = {
+                idempotencyKey,
+                locationId: payload.locationId,
+                sourceId: payload.sourceId,
                 amountMoney: {
                     amount: BigInt(payload.amount),
-                    currency: 'USD'
+                    currency: 'USD',
                 },
-                idempotencyKey: idempotencyKey
             };
-            return yield new Promise(resolve => {
-                transactionsAPI
-                    .charge(locationId, request)
-                    .then(function (data) {
-                    console.log('data', data);
-                    resolve(ResponseService_1.ResponseBuilder(data.result, 'Payment successful', false));
-                }, function (error) {
-                    console.error(error);
-                    resolve(ResponseService_1.ResponseBuilder(error.response.text, 'Payment failure', true));
-                })
-                    .catch(err => console.error(err));
-            });
+            try {
+                const { result, statusCode } = yield paymentsAPI.createPayment(payment);
+                console.log('Payment succeeded!', { result, statusCode });
+                return ResponseService_1.ResponseBuilder(result, 'Payment successful', false);
+            }
+            catch (e) {
+                if (e.errors) {
+                    const message = e.errors.map(x => x.detail || x.code).join('\n');
+                    throw new Error(`Payment failed.\n${message}`);
+                }
+                throw e;
+            }
         });
     }
     static getCalendarDateSessionInventoryCountByCatalogObject(itemId) {

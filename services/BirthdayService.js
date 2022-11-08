@@ -301,14 +301,11 @@ class BirthdayService {
                 logging_1.generateLogs('NodeApi', 'BirthdayService', 'bookBirthday', `Attempting to process payment.`);
                 let { data: paymentResponse } = yield SquareService_1.SquareService.processPayment({
                     amount: payload.amount,
-                    nonce: payload.nonce
+                    locationId: payload.locationId,
+                    sourceId: payload.sourceId
                 });
                 if (typeof paymentResponse === 'string') {
                     paymentResponse = JSON.parse(paymentResponse);
-                }
-                if (paymentResponse.errors) {
-                    logging_1.generateLogs('NodeApi', 'BirthdayService', 'bookBirthday', `Could not process payment.`);
-                    return ResponseService_1.ResponseBuilder(null, `Cannot process payment: ${paymentResponse.errors[0].detail}`, true);
                 }
                 logging_1.generateLogs('NodeApi', 'BirthdayService', 'bookBirthday', `Inserting birthday party information into the database.`);
                 const [insert] = yield global.db.query(`
@@ -345,7 +342,7 @@ class BirthdayService {
                     userId: userId || null,
                     birthdayPackageId: payload.selectedPackageId,
                     birthdaySessionId: payload.birthdaySessionId,
-                    transactionId: paymentResponse ? paymentResponse.transaction.id : null,
+                    transactionId: paymentResponse ? paymentResponse.payment.id : null,
                     userFirstName: payload.firstName,
                     userLastName: payload.lastName,
                     userEmail: payload.email,

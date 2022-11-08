@@ -75,27 +75,16 @@ class UserService {
                 let paymentResponse = null;
                 if (payload.total) {
                     logging_1.generateLogs('NodeApi', 'UserService', 'bookSession', `Total found: ${payload.total}.`);
-                    paymentResponse = yield SquareService_1.SquareService.processPayment({
-                        amount: payload.amount,
-                        nonce: payload.nonce
-                    });
-                    if (!paymentResponse ||
-                        !paymentResponse.data ||
-                        !paymentResponse.data.transaction ||
-                        !paymentResponse.data.transaction.id) {
-                        try {
-                            yield SquareService_1.SquareService.updateTicketCounts(ticketTypes, 'add');
-                            if (paymentResponse.data && typeof paymentResponse.data === 'string') {
-                                const error = JSON.parse(paymentResponse.data);
-                                return ResponseService_1.ResponseBuilder(null, error.errors[0].detail, true);
-                            }
-                            else {
-                                return ResponseService_1.ResponseBuilder(null, 'Payment could not be processed', true);
-                            }
-                        }
-                        catch (err) {
-                            return ResponseService_1.ResponseBuilder(null, 'Payment could not be processed', true);
-                        }
+                    try {
+                        paymentResponse = yield SquareService_1.SquareService.processPayment({
+                            amount: payload.amount,
+                            locationId: payload.locationId,
+                            sourceId: payload.sourceId
+                        });
+                    }
+                    catch (e) {
+                        yield SquareService_1.SquareService.updateTicketCounts(ticketTypes, 'add');
+                        return ResponseService_1.ResponseBuilder(e.message, 'Payment could not be processed', true);
                     }
                 }
                 const [newTicketRecord] = yield global.db.query(`
@@ -129,7 +118,7 @@ class UserService {
       `, {
                     userId: userId || null,
                     passId: payload.selectedUserPass ? payload.selectedUserPass.id : null,
-                    transactionId: paymentResponse ? paymentResponse.data.transaction.id : null,
+                    transactionId: paymentResponse ? paymentResponse.data.payment.id : null,
                     itemId: payload.sessionId,
                     firstName: payload.firstName || null,
                     lastName: payload.lastName || null,
@@ -153,7 +142,7 @@ class UserService {
           )
         `, {
                         userPassId: payload.selectedUserPass ? payload.selectedUserPass.id : null,
-                        transactionId: paymentResponse ? paymentResponse.data.transaction.id : null
+                        transactionId: paymentResponse ? paymentResponse.data.payment.id : null
                     });
                 }
                 if (ticketTypes[2].quantity >= 15) {
@@ -239,7 +228,7 @@ class UserService {
                     } });
             }
             catch (e) {
-                return ResponseService_1.ResponseBuilder(null, 'An error ocurred with your transaction. Please contact us before making another transaction.', true, {
+                return ResponseService_1.ResponseBuilder(e.message, 'An error ocurred with your transaction. Please contact us before making another transaction.', true, {
                     error: e,
                     log: true
                 });
@@ -308,7 +297,8 @@ class UserService {
                 }
                 const paymentResponse = yield SquareService_1.SquareService.processPayment({
                     amount: payload.amount,
-                    nonce: payload.nonce
+                    locationId: payload.locationId,
+                    sourceId: payload.sourceId
                 });
                 yield global.db.query(`
         INSERT INTO userPass (
@@ -328,7 +318,7 @@ class UserService {
                     userId: userId,
                     passType: payload.passInfo.type,
                     confirmationCode: confirmationNumber,
-                    transactionId: paymentResponse.data.transaction.id
+                    transactionId: paymentResponse.data.payment.id
                 });
                 yield EmailService_1.EmailService.sendEmail(payload.email, email_constants_1.DEFAULT_EMAIL_SENDER, `Modesto On Ice | Your ${payload.passInfo.name} Information`, `
         <h3>Thanks for purchasing a pass with Modesto On Ice!</h3>
@@ -363,7 +353,7 @@ class UserService {
                 return Object.assign(Object.assign({}, paymentResponse), { data: Object.assign(Object.assign({}, paymentResponse.data), { confirmationNumber: confirmationNumber }) });
             }
             catch (e) {
-                return ResponseService_1.ResponseBuilder(null, null, true, {
+                return ResponseService_1.ResponseBuilder(e.message, "An error has occurred", true, {
                     error: e,
                     log: true
                 });
