@@ -4222,7 +4222,7 @@
         "signature": "8c869f99dbdf3b22d5b590e13fb432f64714222607737037afbe9bdb1857dcc3"
       },
       "../src/services/SquareService.ts": {
-        "version": "a60d15e094dd175fbeac39d3528cd9da95f296c4b54d13f0bf6fe1204fa8289b",
+        "version": "c48815a0efce459c244cd80498ef8dfa0fc1586a469d515f061c102a1ca4be02",
         "signature": "aa86fa0247bb5faf700f10aaecc4c67a6870d80ea8e96eccc58a472f8a62fc0a"
       },
       "../src/services/CalendarService.ts": {
@@ -4792,7 +4792,6 @@
       "pretty": true,
       "removeComments": true,
       "target": 2,
-      "project": "../tsconfig.json",
       "configFilePath": "../tsconfig.json"
     },
     "referencedMap": {
@@ -23351,8 +23350,8 @@
       "../node_modules/square/dist/models/v1UpdateEmployeeRoleRequest.d.ts",
       "../node_modules/square/dist/index.d.ts",
       "../node_modules/exceljs/index.d.ts",
-      "../src/services/SquareService.ts",
       "../src/services/CalendarService.ts",
+      "../src/services/UserService.ts",
       "../src/models/user.ts",
       "../src/routes/auth-public.ts",
       "../src/routes/auth.ts",
@@ -23372,6 +23371,7 @@
       "../node_modules/aws-sdk/lib/core.d.ts",
       "../node_modules/aws-sdk/index.d.ts",
       "../src/services/S3Service.ts",
+      "../src/services/BirthdayService.ts",
       "../src/models/birthday.ts",
       "../src/routes/birthday-public.ts",
       "../src/routes/birthday.ts",
@@ -23391,6 +23391,7 @@
       "../src/models/faq.ts",
       "../src/routes/faq-public.ts",
       "../src/routes/faq.ts",
+      "../src/services/LessonService.ts",
       "../src/models/lesson.ts",
       "../src/routes/lesson-public.ts",
       "../src/services/ReservationService.ts",
@@ -23488,9 +23489,7 @@
       "../node_modules/@types/semver/index.d.ts",
       "../node_modules/@types/xml2js/lib/processors.d.ts",
       "../node_modules/@types/xml2js/index.d.ts",
-      "../src/services/UserService.ts",
-      "../src/services/BirthdayService.ts",
-      "../src/services/LessonService.ts"
+      "../src/services/SquareService.ts"
     ]
   },
   "version": "3.7.7"

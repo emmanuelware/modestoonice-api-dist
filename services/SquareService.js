@@ -676,7 +676,7 @@ class SquareService {
     }
     static getApplicationId() {
         try {
-            return ResponseService_1.ResponseBuilder(applicationId, null, false);
+            return ResponseService_1.ResponseBuilder({ applicationId, locationId }, null, false);
         }
         catch (e) {
             return ResponseService_1.ResponseBuilder(null, null, true, {
