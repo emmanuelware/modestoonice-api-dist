@@ -69,9 +69,13 @@ function inventoryChangeListener() {
                                 continue;
                             }
                             let maximumSessionInventory = 160;
-                            if (session.itemData.name.includes('Nov 18') || session.itemData.name === 'Dec 31 2022 22:15') {
-                                logging_1.generateLogs(environmentName, processName, 'findCalendarDateSessions', `Setting maximumSessionInventory to 120 for: ${session.itemData.name}`);
-                                maximumSessionInventory = 120;
+                            if (session.customAttributeValues) {
+                                for (var key of Object.keys(session.customAttributeValues)) {
+                                    var attributeValue = session.customAttributeValues[key];
+                                    if (/^maxStock$/i.test(attributeValue.name) && /^number$/i.test(attributeValue.type) && attributeValue.numberValue) {
+                                        maximumSessionInventory = Math.round(attributeValue.numberValue);
+                                    }
+                                }
                             }
                             const [[ticketingAppTicketCounts]] = yield db.query(`
                 SELECT 

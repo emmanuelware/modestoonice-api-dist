@@ -4742,7 +4742,7 @@
         "signature": "43e818adf60173644896298637f47b01d5819b17eda46eaa32d0c7d64724d012"
       },
       "../src/cron/runTicketPreSaleMonitor.ts": {
-        "version": "a492ff76bbe5e29733623257365db003cdf936ffb68df12ef9af78c7068ee10d",
+        "version": "b18468bba8a79e790b956acf1197fce03f284218229a908f1927baba6249be2c",
         "signature": "43e818adf60173644896298637f47b01d5819b17eda46eaa32d0c7d64724d012"
       },
       "../src/services/DocService.ts": {
@@ -4804,6 +4804,7 @@
       "pretty": true,
       "removeComments": true,
       "target": 2,
+      "project": "../tsconfig.json",
       "configFilePath": "../tsconfig.json"
     },
     "referencedMap": {
@@ -23391,7 +23392,6 @@
       "../node_modules/square/dist/models/v1UpdateEmployeeRoleRequest.d.ts",
       "../node_modules/square/dist/index.d.ts",
       "../node_modules/exceljs/index.d.ts",
-      "../src/services/SquareService.ts",
       "../src/services/CalendarService.ts",
       "../src/services/UserService.ts",
       "../src/models/user.ts",
@@ -23447,6 +23447,7 @@
       "../src/routes/square-public.ts",
       "../src/routes/square.ts",
       "../src/common/interfaces/Birthday.ts",
+      "../src/services/SystemService.ts",
       "../src/models/system.ts",
       "../src/routes/system.ts",
       "../src/routes/user.ts",
@@ -23520,7 +23521,6 @@
       "../node_modules/@types/pdfkit/index.d.ts",
       "../src/cron/runDailyBirthdayBookingReport.ts",
       "../src/cron/runTicketCountMonitor.ts",
-      "../src/cron/runTicketPreSaleMonitor.ts",
       "../src/services/DocService.ts",
       "../src/models/doc.ts",
       "../src/scripts/squareDump.ts",
@@ -23533,7 +23533,8 @@
       "../node_modules/@types/semver/index.d.ts",
       "../node_modules/@types/xml2js/lib/processors.d.ts",
       "../node_modules/@types/xml2js/index.d.ts",
-      "../src/services/SystemService.ts"
+      "../src/services/SquareService.ts",
+      "../src/cron/runTicketPreSaleMonitor.ts"
     ]
   },
   "version": "3.7.7"
