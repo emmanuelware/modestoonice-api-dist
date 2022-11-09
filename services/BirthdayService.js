@@ -292,12 +292,10 @@ class BirthdayService {
                 const { data: inventory } = yield SquareService_1.SquareService.getCalendarDateSessionInventoryCountByCatalogObject(masterCountVariation.id);
                 const adjustedMasterInventory = +inventory.counts[0].quantity - birthdayPackage.skatersIncluded;
                 logging_1.generateLogs('NodeApi', 'BirthdayService', 'bookBirthday', `Adjusted inventory: ${adjustedMasterInventory} - CatalogID: ${masterCountVariation.id}`);
-                if (process.env.ENV_MODE === 'prod') {
-                    yield SquareService_1.SquareService.updateMasterTicketCount(masterCountVariation.id, birthdayPackage.skatersIncluded).catch(err => {
-                        logging_1.generateLogs('NodeApi', 'BirthdayService', 'bookBirthday', `Cannot adjust inventory: ${err}`);
-                        return ResponseService_1.ResponseBuilder(null, 'An error ocurred. Error code AdjInv.352', true);
-                    });
-                }
+                yield SquareService_1.SquareService.updateMasterTicketCount(masterCountVariation.id, birthdayPackage.skatersIncluded).catch(err => {
+                    logging_1.generateLogs('NodeApi', 'BirthdayService', 'bookBirthday', `Cannot adjust inventory: ${err}`);
+                    return ResponseService_1.ResponseBuilder(null, 'An error ocurred. Error code AdjInv.352', true);
+                });
                 logging_1.generateLogs('NodeApi', 'BirthdayService', 'bookBirthday', `Attempting to process payment.`);
                 let { data: paymentResponse } = yield SquareService_1.SquareService.processPayment({
                     amount: payload.amount,

@@ -3,9 +3,12 @@
 
 # Logs and environment
 .env
+.env.*
 node_modules
 logs/
 npm-debug*
+temp/**/*
+!temp/test.pdf
 
 runDailyBirthdayBookingReport.log
 runTicketCountMonitor.log

@@ -150,6 +150,43 @@ class SystemService {
             return yield UserService_1.UserService.editSkaterWaiver(id, waiver);
         });
     }
+    static editSystemHockeyBookingById(id, booking) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                yield global.db.query(`
+        UPDATE hockeyLessonBooking
+        SET 
+          hockeyLessonId = :hockeyLessonId, 
+          firstName = :firstName, 
+          lastName = :lastName, 
+          email = :email, 
+          phone = :phone, 
+          confirmationNumber = :confirmationNumber, 
+          transactionId = :transactionId, 
+          itemPrice = :itemPrice,
+          isCanceled = :isCanceled
+        WHERE id = :id;
+      `, Object.assign(Object.assign({}, booking), { id }));
+                booking.participants.forEach(participant => {
+                    global.db.query(`
+          UPDATE hockeyLessonBookingParticipant 
+          SET
+            firstName = :firstName,
+            lastName = :lastName,
+            dateOfBirth = :dateOfBirth
+          WHERE id = :id AND hockeyLessonBookingId = :hockeyLessonBookingId
+        `, Object.assign(Object.assign({}, participant), { hockeyLessonBookingId: id }));
+                });
+                return ResponseService_1.ResponseBuilder(null, "Hockey booking edited", false);
+            }
+            catch (err) {
+                return ResponseService_1.ResponseBuilder(err.message, "An error has occurred", true, {
+                    error: err,
+                    log: true
+                });
+            }
+        });
+    }
     static getSystemSkaterWaivers() {
         return __awaiter(this, void 0, void 0, function* () {
             try {
@@ -171,6 +208,56 @@ class SystemService {
                     }
                 }
                 return ResponseService_1.ResponseBuilder(waivers, null, false);
+            }
+            catch (err) {
+                return ResponseService_1.ResponseBuilder(null, null, true, {
+                    error: err,
+                    log: true
+                });
+            }
+        });
+    }
+    static getSystemHockeyBookings() {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const [bookings] = yield global.db.query('SELECT * FROM hockeyLessonBooking LIMIT 200');
+                if (!bookings.length) {
+                    return ResponseService_1.ResponseBuilder(bookings, null, false);
+                }
+                const [participants] = yield global.db.query(`
+        SELECT * FROM hockeyLessonBookingParticipant WHERE hockeyLessonBookingId IN (:hockeyLessonBookingIds)
+      `, {
+                    hockeyLessonBookingIds: bookings.map(x => x.id)
+                });
+                var participantsLookup = groupBy(participants, "hockeyLessonBookingId");
+                bookings.forEach(booking => {
+                    booking.participants = participantsLookup[booking.id] || [];
+                });
+                return ResponseService_1.ResponseBuilder(bookings, null, false);
+            }
+            catch (err) {
+                return ResponseService_1.ResponseBuilder(null, null, true, {
+                    error: err,
+                    log: true
+                });
+            }
+        });
+    }
+    static getSystemHockeyBookingById(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const [bookings] = yield global.db.query('SELECT * FROM hockeyLessonBooking WHERE id = :id', { id });
+                if (!bookings.length) {
+                    return ResponseService_1.ResponseBuilder(bookings, null, false);
+                }
+                var booking = bookings[0];
+                const [participants] = yield global.db.query(`
+        SELECT * FROM hockeyLessonBookingParticipant WHERE hockeyLessonBookingId = :hockeyLessonBookingId
+      `, {
+                    hockeyLessonBookingId: booking.id
+                });
+                booking.participants = participants || [];
+                return ResponseService_1.ResponseBuilder(booking, null, false);
             }
             catch (err) {
                 return ResponseService_1.ResponseBuilder(null, null, true, {
@@ -364,6 +451,61 @@ class SystemService {
                     }
                 }
                 return ResponseService_1.ResponseBuilder(waivers, null, false);
+            }
+            catch (err) {
+                return ResponseService_1.ResponseBuilder(null, null, true, {
+                    error: err,
+                    log: true
+                });
+            }
+        });
+    }
+    static searchSystemHockeyBookings(query, performDeepSearch = false) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                let sql;
+                if (performDeepSearch) {
+                    sql = ` 
+          SELECT DISTINCT hl.*
+          FROM hockeyLessonBooking hl
+          LEFT JOIN hockeyLessonBookingParticipant hlbp
+          ON hl.id = hlbp.hockeyLessonBookingId
+          WHERE hl.firstName LIKE :query
+          OR hl.lastName LIKE :query
+          OR REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(hl.phone, '-', ''), ')', ''), '(', ''), ' ', ''), '+1', '') LIKE :query
+          OR hl.confirmationNumber LIKE :query
+          OR hlbp.firstName LIKE :query
+          OR hlbp.lastName LIKE :query
+          LIMIT 25
+        `;
+                }
+                else {
+                    sql += ` 
+          SELECT hl.*
+          FROM hockeyLessonBooking hl
+          WHERE hl.firstName = :query
+          OR hl.lastName = :query
+          OR REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(hl.phone, '-', ''), ')', ''), '(', ''), ' ', ''), '+1', '') = :query
+          OR hl.confirmationNumber = :query
+          LIMIT 25
+        `;
+                }
+                const [bookings] = yield global.db.query(sql, {
+                    query: performDeepSearch ? `%${query}%` : query
+                });
+                if (!bookings.length) {
+                    return ResponseService_1.ResponseBuilder(bookings, null, false);
+                }
+                const [participants] = yield global.db.query(`
+        SELECT * FROM hockeyLessonBookingParticipant WHERE hockeyLessonBookingId IN (:hockeyLessonBookingIds)
+      `, {
+                    hockeyLessonBookingIds: bookings.map(x => x.id)
+                });
+                var participantsLookup = groupBy(participants, "hockeyLessonBookingId");
+                bookings.forEach(booking => {
+                    booking.participants = participantsLookup[booking.id] || [];
+                });
+                return ResponseService_1.ResponseBuilder(bookings, null, false);
             }
             catch (err) {
                 return ResponseService_1.ResponseBuilder(null, null, true, {
@@ -723,21 +865,19 @@ class SystemService {
                 yield MailchimpService_1.MailchimpService.addEmailToSpecialOffersList(payload.email, name).catch(err => {
                     console.warn(err);
                 });
-                if (process.env.ENV_MODE === 'prod') {
-                    const { data: sessions } = yield SquareService_1.SquareService.findCalendarDateSessionByDate(sessionDate.datetime);
-                    const [catalogItem] = sessions.filter(session => {
-                        if (moment(sessionDate.datetime).format(constants_1.DEFAULT_MOMENT_FORMAT) === session.itemData.name) {
-                            return session;
-                        }
-                    });
-                    var masterCountVariation = catalogItem.itemData.variations.find(x => x.itemVariationData && x.itemVariationData.name === "Master ticket count");
-                    if (!masterCountVariation) {
-                        return ResponseService_1.ResponseBuilder(null, 'An error ocurred. Error code AdjInv.587', true);
+                const { data: sessions } = yield SquareService_1.SquareService.findCalendarDateSessionByDate(sessionDate.datetime);
+                const [catalogItem] = sessions.filter(session => {
+                    if (moment(sessionDate.datetime).format(constants_1.DEFAULT_MOMENT_FORMAT) === session.itemData.name) {
+                        return session;
                     }
-                    yield SquareService_1.SquareService.updateMasterTicketCount(masterCountVariation.id, birthdayPackage.skatersIncluded).catch(err => {
-                        return ResponseService_1.ResponseBuilder(null, 'An error ocurred. Error code AdjInv.587', true);
-                    });
+                });
+                var masterCountVariation = catalogItem.itemData.variations.find(x => x.itemVariationData && x.itemVariationData.name === "Master ticket count");
+                if (!masterCountVariation) {
+                    return ResponseService_1.ResponseBuilder(null, 'An error ocurred. Error code AdjInv.587', true);
                 }
+                yield SquareService_1.SquareService.updateMasterTicketCount(masterCountVariation.id, birthdayPackage.skatersIncluded).catch(err => {
+                    return ResponseService_1.ResponseBuilder(null, 'An error ocurred. Error code AdjInv.587', true);
+                });
                 const [insert] = yield global.db.query(`
         INSERT INTO birthdayBooking (
           userId,
@@ -1490,3 +1630,12 @@ class SystemService {
     }
 }
 exports.SystemService = SystemService;
+function groupBy(data, key) {
+    return data.reduce(function (storage, item) {
+        var group = item[key];
+        storage[group] = storage[group] || [];
+        storage[group].push(item);
+        return storage;
+    }, {});
+}
+;

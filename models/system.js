@@ -49,6 +49,12 @@ class System {
             ctx.body = ResponseService_1.ResponseHandler(ctx, res);
         });
     }
+    static editSystemHockeyBookingById(ctx) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const res = yield SystemService_1.SystemService.editSystemHockeyBookingById(ctx.params.id, ctx.request.body);
+            ctx.body = ResponseService_1.ResponseHandler(ctx, res);
+        });
+    }
     static getSystemPasses(ctx) {
         return __awaiter(this, void 0, void 0, function* () {
             if (ctx.state.user.role < constants_1.EMPLOYEE_ROLE) {
@@ -67,12 +73,30 @@ class System {
             ctx.body = ResponseService_1.ResponseHandler(ctx, res);
         });
     }
+    static getSystemHockeyBookings(ctx) {
+        return __awaiter(this, void 0, void 0, function* () {
+            if (ctx.state.user.role < constants_1.EMPLOYEE_ROLE) {
+                return;
+            }
+            const res = yield SystemService_1.SystemService.getSystemHockeyBookings();
+            ctx.body = ResponseService_1.ResponseHandler(ctx, res);
+        });
+    }
     static getSystemSkaterWaiverById(ctx) {
         return __awaiter(this, void 0, void 0, function* () {
             if (ctx.state.user.role < constants_1.EMPLOYEE_ROLE) {
                 return;
             }
             const res = yield SystemService_1.SystemService.getSystemSkaterWaiverById(ctx.params.waiverId);
+            ctx.body = ResponseService_1.ResponseHandler(ctx, res);
+        });
+    }
+    static getSystemHockeyBookingById(ctx) {
+        return __awaiter(this, void 0, void 0, function* () {
+            if (ctx.state.user.role < constants_1.EMPLOYEE_ROLE) {
+                return;
+            }
+            const res = yield SystemService_1.SystemService.getSystemHockeyBookingById(ctx.params.id);
             ctx.body = ResponseService_1.ResponseHandler(ctx, res);
         });
     }
@@ -101,6 +125,16 @@ class System {
             }
             const performDeepSearch = ctx.query.performDeepSearch === '1' ? true : false;
             const res = yield SystemService_1.SystemService.searchSystemSkaterWaivers(ctx.params.query, performDeepSearch);
+            ctx.body = ResponseService_1.ResponseHandler(ctx, res);
+        });
+    }
+    static searchSystemHockeyBookings(ctx) {
+        return __awaiter(this, void 0, void 0, function* () {
+            if (ctx.state.user.role < constants_1.EMPLOYEE_ROLE) {
+                return;
+            }
+            const performDeepSearch = ctx.query.performDeepSearch === '1' ? true : false;
+            const res = yield SystemService_1.SystemService.searchSystemHockeyBookings(ctx.params.query, performDeepSearch);
             ctx.body = ResponseService_1.ResponseHandler(ctx, res);
         });
     }

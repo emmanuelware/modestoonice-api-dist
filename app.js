@@ -26,6 +26,7 @@ const email_1 = require("./routes/email");
 const faq_public_1 = require("./routes/faq-public");
 const faq_1 = require("./routes/faq");
 const lesson_public_1 = require("./routes/lesson-public");
+const hockey_public_1 = require("./routes/hockey-public");
 const reservation_1 = require("./routes/reservation");
 const root_1 = require("./routes/root");
 const square_public_1 = require("./routes/square-public");
@@ -151,6 +152,7 @@ app.use(faq_public_1.default);
 app.use(square_public_1.default);
 app.use(book_public_1.default);
 app.use(lesson_public_1.default);
+app.use(hockey_public_1.default);
 app.use(square_1.default);
 app.use(function verifyJwt(ctx, next) {
     return __awaiter(this, void 0, void 0, function* () {
