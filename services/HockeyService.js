@@ -23,7 +23,7 @@ class HockeyService {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const [lessons] = yield global.db.query(`
-        SELECT hl.id, hl.title, hl.description, (hl.maxParticipants - IFNULL(hlbc.numBooked, 0)) as available
+        SELECT hl.*, (hl.maxParticipants - IFNULL(hlbc.numBooked, 0)) as available
         FROM hockeyLesson hl 
         LEFT JOIN hockeyLessonBookingCount hlbc 
           ON hlbc.hockeyLessonId = hl.id
@@ -65,7 +65,8 @@ class HockeyService {
             confirmationNumber,
             transactionId,
             dateEntered,
-            totalPrice
+            totalPrice,
+            isCanceled
         ) VALUES (
             :hockeyLessonId,
             :firstName,
@@ -75,7 +76,8 @@ class HockeyService {
             :confirmationNumber,
             :transactionId,
             NOW(),
-            :totalPrice
+            :totalPrice,
+            :isCanceled
         )
         `, {
                     hockeyLessonId: payload.selectedLessonId || null,
@@ -85,7 +87,8 @@ class HockeyService {
                     phone: payload.phone || null,
                     confirmationNumber: confirmationNumber,
                     transactionId: paymentResponse.data.payment.id,
-                    totalPrice: payload.amount
+                    totalPrice: payload.amount,
+                    isCanceled: 0
                 });
                 let participantsHtml = '';
                 for (let i = 0; i < payload.participants.length; i++) {

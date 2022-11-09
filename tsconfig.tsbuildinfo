@@ -4402,7 +4402,7 @@
         "signature": "46a0b34e1264c4d25ca6646ff0e6cfaa7275ea1ae5a6bc23d4dfd84edf2f2b2e"
       },
       "../src/services/HockeyService.ts": {
-        "version": "9e805c1baa86f6f156b550758d0e48f3ac12e427f5e510dbb3a6b21211f8ac1e",
+        "version": "313a316d4af73cb556c6d2ae40a023cef1b8a99c77cdeca532f0892eda56cc6d",
         "signature": "35f8a9669164447a2a53eb24343b56ee2554b95e51f2a1946fef95701205d048"
       },
       "../src/models/hockey.ts": {
@@ -4446,7 +4446,7 @@
         "signature": "54cb4add36949d48c5dbe88e1244d43cc6267f032650c200dacdc96e159e369c"
       },
       "../src/services/SystemService.ts": {
-        "version": "ca2aa0d81aec00ab4aab7dc34004fcc0c0b58eee4076ff485d21c71f78f53fba",
+        "version": "a54a9e53d5f80342b8a3f5ebe90fc2dbe458f0f0b671d76dbb613809e530a3a2",
         "signature": "7c4c60fcdaf9754946934f65e64f9115670ce2719533c6eeccf7cc274de204b6"
       },
       "../src/models/system.ts": {

@@ -163,7 +163,7 @@ class SystemService {
           phone = :phone, 
           confirmationNumber = :confirmationNumber, 
           transactionId = :transactionId, 
-          itemPrice = :itemPrice,
+          totalPrice = :totalPrice,
           isCanceled = :isCanceled
         WHERE id = :id;
       `, Object.assign(Object.assign({}, booking), { id }));
