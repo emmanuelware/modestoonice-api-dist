@@ -24,7 +24,8 @@
     "build": "tsc -p tsconfig.json && cd .. && cd modestoonice-api-dist && git pull && rm -rf * && cp -R ../modestoonice-api/dist/* ../modestoonice-api/package.json ../modestoonice-api/.gitignore ../modestoonice-api/package-lock.json . && git add -A && git commit -m 'Chore; prod' && git push && echo 'Done - prod'"
   },
   "engines": {
-    "node": "~8.2.1"
+    "node": "10.16.3",
+    "npm": "6.9.0"
   },
   "dependencies": {
     "@sendgrid/mail": "~6.4.0",
