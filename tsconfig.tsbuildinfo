@@ -1150,8 +1150,8 @@
         "signature": "5b38cf4c8407702d9badfb4811a1e666fc4f7a2f74315b1f5a240455660b9939"
       },
       "../src/common/interfaces/Tickets.ts": {
-        "version": "78de422d399d26f198524b6536ef1a2ceaa83b34204d52b0272c6abf7aad123a",
-        "signature": "f41a2bfe005b2b4f483120db3f0d24f26b149039f3fbc11c9bcf4211b3201b87"
+        "version": "105d940962c00867049401091e55639487f06e5745a5ff209661528323d3a3eb",
+        "signature": "c8893944a4b261d045d1c8b15dee049068619d7f4c52026e785150496cf3ea5d"
       },
       "../node_modules/rxjs/internal/Subscription.d.ts": {
         "version": "6cb35d83d21a7e72bd00398c93302749bcd38349d0cc5e76ff3a90c6d1498a4d",
@@ -4230,7 +4230,7 @@
         "signature": "48ca598625fe343f924f823a900f87a8d3b0eab8b5a52f3f2c493f365f9f918a"
       },
       "../src/services/UserService.ts": {
-        "version": "3d6e872dfb4914c300b60317e53c2d53d5e636e0e41e1dbf9aa09f3e2a349714",
+        "version": "bccbfcf7516d3b202f76d5a63262d06575167dbf104c97bcacfddefb4c443562",
         "signature": "c5c5d2915316bb6d8e9751109735265df057bb0d798121975923d1bb9dbe962e"
       },
       "../src/models/user.ts": {
@@ -4804,7 +4804,6 @@
       "pretty": true,
       "removeComments": true,
       "target": 2,
-      "project": "../tsconfig.json",
       "configFilePath": "../tsconfig.json"
     },
     "referencedMap": {
@@ -23392,8 +23391,8 @@
       "../node_modules/square/dist/models/v1UpdateEmployeeRoleRequest.d.ts",
       "../node_modules/square/dist/index.d.ts",
       "../node_modules/exceljs/index.d.ts",
+      "../src/services/SquareService.ts",
       "../src/services/CalendarService.ts",
-      "../src/services/UserService.ts",
       "../src/models/user.ts",
       "../src/routes/auth-public.ts",
       "../src/routes/auth.ts",
@@ -23521,6 +23520,7 @@
       "../node_modules/@types/pdfkit/index.d.ts",
       "../src/cron/runDailyBirthdayBookingReport.ts",
       "../src/cron/runTicketCountMonitor.ts",
+      "../src/cron/runTicketPreSaleMonitor.ts",
       "../src/services/DocService.ts",
       "../src/models/doc.ts",
       "../src/scripts/squareDump.ts",
@@ -23533,8 +23533,7 @@
       "../node_modules/@types/semver/index.d.ts",
       "../node_modules/@types/xml2js/lib/processors.d.ts",
       "../node_modules/@types/xml2js/index.d.ts",
-      "../src/services/SquareService.ts",
-      "../src/cron/runTicketPreSaleMonitor.ts"
+      "../src/services/UserService.ts"
     ]
   },
   "version": "3.7.7"

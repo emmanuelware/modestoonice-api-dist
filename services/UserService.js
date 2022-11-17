@@ -87,6 +87,13 @@ class UserService {
                         return ResponseService_1.ResponseBuilder(e.message, 'Payment could not be processed', true);
                     }
                 }
+                const passes = [];
+                if (payload.selectedUserPass) {
+                    passes.push(payload.selectedUserPass);
+                }
+                if (payload.selectedUserPasses) {
+                    passes.push(...payload.selectedUserPasses);
+                }
                 const [newTicketRecord] = yield global.db.query(`
         INSERT INTO userTicket (
           userId,
@@ -117,7 +124,7 @@ class UserService {
         )
       `, {
                     userId: userId || null,
-                    passId: payload.selectedUserPass ? payload.selectedUserPass.id : null,
+                    passId: passes.length ? passes[0].id : null,
                     transactionId: paymentResponse ? paymentResponse.data.payment.id : null,
                     itemId: payload.sessionId,
                     firstName: payload.firstName || null,
@@ -128,22 +135,28 @@ class UserService {
                     adultTickets: payload.adultTicketCount,
                     childTickets: payload.childTicketCount
                 });
-                if (payload.selectedUserPass) {
+                if (passes.length) {
                     logging_1.generateLogs('NodeApi', 'UserService', 'bookSession', `Inserting user pass usage.`);
-                    yield global.db.query(`
-          INSERT INTO userPassUsage (
-            userPassId,
-            transactionId,
-            dateUsed
-          ) VALUES (
-            :userPassId,
-            :transactionId,
-            NOW()
-          )
-        `, {
-                        userPassId: payload.selectedUserPass ? payload.selectedUserPass.id : null,
-                        transactionId: paymentResponse ? paymentResponse.data.payment.id : null
-                    });
+                    for (let i = 0; i < passes.length; i++) {
+                        const pass = passes[i];
+                        yield global.db.query(`
+            INSERT INTO userPassUsage (
+              userPassId,
+              transactionId,
+              dateUsed,
+              userTicketId
+            ) VALUES (
+              :userPassId,
+              :transactionId,
+              NOW(),
+              :userTicketId
+            )
+          `, {
+                            userPassId: pass.id,
+                            transactionId: paymentResponse ? paymentResponse.data.payment.id : null,
+                            userTicketId: newTicketRecord ? newTicketRecord.insertId : null
+                        });
+                    }
                 }
                 if (ticketTypes[2].quantity >= 15) {
                     const emailPayload = {
