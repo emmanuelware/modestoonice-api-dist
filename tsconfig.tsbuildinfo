@@ -4230,7 +4230,7 @@
         "signature": "48ca598625fe343f924f823a900f87a8d3b0eab8b5a52f3f2c493f365f9f918a"
       },
       "../src/services/UserService.ts": {
-        "version": "bccbfcf7516d3b202f76d5a63262d06575167dbf104c97bcacfddefb4c443562",
+        "version": "e6bb93f9d99dead3c0594fdd422c516e4abf95772465444f41428b1ceca7f840",
         "signature": "c5c5d2915316bb6d8e9751109735265df057bb0d798121975923d1bb9dbe962e"
       },
       "../src/models/user.ts": {

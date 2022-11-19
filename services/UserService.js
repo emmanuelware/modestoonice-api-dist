@@ -174,6 +174,9 @@ class UserService {
                         logging_1.generateLogs('NodeApi', 'UserService', 'bookSession', `Could not send email to admin.`);
                     });
                 }
+                const beforeWaiverDisclaimer = ticketTypes[2].quantity >= 15 ?
+                    `<hr>\n\n<p>Because we don't know the names of your guests, please arrive early and check-in at the Ticket Booth to help us get your guests checked-in.  Please also have your guests complete their waiver in advance to help things move more quickly at check-in.</p>\n\n<hr>` :
+                    `<hr>`;
                 yield EmailService_1.EmailService.sendEmail(payload.email, email_constants_1.DEFAULT_EMAIL_SENDER, 'Modesto On Ice | Your Booking Information', `
         <h3>Thanks for booking a session with Modesto On Ice!</h3>
 
@@ -188,7 +191,7 @@ class UserService {
   
         <p>Total: <b>$${payload.total.toFixed(2)}</b></p>
 
-        <hr>
+        ${beforeWaiverDisclaimer}
 
         <p>**** Skater Waiver ****</p>
         <p>All skaters are required to have a Waiver.  If additional waivers are needed under your Confirmation Number, please share the following link and your Confirmation number to everyone in your group for a smoother check-in when you arrive at the ice rink.  </p>
