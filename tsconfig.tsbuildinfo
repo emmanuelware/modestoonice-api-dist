@@ -4350,7 +4350,7 @@
         "signature": "46a0b34e1264c4d25ca6646ff0e6cfaa7275ea1ae5a6bc23d4dfd84edf2f2b2e"
       },
       "../src/services/CouponService.ts": {
-        "version": "d05f8d144f1711886656554f8c509b831d8d92d8ca9a3312d320c252d2854ba5",
+        "version": "5bbc8b667607a00df12fa30ed7c9f6850b2009b89d6f5a367d9ee06ec5aad5e7",
         "signature": "29a565a2730f90d5648ad0997a3808c7475dc17615c346975cafae79ec87c451"
       },
       "../src/models/coupon.ts": {
@@ -4804,7 +4804,6 @@
       "pretty": true,
       "removeComments": true,
       "target": 2,
-      "project": "../tsconfig.json",
       "configFilePath": "../tsconfig.json"
     },
     "referencedMap": {
@@ -13055,6 +13054,7 @@
         "../src/common/interfaces/Ctx.ts",
         "../src/common/constants.ts",
         "../node_modules/moment/moment.d.ts",
+        "../src/services/UserService.ts",
         "../node_modules/@types/node/util.d.ts",
         "../node_modules/@types/node/ts3.2/util.d.ts"
       ],
@@ -23394,6 +23394,7 @@
       "../node_modules/exceljs/index.d.ts",
       "../src/services/SquareService.ts",
       "../src/services/CalendarService.ts",
+      "../src/services/UserService.ts",
       "../src/models/user.ts",
       "../src/routes/auth-public.ts",
       "../src/routes/auth.ts",
@@ -23423,7 +23424,6 @@
       "../src/services/ConfigService.ts",
       "../src/models/config.ts",
       "../src/routes/config.ts",
-      "../src/services/CouponService.ts",
       "../src/models/coupon.ts",
       "../src/routes/coupon.ts",
       "../src/models/email.ts",
@@ -23534,7 +23534,7 @@
       "../node_modules/@types/semver/index.d.ts",
       "../node_modules/@types/xml2js/lib/processors.d.ts",
       "../node_modules/@types/xml2js/index.d.ts",
-      "../src/services/UserService.ts"
+      "../src/services/CouponService.ts"
     ]
   },
   "version": "3.7.7"

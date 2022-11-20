@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const ResponseService_1 = require("./ResponseService");
 const constants_1 = require("../common/constants");
 const moment = require("moment");
+const UserService_1 = require("./UserService");
 class CouponService {
     static getCoupons() {
         return __awaiter(this, void 0, void 0, function* () {
@@ -37,7 +38,13 @@ class CouponService {
                     code: code
                 });
                 if (coupon) {
-                    return ResponseService_1.ResponseBuilder(this.formatCouponDatesAndTimes(coupon), null, false);
+                    const couponValidation = yield UserService_1.UserService.checkCouponCodeValidity([coupon.code]);
+                    if (couponValidation.err) {
+                        return couponValidation;
+                    }
+                    else {
+                        return ResponseService_1.ResponseBuilder(this.formatCouponDatesAndTimes(coupon), null, false);
+                    }
                 }
                 else {
                     return ResponseService_1.ResponseBuilder(null, 'Coupon code not found', true);
