@@ -69,9 +69,12 @@ class UserService {
                     });
                 }
                 logging_1.generateLogs('NodeApi', 'UserService', 'bookSession', `Updating ticket count.`);
-                yield SquareService_1.SquareService.updateTicketCounts(ticketTypes, 'remove').catch(err => {
+                try {
+                    yield SquareService_1.SquareService.updateTicketCounts(ticketTypes, 'remove');
+                }
+                catch (err) {
                     return ResponseService_1.ResponseBuilder(null, 'Could not update inventory', true);
-                });
+                }
                 let paymentResponse = null;
                 if (payload.total) {
                     logging_1.generateLogs('NodeApi', 'UserService', 'bookSession', `Total found: ${payload.total}.`);
@@ -555,7 +558,15 @@ class UserService {
                         passId: passId,
                         itemId: sessionItemId
                     });
-                    if (passes.length) {
+                    const [passUsages] = yield global.db.query(`
+            SELECT * FROM userPassUsage p
+            INNER JOIN userTicket t
+              ON t.id = p.userTicketId 
+            WHERE p.userPassId = :passId AND t.itemId = :itemId`, {
+                        passId: passId,
+                        itemId: sessionItemId
+                    });
+                    if (passes.length || passUsages.length) {
                         passesUsedForDay = true;
                     }
                 })));

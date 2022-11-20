@@ -4230,7 +4230,7 @@
         "signature": "48ca598625fe343f924f823a900f87a8d3b0eab8b5a52f3f2c493f365f9f918a"
       },
       "../src/services/UserService.ts": {
-        "version": "e6bb93f9d99dead3c0594fdd422c516e4abf95772465444f41428b1ceca7f840",
+        "version": "f77b2bcb515b8789a5499b8f434dea703860eca2ccfc46586ed3971da6535160",
         "signature": "c5c5d2915316bb6d8e9751109735265df057bb0d798121975923d1bb9dbe962e"
       },
       "../src/models/user.ts": {
@@ -4804,6 +4804,7 @@
       "pretty": true,
       "removeComments": true,
       "target": 2,
+      "project": "../tsconfig.json",
       "configFilePath": "../tsconfig.json"
     },
     "referencedMap": {
