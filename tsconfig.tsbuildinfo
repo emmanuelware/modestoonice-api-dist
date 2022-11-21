@@ -4738,7 +4738,7 @@
         "signature": "8e609bb71c20b858c77f0e9f90bb1319db8477b13f9f965f1a1e18524bf50881"
       },
       "../src/cron/runTicketCountMonitor.ts": {
-        "version": "c45c6fc4588e9ed81f453ce95f4fc95a2fad55a8cbc7853efe2c6bc8915a4dba",
+        "version": "f6f0d77fac345560b7fede3ebfcea2564a583d2c03bf498e2dc78d90b576b420",
         "signature": "43e818adf60173644896298637f47b01d5819b17eda46eaa32d0c7d64724d012"
       },
       "../src/cron/runTicketPreSaleMonitor.ts": {
@@ -4804,6 +4804,7 @@
       "pretty": true,
       "removeComments": true,
       "target": 2,
+      "project": "../tsconfig.json",
       "configFilePath": "../tsconfig.json"
     },
     "referencedMap": {
@@ -23424,6 +23425,7 @@
       "../src/services/ConfigService.ts",
       "../src/models/config.ts",
       "../src/routes/config.ts",
+      "../src/services/CouponService.ts",
       "../src/models/coupon.ts",
       "../src/routes/coupon.ts",
       "../src/models/email.ts",
@@ -23514,14 +23516,11 @@
       "../node_modules/@sentry/node/dist/transports/https.d.ts",
       "../node_modules/@sentry/node/dist/transports/index.d.ts",
       "../node_modules/@sentry/node/dist/index.d.ts",
-      "../src/app.ts",
       "../src/common/environment.ts",
       "../src/common/random-second.ts",
       "../src/cron/consts.ts",
       "../node_modules/@types/pdfkit/index.d.ts",
       "../src/cron/runDailyBirthdayBookingReport.ts",
-      "../src/cron/runTicketCountMonitor.ts",
-      "../src/cron/runTicketPreSaleMonitor.ts",
       "../src/services/DocService.ts",
       "../src/models/doc.ts",
       "../src/scripts/squareDump.ts",
@@ -23534,7 +23533,9 @@
       "../node_modules/@types/semver/index.d.ts",
       "../node_modules/@types/xml2js/lib/processors.d.ts",
       "../node_modules/@types/xml2js/index.d.ts",
-      "../src/services/CouponService.ts"
+      "../src/app.ts",
+      "../src/cron/runTicketCountMonitor.ts",
+      "../src/cron/runTicketPreSaleMonitor.ts"
     ]
   },
   "version": "3.7.7"

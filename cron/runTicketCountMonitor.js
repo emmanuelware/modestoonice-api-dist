@@ -48,9 +48,13 @@ function inventoryChangeListener() {
                                 continue;
                             }
                             let amountToSubtract = 160;
-                            if (session.itemData.name.includes('Nov 19')) {
-                                logging_1.generateLogs(environmentName, processName, 'findCalendarDateSessions', `Setting amountToSubtract to 120 for: ${session.itemData.name}`);
-                                amountToSubtract = 120;
+                            if (session.customAttributeValues) {
+                                for (var key of Object.keys(session.customAttributeValues)) {
+                                    var attributeValue = session.customAttributeValues[key];
+                                    if (/^maxStock$/i.test(attributeValue.name) && /^number$/i.test(attributeValue.type) && attributeValue.numberValue) {
+                                        amountToSubtract = Math.round(attributeValue.numberValue);
+                                    }
+                                }
                             }
                             const adultTicketSum = +session.itemData.variations[0].inventory.counts[0].quantity;
                             const kidTicketSum = +session.itemData.variations[1].inventory.counts[0].quantity;
