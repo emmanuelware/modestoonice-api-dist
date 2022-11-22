@@ -33,6 +33,7 @@ const square_public_1 = require("./routes/square-public");
 const square_1 = require("./routes/square");
 const system_1 = require("./routes/system");
 const user_1 = require("./routes/user");
+const webhook_1 = require("./routes/webhook");
 const body = require('koa-body');
 const morgan = require("koa-morgan");
 const cors = require("koa2-cors");
@@ -121,8 +122,7 @@ app.use(function handleErrors(ctx, next) {
 });
 app.use(cors({
     origin: ctx => {
-        const origin = ctx.request.header.origin;
-        return origin;
+        return "*";
     }
 }));
 app.use(function mysqlConnection(ctx, next) {
@@ -146,6 +146,7 @@ app.use(root_1.default);
 app.use(auth_1.default);
 app.use(auth_public_1.default);
 app.use(birthday_public_1.default);
+app.use(webhook_1.default);
 app.use(coupon_1.default);
 app.use(email_public_1.default);
 app.use(faq_public_1.default);

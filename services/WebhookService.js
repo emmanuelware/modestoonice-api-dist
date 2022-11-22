@@ -9,14 +9,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const WebhookService_1 = require("../services/WebhookService");
-const ResponseService_1 = require("../services/ResponseService");
-class Webhook {
-    static syncStock(ctx) {
+const ResponseService_1 = require("./ResponseService");
+class WebhookService {
+    static syncStock(payload) {
         return __awaiter(this, void 0, void 0, function* () {
-            const res = yield WebhookService_1.WebhookService.syncStock(ctx.request.body);
-            ctx.body = ResponseService_1.ResponseHandler(ctx, res);
+            console.log(payload);
+            return ResponseService_1.ResponseBuilder(null, null, false);
         });
     }
 }
-exports.Webhook = Webhook;
+exports.WebhookService = WebhookService;

@@ -4461,6 +4461,18 @@
         "version": "25b5ea1d7f00da5e67259c1058a50e7d1a7565be6251c8ecff2442020d23ecd0",
         "signature": "46a0b34e1264c4d25ca6646ff0e6cfaa7275ea1ae5a6bc23d4dfd84edf2f2b2e"
       },
+      "../src/services/WebhookService.ts": {
+        "version": "8ac52e7d8134453ad7bd3668da58a51648be46e454665ce7943e58c7e7a352c1",
+        "signature": "dec000692cf55b95d752ae7ef57bac1f0c272a40a83bb0416a2e1906cfb63fd1"
+      },
+      "../src/models/webhook.ts": {
+        "version": "afaa0e4af2126cf46195cafb4cf77a4e3acdaefef5e7711c18959b662d349a22",
+        "signature": "0a1fbe1888470d8c567fa8114f7142298c9596d0c2060490a7eaa5dab29b792c"
+      },
+      "../src/routes/webhook.ts": {
+        "version": "c71b15b80009c9cb987d7c8a3ed2df554883e62c9576479512c842f21785fb58",
+        "signature": "46a0b34e1264c4d25ca6646ff0e6cfaa7275ea1ae5a6bc23d4dfd84edf2f2b2e"
+      },
       "../node_modules/@types/accepts/index.d.ts": {
         "version": "6738101ae8e56cd3879ab3f99630ada7d78097fc9fd334df7e766216778ca219",
         "signature": "6738101ae8e56cd3879ab3f99630ada7d78097fc9fd334df7e766216778ca219"
@@ -4714,7 +4726,7 @@
         "signature": "d1fabe87664e84c11a6a01135fa2003f1e94fc15465e2a5f69059d1e83f205a8"
       },
       "../src/app.ts": {
-        "version": "a22a36516b0c9d1677d23cf056d34630fc2f2db1dd84df5712af9c3546ff1e5f",
+        "version": "7781ad08286c0f186cd82a2a86df647a19218a49f66666fc260fc6af69c32358",
         "signature": "b5527409e237b8f2732ec9bd524ee3d8faf97ee82814e7be714ddaf2532b9b71"
       },
       "../src/common/environment.ts": {
@@ -13237,6 +13249,31 @@
         "../node_modules/@types/node/util.d.ts",
         "../node_modules/@types/node/ts3.2/util.d.ts"
       ],
+      "../src/services/WebhookService.ts": [
+        "../src/services/EmailService.ts",
+        "../src/services/ResponseService.ts",
+        "../src/services/SquareService.ts",
+        "../src/services/UserService.ts",
+        "../src/services/UtilService.ts",
+        "../src/utils/logging.ts",
+        "../src/common/interfaces/Ctx.ts",
+        "../src/common/constants.ts",
+        "../src/common/email.constants.ts",
+        "../node_modules/moment/moment.d.ts",
+        "../node_modules/@types/node/util.d.ts",
+        "../node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../src/models/webhook.ts": [
+        "../src/services/WebhookService.ts",
+        "../src/services/ResponseService.ts",
+        "../node_modules/@types/node/util.d.ts",
+        "../node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../src/routes/webhook.ts": [
+        "../src/models/webhook.ts",
+        "../node_modules/@types/node/util.d.ts",
+        "../node_modules/@types/node/ts3.2/util.d.ts"
+      ],
       "../node_modules/@types/accepts/index.d.ts": [
         "../node_modules/@types/node/http.d.ts",
         "../node_modules/@types/node/ts3.2/index.d.ts",
@@ -13664,6 +13701,7 @@
         "../src/routes/square.ts",
         "../src/routes/system.ts",
         "../src/routes/user.ts",
+        "../src/routes/webhook.ts",
         "../node_modules/@types/koa-morgan/index.d.ts",
         "../node_modules/@types/koa/index.d.ts",
         "../node_modules/@sentry/node/dist/index.d.ts",
@@ -22335,6 +22373,9 @@
         "../node_modules/@types/node/ts3.2/index.d.ts",
         "../node_modules/@types/node/util.d.ts",
         "../node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../src/services/WebhookService.ts": [
+        "../src/common/interfaces/Ctx.ts"
       ]
     },
     "semanticDiagnosticsPerFile": [
@@ -23521,6 +23562,8 @@
       "../src/cron/consts.ts",
       "../node_modules/@types/pdfkit/index.d.ts",
       "../src/cron/runDailyBirthdayBookingReport.ts",
+      "../src/cron/runTicketCountMonitor.ts",
+      "../src/cron/runTicketPreSaleMonitor.ts",
       "../src/services/DocService.ts",
       "../src/models/doc.ts",
       "../src/scripts/squareDump.ts",
@@ -23533,9 +23576,10 @@
       "../node_modules/@types/semver/index.d.ts",
       "../node_modules/@types/xml2js/lib/processors.d.ts",
       "../node_modules/@types/xml2js/index.d.ts",
-      "../src/app.ts",
-      "../src/cron/runTicketCountMonitor.ts",
-      "../src/cron/runTicketPreSaleMonitor.ts"
+      "../src/services/WebhookService.ts",
+      "../src/models/webhook.ts",
+      "../src/routes/webhook.ts",
+      "../src/app.ts"
     ]
   },
   "version": "3.7.7"
