@@ -26,3 +26,4 @@ class Coupon {
     }
 }
 exports.Coupon = Coupon;
+//# sourceMappingURL=coupon.js.map

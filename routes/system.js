@@ -49,3 +49,4 @@ router.put('/system/birthday-session', system_1.System.updateBirthdaySessionAvai
 router.put('/system/coupon/:id', system_1.System.updateCoupon);
 router.delete('/system/coupon/:id', system_1.System.deleteCouponById);
 exports.default = router.routes();
+//# sourceMappingURL=system.js.map

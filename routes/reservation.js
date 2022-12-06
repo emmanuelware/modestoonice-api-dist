@@ -6,3 +6,4 @@ const router = new Router();
 router.get('/reservation/admin', reservation_1.Reservation.getBookedReservations);
 router.post('/reservation', reservation_1.Reservation.bookReservation);
 exports.default = router.routes();
+//# sourceMappingURL=reservation.js.map

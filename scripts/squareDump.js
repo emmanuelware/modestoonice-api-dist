@@ -215,3 +215,4 @@ function findDbRecord(transactionId) {
         }
     });
 }
+//# sourceMappingURL=squareDump.js.map

@@ -9,3 +9,4 @@ router.put('/calendar/session/inventory', calendar_1.Calendar.updateSessionInven
 router.put('/calendar/session', calendar_1.Calendar.updateSession);
 router.delete('/calendar/session/:squareSessionItemId', calendar_1.Calendar.deleteSessionBySquareItemId);
 exports.default = router.routes();
+//# sourceMappingURL=calendar.js.map

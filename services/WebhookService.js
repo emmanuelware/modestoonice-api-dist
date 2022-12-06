@@ -10,10 +10,23 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const ResponseService_1 = require("./ResponseService");
+const InventoryAdjustment_1 = require("./Inventory/InventoryAdjustment");
+const InventoryPhysicalCount_1 = require("./Inventory/InventoryPhysicalCount");
+const moment = require("moment");
 class WebhookService {
-    static syncStock(payload) {
+    static orderCreated(payload) {
         return __awaiter(this, void 0, void 0, function* () {
-            console.log(payload);
+            const inventoryAdjustment = new InventoryAdjustment_1.InventoryAdjustment(payload.data.id);
+            yield inventoryAdjustment.update();
+            return ResponseService_1.ResponseBuilder(null, null, false);
+        });
+    }
+    static recountStock() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const now = moment();
+            const seasonYear = now.month() < 6 ? now.clone().subtract(1, 'years').year() : now.year();
+            const inventoryPhysicalCount = new InventoryPhysicalCount_1.InventoryPhysicalCount(seasonYear);
+            yield inventoryPhysicalCount.update();
             return ResponseService_1.ResponseBuilder(null, null, false);
         });
     }

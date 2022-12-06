@@ -14,3 +14,4 @@ router.post('/user/session/book', user_1.User.bookSession);
 router.put('/user/info', user_1.User.updateUserAccountInfo);
 router.put('/user/skater-waiver/:id', user_1.User.editSkaterWaiver);
 exports.default = router.routes();
+//# sourceMappingURL=user.js.map

@@ -20,11 +20,13 @@ class AuthService {
     static getAuth(ctx) {
         return __awaiter(this, void 0, void 0, function* () {
             let user = null;
+            // Try to parse and assign the body
             const body = ctx.request.body;
             yield global.db.query('INSERT INTO authLoginLog (email, timestamp, userAgent) VALUES (:email, NOW(), :userAgent)', {
                 email: body.email,
                 userAgent: ctx.header['user-agent']
             });
+            // Attempt to log the user with their email / password combo
             [[user]] = yield global.db.query(`
       SELECT  
         id,
@@ -39,9 +41,11 @@ class AuthService {
       WHERE email = :email`, {
                 email: body.email
             });
+            // Return if no user was found
             if (!user) {
                 return ResponseService_1.ResponseBuilder(null, 'Email / password not found', true);
             }
+            // Check the password
             try {
                 const match = yield scrypt.verifyKdf(Buffer.from(user.password, 'base64'), body.password);
                 if (!match) {
@@ -54,16 +58,22 @@ class AuthService {
                     log: true
                 });
             }
+            // Set the state
             ctx.state.user = user;
+            // Attempt to create a JWT
             try {
+                // Set payload
                 const payload = {
                     id: user.id,
                     role: user.role
                 };
+                // Create token
                 const token = jwt.sign(payload, process.env.JWT_KEY, {
                     expiresIn: process.env.TOKEN_TIME
                 });
+                // Create expiry time
                 const decoded = jwt.verify(token, process.env.JWT_KEY);
+                // Update last login field
                 yield global.db.query('UPDATE user SET lastLoginDate = NOW() WHERE id = :id', {
                     id: user.id
                 });
@@ -260,3 +270,4 @@ class AuthService {
     }
 }
 exports.AuthService = AuthService;
+//# sourceMappingURL=AuthService.js.map

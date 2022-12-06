@@ -58,6 +58,9 @@ class Birthday {
             ctx.body = ResponseService_1.ResponseHandler(ctx, res);
         });
     }
+    /**
+     * Packages
+     */
     static getBirthdayPackages(ctx) {
         return __awaiter(this, void 0, void 0, function* () {
             const res = yield BirthdayService_1.BirthdayService.getBirthdayPackages();
@@ -94,6 +97,9 @@ class Birthday {
             ctx.body = ResponseService_1.ResponseHandler(ctx, res);
         });
     }
+    /**
+     * Extras
+     */
     static getBirthdayExtras(ctx) {
         return __awaiter(this, void 0, void 0, function* () {
             const res = yield BirthdayService_1.BirthdayService.getBirthdayExtras();
@@ -141,3 +147,4 @@ class Birthday {
     }
 }
 exports.Birthday = Birthday;
+//# sourceMappingURL=birthday.js.map

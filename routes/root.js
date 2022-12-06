@@ -8,3 +8,4 @@ router.get('/', function getRoot(ctx) {
     ctx.body = { resources: resources, authentication: authentication };
 });
 exports.default = router.routes();
+//# sourceMappingURL=root.js.map

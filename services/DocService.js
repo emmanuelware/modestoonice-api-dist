@@ -43,13 +43,22 @@ class DocService {
                     zip: 95361
                 };
                 const dir = `${process.env.TEMP_DOC_DIR}/${userId}_${UtilService_1.UtilService.generateRandomString(64)}.pdf`;
+                // Change these to change the layout of the doc
                 const docOptions = {
+                    /** The default font size used for the content */
                     defaultFontSize: 12,
+                    /** The font size used for any subheadings or any words that are used
+                     * to describe content sections, i.e. "Prepared for" */
                     subheadingFontSize: 16,
                     headingFontSize: 21,
+                    /** The document is generated without any margins, and the dimensions
+                     * are taller than they are wider. */
                     horizontalPadding: 80,
                     lineHeight: 14,
+                    /** The starting Y position for all page content */
                     startingY: 120,
+                    /** The document is generated without any margins, and the dimensions
+                     * are taller than they are wider. */
                     verticalPadding: 70
                 };
                 const doc = new PDFDocument({
@@ -69,12 +78,14 @@ class DocService {
                 };
                 doc.pipe(fs.createWriteStream(dir));
                 doc.fillColor(exports.docColors.black);
+                // Doc heading
                 doc
                     .fontSize(docOptions.headingFontSize)
                     .fillColor(exports.docColors.gray)
                     .text('POOL ORCHARD INVOICE', doc.x, docOptions.verticalPadding, {
                     align: 'center'
                 });
+                // Pool Orchard billing header
                 doc
                     .fontSize(docOptions.subheadingFontSize)
                     .fillColor(exports.docColors.black)
@@ -85,6 +96,7 @@ class DocService {
                 doc.text('Modesto, CA 95356', docOptions.horizontalPadding, lineY);
                 incrementLineY();
                 setLineY(lineY + docOptions.lineHeight * 3);
+                // Bill-to billing header
                 doc.fontSize(docOptions.subheadingFontSize).text('Prepared for', docOptions.horizontalPadding, lineY);
                 incrementLineY(docOptions.lineHeight + 5);
                 doc
@@ -97,6 +109,7 @@ class DocService {
                 doc.text('Modesto, CA 95356', docOptions.horizontalPadding, lineY);
                 incrementLineY();
                 lineY = docOptions.startingY;
+                // Meta data
                 const metaLeftColX = 360;
                 const metaRightColX = 440;
                 doc.text('Invoice #', metaLeftColX, lineY);
@@ -110,6 +123,7 @@ class DocService {
                     .fill(exports.docColors.lightGray);
                 doc.fill(exports.docColors.black).text('Amount', metaLeftColX, lineY);
                 doc.text(`$${(subItem.amount + subItem.tax).toFixed(2)}`, metaRightColX, lineY);
+                // Total block
                 lineY = 320;
                 const totalLeftColX = 360;
                 const totalRightColX = 440;
@@ -134,3 +148,4 @@ class DocService {
     }
 }
 exports.DocService = DocService;
+//# sourceMappingURL=DocService.js.map

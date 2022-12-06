@@ -5,3 +5,4 @@ const email_1 = require("../models/email");
 const router = new Router();
 router.post('/email/contact-us', email_1.Email.handleContactUsSubmission);
 exports.default = router.routes();
+//# sourceMappingURL=email-public.js.map

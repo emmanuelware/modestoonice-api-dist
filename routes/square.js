@@ -6,3 +6,4 @@ const router = new Router();
 router.get('/square/transactions/status', square_1.Square.getTransactionStatus);
 router.post('/square/transactions', square_1.Square.getTransactions);
 exports.default = router.routes();
+//# sourceMappingURL=square.js.map

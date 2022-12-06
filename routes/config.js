@@ -8,3 +8,4 @@ router.post('/config/notification-emails', config_1.Config.addNotificationEmail)
 router.delete('/config/notification-emails/daily-sales/:recordId', config_1.Config.deleteDailySalesNotificationEmail);
 router.delete('/config/notification-emails/contact-us/:recordId', config_1.Config.deleteContactUsNotificationEmail);
 exports.default = router.routes();
+//# sourceMappingURL=config.js.map

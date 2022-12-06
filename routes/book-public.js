@@ -7,3 +7,4 @@ router.post('/guest/session/book', user_1.User.bookGuestSession);
 router.post('/skater-waiver/birthday', user_1.User.addSkaterWaiverForBirthdays);
 router.post('/domo', user_1.User.addDomoBooking);
 exports.default = router.routes();
+//# sourceMappingURL=book-public.js.map

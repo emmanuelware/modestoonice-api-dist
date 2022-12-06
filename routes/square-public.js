@@ -8,3 +8,4 @@ router.get('/square/birthday-deposit', square_1.Square.getBirthdayPackageDeposit
 router.post('/square/payment', square_1.Square.processPayment);
 router.post('/square/ticket-item', square_1.Square.getItemByTicketItemId);
 exports.default = router.routes();
+//# sourceMappingURL=square-public.js.map

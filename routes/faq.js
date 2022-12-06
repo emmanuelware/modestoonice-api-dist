@@ -7,3 +7,4 @@ router.post('/faq', faq_1.Faq.upsertFaq);
 router.put('/faq/reorder', faq_1.Faq.reorderFaqs);
 router.delete('/faq/:id', faq_1.Faq.deleteFaq);
 exports.default = router.routes();
+//# sourceMappingURL=faq.js.map

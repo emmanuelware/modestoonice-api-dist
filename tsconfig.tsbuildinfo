@@ -4222,8 +4222,8 @@
         "signature": "8c869f99dbdf3b22d5b590e13fb432f64714222607737037afbe9bdb1857dcc3"
       },
       "../src/services/SquareService.ts": {
-        "version": "c48815a0efce459c244cd80498ef8dfa0fc1586a469d515f061c102a1ca4be02",
-        "signature": "aa86fa0247bb5faf700f10aaecc4c67a6870d80ea8e96eccc58a472f8a62fc0a"
+        "version": "c1c90c41148018ff340fe14e7b26c254002041b893c236b5666fa59c21a7101a",
+        "signature": "96cc0e9eddeb0651ff9e97b358efa37c8a015b133215755e7ee9c53db9ca3add"
       },
       "../src/services/CalendarService.ts": {
         "version": "e086174b41972adef5ac414766e4a6da46d63e4483d95e2ab3fbca9aa079ca1d",
@@ -4461,16 +4461,28 @@
         "version": "25b5ea1d7f00da5e67259c1058a50e7d1a7565be6251c8ecff2442020d23ecd0",
         "signature": "46a0b34e1264c4d25ca6646ff0e6cfaa7275ea1ae5a6bc23d4dfd84edf2f2b2e"
       },
+      "../src/services/Inventory/InventoryAdjustment.ts": {
+        "version": "22f7324dad721610d2d148a2edb4c224c152d35ca54816878cbd27857fa30147",
+        "signature": "99bfe0dbf3435dee7cf05d1a4eb74929de72da668e750bb5ee163e42f48e1df9"
+      },
+      "../src/services/Inventory/InventoryPhysicalCount.ts": {
+        "version": "e918526e0608668a97a7eba4b691359d797dc9919bae9f6eb4d3582f34569166",
+        "signature": "99dca18fc53a67c52ff11e25af1a1ac3461c26a0271b7b246edea76086ca69b1"
+      },
+      "../src/common/interfaces/OrderCreated.ts": {
+        "version": "3bb1858209d18681eef37b9c8ac38f6cb736a6d26cf8059fd0e11c951719690b",
+        "signature": "cfa99b3fe1ca006ab4ab1196c0e0a3f030feca736479085744d9b1eaff39ac33"
+      },
       "../src/services/WebhookService.ts": {
-        "version": "8ac52e7d8134453ad7bd3668da58a51648be46e454665ce7943e58c7e7a352c1",
-        "signature": "dec000692cf55b95d752ae7ef57bac1f0c272a40a83bb0416a2e1906cfb63fd1"
+        "version": "a7f9cb4682d14deee4d039e35405ef1e0995e98e5115f02d2129ff327d426900",
+        "signature": "d46d8f2e8103266674a07c248098666162a926954e2bb351fe4a9dbbdfe7f866"
       },
       "../src/models/webhook.ts": {
-        "version": "afaa0e4af2126cf46195cafb4cf77a4e3acdaefef5e7711c18959b662d349a22",
-        "signature": "0a1fbe1888470d8c567fa8114f7142298c9596d0c2060490a7eaa5dab29b792c"
+        "version": "67b36fd533c0fd2bdfa0cdbd2f233c1624f7b4004b96359cbf3f87a74a21938d",
+        "signature": "595c42f152c6adcb75d18c615d8df6060d40f41623697b996fa601d2425511d2"
       },
       "../src/routes/webhook.ts": {
-        "version": "c71b15b80009c9cb987d7c8a3ed2df554883e62c9576479512c842f21785fb58",
+        "version": "c26b2ca841202e44bde1129d7a3f47ed93f334b95e2e586b9d88f2c7ad0f1ab7",
         "signature": "46a0b34e1264c4d25ca6646ff0e6cfaa7275ea1ae5a6bc23d4dfd84edf2f2b2e"
       },
       "../node_modules/@types/accepts/index.d.ts": {
@@ -4816,7 +4828,6 @@
       "pretty": true,
       "removeComments": true,
       "target": 2,
-      "project": "../tsconfig.json",
       "configFilePath": "../tsconfig.json"
     },
     "referencedMap": {
@@ -13249,16 +13260,31 @@
         "../node_modules/@types/node/util.d.ts",
         "../node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "../src/services/WebhookService.ts": [
-        "../src/services/EmailService.ts",
-        "../src/services/ResponseService.ts",
+      "../src/services/Inventory/InventoryAdjustment.ts": [
+        "../node_modules/moment/moment.d.ts",
+        "../node_modules/square/dist/index.d.ts",
         "../src/services/SquareService.ts",
-        "../src/services/UserService.ts",
-        "../src/services/UtilService.ts",
-        "../src/utils/logging.ts",
+        "../node_modules/@types/node/util.d.ts",
+        "../node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../src/services/Inventory/InventoryPhysicalCount.ts": [
+        "../node_modules/moment/moment.d.ts",
+        "../node_modules/square/dist/index.d.ts",
+        "../src/services/SquareService.ts",
+        "../src/services/Inventory/InventoryAdjustment.ts",
+        "../node_modules/@types/node/util.d.ts",
+        "../node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../src/common/interfaces/OrderCreated.ts": [
+        "../node_modules/@types/node/util.d.ts",
+        "../node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../src/services/WebhookService.ts": [
+        "../src/services/ResponseService.ts",
+        "../src/services/Inventory/InventoryAdjustment.ts",
+        "../src/services/Inventory/InventoryPhysicalCount.ts",
         "../src/common/interfaces/Ctx.ts",
-        "../src/common/constants.ts",
-        "../src/common/email.constants.ts",
+        "../src/common/interfaces/OrderCreated.ts",
         "../node_modules/moment/moment.d.ts",
         "../node_modules/@types/node/util.d.ts",
         "../node_modules/@types/node/ts3.2/util.d.ts"
@@ -21764,6 +21790,7 @@
         "../node_modules/@types/node/ts3.2/util.d.ts"
       ],
       "../src/services/SquareService.ts": [
+        "../node_modules/square/dist/index.d.ts",
         "../src/common/interfaces/Square.ts",
         "../src/common/interfaces/Ctx.ts",
         "../src/common/interfaces/Tickets.ts"
@@ -21913,6 +21940,13 @@
         "../src/common/interfaces/Tickets.ts",
         "../src/common/interfaces/Ctx.ts",
         "../src/common/interfaces/Birthday.ts"
+      ],
+      "../src/services/Inventory/InventoryAdjustment.ts": [
+        "../node_modules/square/dist/index.d.ts"
+      ],
+      "../src/services/WebhookService.ts": [
+        "../src/common/interfaces/OrderCreated.ts",
+        "../src/common/interfaces/Ctx.ts"
       ],
       "../node_modules/@types/accepts/index.d.ts": [
         "../node_modules/@types/node/http.d.ts",
@@ -22373,9 +22407,6 @@
         "../node_modules/@types/node/ts3.2/index.d.ts",
         "../node_modules/@types/node/util.d.ts",
         "../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../src/services/WebhookService.ts": [
-        "../src/common/interfaces/Ctx.ts"
       ]
     },
     "semanticDiagnosticsPerFile": [
@@ -23494,6 +23525,11 @@
       "../src/models/system.ts",
       "../src/routes/system.ts",
       "../src/routes/user.ts",
+      "../src/services/Inventory/InventoryPhysicalCount.ts",
+      "../src/common/interfaces/OrderCreated.ts",
+      "../src/services/WebhookService.ts",
+      "../src/models/webhook.ts",
+      "../src/routes/webhook.ts",
       "../node_modules/@types/accepts/index.d.ts",
       "../node_modules/@types/keygrip/index.d.ts",
       "../node_modules/@types/range-parser/index.d.ts",
@@ -23557,6 +23593,7 @@
       "../node_modules/@sentry/node/dist/transports/https.d.ts",
       "../node_modules/@sentry/node/dist/transports/index.d.ts",
       "../node_modules/@sentry/node/dist/index.d.ts",
+      "../src/app.ts",
       "../src/common/environment.ts",
       "../src/common/random-second.ts",
       "../src/cron/consts.ts",
@@ -23576,10 +23613,7 @@
       "../node_modules/@types/semver/index.d.ts",
       "../node_modules/@types/xml2js/lib/processors.d.ts",
       "../node_modules/@types/xml2js/index.d.ts",
-      "../src/services/WebhookService.ts",
-      "../src/models/webhook.ts",
-      "../src/routes/webhook.ts",
-      "../src/app.ts"
+      "../src/services/Inventory/InventoryAdjustment.ts"
     ]
   },
   "version": "3.7.7"

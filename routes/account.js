@@ -5,3 +5,4 @@ const account_1 = require("../models/account");
 const router = new Router();
 router.get('/account/barcode', account_1.Account.getAccountBarcodeNumber);
 exports.default = router.routes();
+//# sourceMappingURL=account.js.map

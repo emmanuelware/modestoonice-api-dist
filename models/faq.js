@@ -38,3 +38,4 @@ class Faq {
     }
 }
 exports.Faq = Faq;
+//# sourceMappingURL=faq.js.map

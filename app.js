@@ -12,6 +12,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const path = require('path');
 require('dotenv').config({ path: path.join(__dirname, '.env') });
+// Routes
 const account_1 = require("./routes/account");
 const auth_public_1 = require("./routes/auth-public");
 const auth_1 = require("./routes/auth");
@@ -34,6 +35,7 @@ const square_1 = require("./routes/square");
 const system_1 = require("./routes/system");
 const user_1 = require("./routes/user");
 const webhook_1 = require("./routes/webhook");
+// Dependencies
 const body = require('koa-body');
 const morgan = require("koa-morgan");
 const cors = require("koa2-cors");
@@ -43,6 +45,7 @@ const mysql = require("mysql2/promise");
 BigInt.prototype.toJSON = function () {
     return this.toString();
 };
+// Sentry
 const Sentry = require("@sentry/node");
 if (process.env.ENV_MODE && process.env.ENV_MODE === 'prod') {
     Sentry.init({
@@ -57,6 +60,7 @@ if (process.env.ENV_MODE && process.env.ENV_MODE === 'prod') {
         }
     });
 }
+// Init and middleware
 const app = (global.app = new koa());
 app.use(morgan('short'));
 app.on('error', (err, ctx) => {
@@ -80,6 +84,7 @@ const config = {
     database: process.env.DB_DATABASE
 };
 global.connectionPool = mysql.createPool(config);
+// Return response time in X-Response-Time header
 app.use(function timing(ctx, next) {
     return __awaiter(this, void 0, void 0, function* () {
         const start = Date.now();
@@ -88,13 +93,17 @@ app.use(function timing(ctx, next) {
         ctx.set('X-Response-Time', Math.ceil(ms) + 'ms');
     });
 });
+// Parse request body into ctx.request.body
 app.use(body({ jsonLimit: '10mb' }));
+// Set signed cookie keys for JWT cookie & session cookie
 app.keys = ['modestoonice-node'];
+// Content negotiation: api will respond with json, xml, or yaml
 app.use(function contentNegotiation(ctx, next) {
     return __awaiter(this, void 0, void 0, function* () {
         yield next();
         if (!ctx.body)
             return;
+        // Check Accept header for preferred response type
         const type = ctx.accepts('json', 'text');
         switch (type) {
             case 'json':
@@ -106,6 +115,7 @@ app.use(function contentNegotiation(ctx, next) {
         }
     });
 });
+// Handle thrown or uncaught exceptions anywhere down the line
 app.use(function handleErrors(ctx, next) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
@@ -125,14 +135,18 @@ app.use(cors({
         return "*";
     }
 }));
+// Set up MySQL connection
 app.use(function mysqlConnection(ctx, next) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
+            // Tick 1
             ctx.state.db = global.db = yield global.connectionPool.getConnection();
             ctx.state.db.connection.config.namedPlaceholders = true;
             yield ctx.state.db.query('SET SESSION sql_mode = "TRADITIONAL"');
             yield ctx.state.db.query(`SET time_zone = '-8:00'`);
+            // Tick 2
             yield next();
+            // Tick 3
             ctx.state.db.release();
         }
         catch (e) {
@@ -155,6 +169,7 @@ app.use(book_public_1.default);
 app.use(lesson_public_1.default);
 app.use(hockey_public_1.default);
 app.use(square_1.default);
+// Remaining routes require JWT auth (obtained from /auth and supplied in bearer authorization header)
 app.use(function verifyJwt(ctx, next) {
     return __awaiter(this, void 0, void 0, function* () {
         if (!ctx.header.authorization)
@@ -162,8 +177,10 @@ app.use(function verifyJwt(ctx, next) {
         const [scheme, token] = ctx.header.authorization.split(' ');
         if (scheme !== 'Bearer')
             ctx.throw(401, 'Invalid authorization');
+        // Attempt to verify the token
         try {
             const payload = jwt.verify(token, process.env.JWT_KEY);
+            // If it's a valid token, accept it
             ctx.state.user = payload;
         }
         catch (e) {
@@ -184,3 +201,4 @@ app.use(system_1.default);
 app.listen(process.env.PORT || 3000);
 console.info(`${process.version} listening on port ${process.env.PORT || 3000} (${app.env}/${config.database})`);
 module.exports = app;
+//# sourceMappingURL=app.js.map

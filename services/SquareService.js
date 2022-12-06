@@ -23,16 +23,17 @@ const path = require('path');
 const executableEnv = require('dotenv').config({ path: args_1.getArgs().envPath || path.join(__dirname, '../.env') });
 const applicationId = process.env.SQUARE_APP_ID;
 const accessToken = process.env.SQUARE_TOKEN;
-const locationId = process.env.SQUARE_LOCATION_ID;
+exports.locationId = process.env.SQUARE_LOCATION_ID;
 const squareConnect = new square_1.Client({
     environment: process.env.ENV_MODE === 'prod' ? square_1.Environment.Production : square_1.Environment.Sandbox,
     accessToken
 });
 const { catalogApi, inventoryApi, transactionsApi, ordersApi, paymentsApi } = squareConnect;
-const catalogAPI = catalogApi;
-const inventoryAPI = inventoryApi;
-const transactionsAPI = transactionsApi;
-const paymentsAPI = paymentsApi;
+exports.catalogAPI = catalogApi;
+exports.ordersAPI = ordersApi;
+exports.inventoryAPI = inventoryApi;
+exports.transactionsAPI = transactionsApi;
+exports.paymentsAPI = paymentsApi;
 function generateItemId() {
     return `#${UtilService_1.UtilService.generateRandomString(24).toUpperCase()}`;
 }
@@ -44,7 +45,7 @@ class SquareService {
         return __awaiter(this, void 0, void 0, function* () {
             const date = moment(_date.split(' at ').join(' '), constants_1.MOMENT_FORMAT_DATE + ' ' + constants_1.MOMENT_FORMAT_TIME).format(constants_1.MOMENT_FORMAT_DATE + ' ' + constants_1.MOMENT_FORMAT_TIME);
             const body = {};
-            const data = yield catalogAPI.searchCatalogObjects(body);
+            const data = yield exports.catalogAPI.searchCatalogObjects(body);
             const [session] = data.result.objects.filter(object => {
                 if (object && object.itemData && object.itemData.name && object.itemData.name === date) {
                     return object;
@@ -61,14 +62,14 @@ class SquareService {
             const timestamp = moment()
                 .format('YYYY-MM-DDTHH:mm:ss.000Z')
                 .toString();
-            yield inventoryAPI.batchChangeInventory({
+            yield exports.inventoryAPI.batchChangeInventory({
                 idempotencyKey: generateIdempotencyKey(),
                 changes: [
                     {
                         type: 'ADJUSTMENT',
                         adjustment: {
                             catalogObjectId: catalogId,
-                            locationId: locationId,
+                            locationId: exports.locationId,
                             fromState: 'IN_STOCK',
                             toState: 'SOLD',
                             quantity: quantity.toString(),
@@ -92,7 +93,7 @@ class SquareService {
                 add: 'IN_STOCK',
                 remove: 'SOLD'
             };
-            yield inventoryAPI
+            yield exports.inventoryAPI
                 .batchChangeInventory({
                 idempotencyKey: generateIdempotencyKey(),
                 changes: [
@@ -100,7 +101,7 @@ class SquareService {
                         type: 'ADJUSTMENT',
                         adjustment: {
                             catalogObjectId: inventoryAdjustments[0].catalogObjectId,
-                            locationId: locationId,
+                            locationId: exports.locationId,
                             fromState: fromState[adjustmentType],
                             toState: toState[adjustmentType],
                             quantity: inventoryAdjustments[0].quantity.toString(),
@@ -111,7 +112,7 @@ class SquareService {
                         type: 'ADJUSTMENT',
                         adjustment: {
                             catalogObjectId: inventoryAdjustments[1].catalogObjectId,
-                            locationId: locationId,
+                            locationId: exports.locationId,
                             fromState: fromState[adjustmentType],
                             toState: toState[adjustmentType],
                             quantity: inventoryAdjustments[1].quantity.toString(),
@@ -122,7 +123,7 @@ class SquareService {
                         type: 'ADJUSTMENT',
                         adjustment: {
                             catalogObjectId: inventoryAdjustments[2].catalogObjectId,
-                            locationId: locationId,
+                            locationId: exports.locationId,
                             fromState: fromState[adjustmentType],
                             toState: toState[adjustmentType],
                             quantity: inventoryAdjustments[2].quantity.toString(),
@@ -142,7 +143,7 @@ class SquareService {
             const timestamp = moment()
                 .format('YYYY-MM-DDTHH:mm:ss.000Z')
                 .toString();
-            yield inventoryAPI
+            yield exports.inventoryAPI
                 .batchChangeInventory({
                 idempotencyKey: generateIdempotencyKey(),
                 changes: [
@@ -150,7 +151,7 @@ class SquareService {
                         type: 'ADJUSTMENT',
                         adjustment: {
                             catalogObjectId,
-                            locationId: locationId,
+                            locationId: exports.locationId,
                             fromState: 'IN_STOCK',
                             toState: 'SOLD',
                             quantity: quantity.toString(),
@@ -170,7 +171,7 @@ class SquareService {
             const timestamp = moment()
                 .format('YYYY-MM-DDTHH:mm:ss.000Z')
                 .toString();
-            yield inventoryAPI
+            yield exports.inventoryAPI
                 .batchChangeInventory({
                 idempotencyKey: generateIdempotencyKey(),
                 ignoreUnchangedCounts: false,
@@ -179,7 +180,7 @@ class SquareService {
                         type: 'PHYSICAL_COUNT',
                         physicalCount: {
                             catalogObjectId: adultCatalogObjectId,
-                            locationId: locationId,
+                            locationId: exports.locationId,
                             state: 'IN_STOCK',
                             quantity: adultTicketPreSaleCount.toString(),
                             occurredAt: timestamp
@@ -189,7 +190,7 @@ class SquareService {
                         type: 'PHYSICAL_COUNT',
                         physicalCount: {
                             catalogObjectId: childCatalogObjectId,
-                            locationId: locationId,
+                            locationId: exports.locationId,
                             state: 'IN_STOCK',
                             quantity: childTicketPreSaleCount.toString(),
                             occurredAt: timestamp
@@ -199,7 +200,7 @@ class SquareService {
                         type: 'PHYSICAL_COUNT',
                         physicalCount: {
                             catalogObjectId: masterCatalogObjectId,
-                            locationId: locationId,
+                            locationId: exports.locationId,
                             state: 'IN_STOCK',
                             quantity: masterTicketPreSaleCount.toString(),
                             occurredAt: timestamp
@@ -229,7 +230,7 @@ class SquareService {
                 },
             };
             try {
-                const { result, statusCode } = yield paymentsAPI.createPayment(payment);
+                const { result, statusCode } = yield exports.paymentsAPI.createPayment(payment);
                 console.log('Payment succeeded!', { result, statusCode });
                 return ResponseService_1.ResponseBuilder(result, 'Payment successful', false);
             }
@@ -246,7 +247,7 @@ class SquareService {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 return yield new Promise(resolve => {
-                    inventoryAPI.retrieveInventoryCount(itemId).then(data => {
+                    exports.inventoryAPI.retrieveInventoryCount(itemId).then(data => {
                         resolve(ResponseService_1.ResponseBuilder(data.result, null, false));
                     }, error => {
                         console.error(error);
@@ -268,7 +269,7 @@ class SquareService {
                 return yield new Promise(resolve => {
                     const body = {};
                     const date = moment(_date).format(constants_1.MOMENT_FORMAT_DATE);
-                    catalogAPI.searchCatalogObjects(body).then((data) => __awaiter(this, void 0, void 0, function* () {
+                    exports.catalogAPI.searchCatalogObjects(body).then((data) => __awaiter(this, void 0, void 0, function* () {
                         if (!data.result.objects) {
                             resolve(ResponseService_1.ResponseBuilder([], null, false));
                             return;
@@ -307,7 +308,7 @@ class SquareService {
                 return yield new Promise(resolve => {
                     const body = {};
                     body.objectTypes = ['ITEM'];
-                    catalogAPI
+                    exports.catalogAPI
                         .searchCatalogObjects(body)
                         .then((data) => __awaiter(this, void 0, void 0, function* () {
                         const months = ['Nov ', 'Dec ', 'Jan'];
@@ -355,9 +356,9 @@ class SquareService {
     static updateCalendarDateSession(payload) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const currentCatalogObject = (yield catalogAPI.retrieveCatalogObject(payload.id)).result;
+                const currentCatalogObject = (yield exports.catalogAPI.retrieveCatalogObject(payload.id)).result;
                 return yield new Promise(resolve => {
-                    catalogAPI
+                    exports.catalogAPI
                         .upsertCatalogObject(Object.assign(Object.assign({}, currentCatalogObject), { idempotencyKey: generateIdempotencyKey(), object: {
                             id: payload.id,
                             type: 'ITEM',
@@ -387,7 +388,7 @@ class SquareService {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const { data: newCatalogObject } = yield new Promise(resolve => {
-                    catalogAPI
+                    exports.catalogAPI
                         .upsertCatalogObject({
                         idempotencyKey: generateIdempotencyKey(),
                         object: {
@@ -419,7 +420,7 @@ class SquareService {
                 const newCatalogObjectId = newCatalogObject.catalogObject.id;
                 console.log('newCatalogObject.id', newCatalogObjectId);
                 const { data: adultTicketData } = yield new Promise(resolve => {
-                    catalogAPI
+                    exports.catalogAPI
                         .upsertCatalogObject({
                         idempotencyKey: generateIdempotencyKey(),
                         object: {
@@ -447,7 +448,7 @@ class SquareService {
                 const newAdultTicketId = adultTicketData.catalogObject.id;
                 console.log('newAdultTicketId', newAdultTicketId);
                 const { data: childTicketData } = yield new Promise(resolve => {
-                    catalogAPI
+                    exports.catalogAPI
                         .upsertCatalogObject({
                         idempotencyKey: generateIdempotencyKey(),
                         object: {
@@ -475,7 +476,7 @@ class SquareService {
                 const newChildTicketId = childTicketData.catalogObject.id;
                 console.log('newChildTicketId', newChildTicketId);
                 const { data: masterTicketData } = yield new Promise(resolve => {
-                    catalogAPI
+                    exports.catalogAPI
                         .upsertCatalogObject({
                         idempotencyKey: generateIdempotencyKey(),
                         object: {
@@ -507,7 +508,7 @@ class SquareService {
                     .toString();
                 console.log('timestamp', timestamp);
                 yield new Promise(resolve => {
-                    inventoryAPI
+                    exports.inventoryAPI
                         .batchChangeInventory({
                         idempotencyKey: generateIdempotencyKey(),
                         ignoreUnchangedCounts: false,
@@ -517,7 +518,7 @@ class SquareService {
                                 physicalCount: {
                                     catalogObjectId: newAdultTicketId,
                                     state: 'IN_STOCK',
-                                    locationId: locationId,
+                                    locationId: exports.locationId,
                                     quantity: constants_1.MAX_SESSION_INVENTORY_COUNT,
                                     occurredAt: timestamp
                                 }
@@ -527,7 +528,7 @@ class SquareService {
                                 physicalCount: {
                                     catalogObjectId: newChildTicketId,
                                     state: 'IN_STOCK',
-                                    locationId: locationId,
+                                    locationId: exports.locationId,
                                     quantity: constants_1.MAX_SESSION_INVENTORY_COUNT,
                                     occurredAt: timestamp
                                 }
@@ -537,7 +538,7 @@ class SquareService {
                                 physicalCount: {
                                     catalogObjectId: newMasterTicketId,
                                     state: 'IN_STOCK',
-                                    locationId: locationId,
+                                    locationId: exports.locationId,
                                     quantity: constants_1.MAX_SESSION_INVENTORY_COUNT,
                                     occurredAt: timestamp
                                 }
@@ -568,7 +569,7 @@ class SquareService {
             try {
                 return yield new Promise(resolve => {
                     const body = {};
-                    catalogAPI.searchCatalogObjects(body).then(data => {
+                    exports.catalogAPI.searchCatalogObjects(body).then(data => {
                         let deposit = 0;
                         data.result.objects.map(object => {
                             if (object.itemData && object.itemData.name === 'Party deposit') {
@@ -594,7 +595,7 @@ class SquareService {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 return yield new Promise(resolve => {
-                    catalogAPI.deleteCatalogObject(itemId).then(() => {
+                    exports.catalogAPI.deleteCatalogObject(itemId).then(() => {
                         resolve(null);
                     });
                 });
@@ -612,7 +613,7 @@ class SquareService {
             try {
                 return yield new Promise(resolve => {
                     const body = {};
-                    catalogAPI.searchCatalogObjects(body).then(data => {
+                    exports.catalogAPI.searchCatalogObjects(body).then(data => {
                         let item = null;
                         data.result.objects.map(object => {
                             if (object.itemData) {
@@ -645,7 +646,7 @@ class SquareService {
                 }
                 return yield new Promise(resolve => {
                     const body = {};
-                    catalogAPI.searchCatalogObjects(body).then(data => {
+                    exports.catalogAPI.searchCatalogObjects(body).then(data => {
                         let item = null;
                         data.result.objects.map(object => {
                             if (object.id === itemId) {
@@ -676,7 +677,7 @@ class SquareService {
     }
     static getApplicationId() {
         try {
-            return ResponseService_1.ResponseBuilder({ applicationId, locationId }, null, false);
+            return ResponseService_1.ResponseBuilder({ applicationId, locationId: exports.locationId }, null, false);
         }
         catch (e) {
             return ResponseService_1.ResponseBuilder(null, null, true, {
@@ -689,8 +690,8 @@ class SquareService {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 return yield new Promise(resolve => {
-                    transactionsAPI
-                        .listTransactions(locationId)
+                    exports.transactionsAPI
+                        .listTransactions(exports.locationId)
                         .then(data => {
                         resolve(ResponseService_1.ResponseBuilder(data.result, null, false));
                     }, error => {
@@ -771,7 +772,7 @@ class SquareService {
                 return yield new Promise(resolve => {
                     ordersApi
                         .searchOrders({
-                        locationIds: [locationId],
+                        locationIds: [exports.locationId],
                         returnEntries: false,
                         limit: 10000,
                         query: {
@@ -869,6 +870,81 @@ class SquareService {
             }
         });
     }
+    static batchRetrieveCatalogObjects(objectIds) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const response = yield exports.catalogAPI.batchRetrieveCatalogObjects({ objectIds });
+            return response.result.objects || [];
+        });
+    }
+    static retrieveOrder(orderId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const response = yield exports.ordersAPI.retrieveOrder(orderId);
+            return response.result.order;
+        });
+    }
+    static searchCatalogItems(keywords) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const promises = keywords.map((keyword) => __awaiter(this, void 0, void 0, function* () {
+                var _a;
+                let cursor;
+                const catalogObjects = [];
+                while (true) {
+                    const response = yield exports.catalogAPI.searchCatalogObjects({ objectTypes: ['ITEM'], query: { textQuery: { keywords: [keyword] } } });
+                    if ((_a = response.result.objects) === null || _a === void 0 ? void 0 : _a.length) {
+                        catalogObjects.push(...response.result.objects);
+                    }
+                    if (!cursor) {
+                        break;
+                    }
+                }
+                return catalogObjects;
+            }));
+            const results = yield Promise.all(promises);
+            return results.reduce((a, b) => a.concat(b), []);
+        });
+    }
+    static searchOrders(createdAt) {
+        var _a;
+        return __awaiter(this, void 0, void 0, function* () {
+            const payload = {
+                query: { filter: { dateTimeFilter: { createdAt } } },
+                locationIds: [exports.locationId]
+            };
+            let cursor;
+            const orders = [];
+            while (true) {
+                const response = yield exports.ordersAPI.searchOrders(cursor ? Object.assign(Object.assign({}, payload), { cursor }) : payload);
+                cursor = response.result.cursor;
+                if ((_a = response.result.orders) === null || _a === void 0 ? void 0 : _a.length) {
+                    orders.push(...response.result.orders);
+                }
+                if (!cursor) {
+                    break;
+                }
+            }
+            return orders;
+        });
+    }
+    static batchChangeInventory(changes) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const chunks = chunk(changes, 100);
+            const promises = chunks.map(chunk => {
+                return exports.inventoryAPI.batchChangeInventory({
+                    idempotencyKey: generateIdempotencyKey(),
+                    changes: chunk
+                });
+            });
+            yield Promise.all(promises);
+        });
+    }
 }
 exports.SquareService = SquareService;
 SquareService.sessionCache = new Map();
+function chunk(array, size) {
+    const chunks = [];
+    for (let i = 0; i < array.length; i += size) {
+        const chunk = array.slice(i, i + size);
+        chunks.push(chunk);
+    }
+    return chunks;
+}

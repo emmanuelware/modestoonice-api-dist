@@ -40,6 +40,12 @@ const lettersDictionary = [
     'z'
 ];
 class UtilService {
+    /**
+     * @description Generates a random set of characters, including hyphens and underscores
+     * @static
+     * @param {number} [length=32] Defaults sto 32
+     * @returns {string}
+     */
     static generateRandomString(length = 32, _opts) {
         try {
             const opts = {
@@ -73,6 +79,12 @@ class UtilService {
     static generateCryptoString() {
         return crypto_1.randomBytes(64).toString('hex');
     }
+    /**
+     * @description Promise-based setTimoue wrapper
+     * @static
+     * @param {number} [ms=500]
+     * @returns {Promise<any>}
+     */
     static wait(ms = 500) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
@@ -89,3 +101,4 @@ class UtilService {
     }
 }
 exports.UtilService = UtilService;
+//# sourceMappingURL=UtilService.js.map

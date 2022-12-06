@@ -43,6 +43,7 @@ function main() {
             yield db.query('SET SESSION sql_mode = "TRADITIONAL"');
             logging_1.generateLogs('Cron', 'SessionReportService', 'generateSessionReport', 'Connected to database.');
             const doc = new pdfkit();
+            // const key: string = UtilService.generateRandomString(32);
             const key = 'test';
             const pdfDir = `${process.env.REPORT_DIR}/${key}.pdf`;
             logging_1.generateLogs('Cron', 'SessionReportService', 'generateSessionReport', `Starting report at ${pdfDir}.`);
@@ -191,3 +192,4 @@ function main() {
         });
     });
 })();
+//# sourceMappingURL=runDailyBirthdayBookingReport.js.map

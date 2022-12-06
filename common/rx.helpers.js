@@ -5,3 +5,4 @@ const operators_1 = require("rxjs/operators");
 exports.wait = (ms = 1000) => rxjs_1.of()
     .pipe(operators_1.delay(ms))
     .toPromise();
+//# sourceMappingURL=rx.helpers.js.map

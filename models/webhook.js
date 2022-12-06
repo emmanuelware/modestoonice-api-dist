@@ -14,7 +14,21 @@ const ResponseService_1 = require("../services/ResponseService");
 class Webhook {
     static syncStock(ctx) {
         return __awaiter(this, void 0, void 0, function* () {
-            const res = yield WebhookService_1.WebhookService.syncStock(ctx.request.body);
+            let res = null;
+            switch (ctx.params.eventName) {
+                case "order-created":
+                    res = yield WebhookService_1.WebhookService.orderCreated(ctx.request.body);
+                    break;
+                default:
+                    res = ResponseService_1.ResponseBuilder(null, null, false);
+                    break;
+            }
+            ctx.body = ResponseService_1.ResponseHandler(ctx, res);
+        });
+    }
+    static recountStock(ctx) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const res = yield WebhookService_1.WebhookService.recountStock();
             ctx.body = ResponseService_1.ResponseHandler(ctx, res);
         });
     }

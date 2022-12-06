@@ -24,6 +24,7 @@ router.get('/jwt', function getJWT(ctx) {
             ctx.throw(401, 'Invalid authorization');
         try {
             const payload = jwt.verify(token, process.env.JWT_KEY);
+            // If it's a valid token, accept it
             ctx.state.user = payload;
             const curDate = Number(new Date()) / 1000;
             ctx.state.user.curDate = curDate;
@@ -42,3 +43,4 @@ router.get('/jwt', function getJWT(ctx) {
     });
 });
 exports.default = router.routes();
+//# sourceMappingURL=auth.js.map

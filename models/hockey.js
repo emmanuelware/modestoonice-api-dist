@@ -26,3 +26,4 @@ class Hockey {
     }
 }
 exports.Hockey = Hockey;
+//# sourceMappingURL=hockey.js.map

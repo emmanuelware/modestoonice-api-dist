@@ -19,3 +19,4 @@ router.put('/birthday/admin/package', birthday_1.Birthday.updateBirthdayPackage)
 router.put('/birthday/admin/extra', birthday_1.Birthday.updateExtraById);
 router.delete('/birthday/admin/extra/:extraId', birthday_1.Birthday.deleteExtraById);
 exports.default = router.routes();
+//# sourceMappingURL=birthday.js.map
