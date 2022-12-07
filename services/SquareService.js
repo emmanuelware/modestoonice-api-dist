@@ -872,6 +872,9 @@ class SquareService {
     }
     static batchRetrieveCatalogObjects(objectIds) {
         return __awaiter(this, void 0, void 0, function* () {
+            if (!objectIds.length) {
+                return [];
+            }
             const response = yield exports.catalogAPI.batchRetrieveCatalogObjects({ objectIds });
             return response.result.objects || [];
         });

@@ -4222,7 +4222,7 @@
         "signature": "8c869f99dbdf3b22d5b590e13fb432f64714222607737037afbe9bdb1857dcc3"
       },
       "../src/services/SquareService.ts": {
-        "version": "c1c90c41148018ff340fe14e7b26c254002041b893c236b5666fa59c21a7101a",
+        "version": "a8d12b47d3ab8bdc10b9b61e7ee74348984b88533c8d2d9c8a42737990e6742a",
         "signature": "96cc0e9eddeb0651ff9e97b358efa37c8a015b133215755e7ee9c53db9ca3add"
       },
       "../src/services/CalendarService.ts": {
@@ -23465,7 +23465,6 @@
       "../node_modules/square/dist/models/v1UpdateEmployeeRoleRequest.d.ts",
       "../node_modules/square/dist/index.d.ts",
       "../node_modules/exceljs/index.d.ts",
-      "../src/services/SquareService.ts",
       "../src/services/CalendarService.ts",
       "../src/services/UserService.ts",
       "../src/models/user.ts",
@@ -23525,6 +23524,7 @@
       "../src/models/system.ts",
       "../src/routes/system.ts",
       "../src/routes/user.ts",
+      "../src/services/Inventory/InventoryAdjustment.ts",
       "../src/services/Inventory/InventoryPhysicalCount.ts",
       "../src/common/interfaces/OrderCreated.ts",
       "../src/services/WebhookService.ts",
@@ -23613,7 +23613,7 @@
       "../node_modules/@types/semver/index.d.ts",
       "../node_modules/@types/xml2js/lib/processors.d.ts",
       "../node_modules/@types/xml2js/index.d.ts",
-      "../src/services/Inventory/InventoryAdjustment.ts"
+      "../src/services/SquareService.ts"
     ]
   },
   "version": "3.7.7"
