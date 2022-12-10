@@ -4466,7 +4466,7 @@
         "signature": "99bfe0dbf3435dee7cf05d1a4eb74929de72da668e750bb5ee163e42f48e1df9"
       },
       "../src/services/Inventory/InventoryPhysicalCount.ts": {
-        "version": "e918526e0608668a97a7eba4b691359d797dc9919bae9f6eb4d3582f34569166",
+        "version": "dd0583f2853d6d8f8816643e17dbcf14d4338b3b7443dbc401f411f543ad5b69",
         "signature": "99dca18fc53a67c52ff11e25af1a1ac3461c26a0271b7b246edea76086ca69b1"
       },
       "../src/common/interfaces/OrderCreated.ts": {
@@ -13270,6 +13270,7 @@
       "../src/services/Inventory/InventoryPhysicalCount.ts": [
         "../node_modules/moment/moment.d.ts",
         "../node_modules/square/dist/index.d.ts",
+        "../src/common/constants.ts",
         "../src/services/SquareService.ts",
         "../src/services/Inventory/InventoryAdjustment.ts",
         "../node_modules/@types/node/util.d.ts",
@@ -23465,6 +23466,7 @@
       "../node_modules/square/dist/models/v1UpdateEmployeeRoleRequest.d.ts",
       "../node_modules/square/dist/index.d.ts",
       "../node_modules/exceljs/index.d.ts",
+      "../src/services/SquareService.ts",
       "../src/services/CalendarService.ts",
       "../src/services/UserService.ts",
       "../src/models/user.ts",
@@ -23525,7 +23527,6 @@
       "../src/routes/system.ts",
       "../src/routes/user.ts",
       "../src/services/Inventory/InventoryAdjustment.ts",
-      "../src/services/Inventory/InventoryPhysicalCount.ts",
       "../src/common/interfaces/OrderCreated.ts",
       "../src/services/WebhookService.ts",
       "../src/models/webhook.ts",
@@ -23613,7 +23614,7 @@
       "../node_modules/@types/semver/index.d.ts",
       "../node_modules/@types/xml2js/lib/processors.d.ts",
       "../node_modules/@types/xml2js/index.d.ts",
-      "../src/services/SquareService.ts"
+      "../src/services/Inventory/InventoryPhysicalCount.ts"
     ]
   },
   "version": "3.7.7"

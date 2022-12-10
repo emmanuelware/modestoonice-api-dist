@@ -10,6 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const moment = require("moment");
+const constants_1 = require("../../common/constants");
 const SquareService_1 = require("../SquareService");
 const InventoryAdjustment_1 = require("./InventoryAdjustment");
 class InventoryPhysicalCount {
@@ -136,7 +137,8 @@ class InventoryPhysicalCount {
                     adultTicketsCount += ticketOrder.adultQuantity;
                     childTicketsCount += ticketOrder.childQuantity;
                 }
-                const birthdayOrder = birthdayOrderByItemName[itemName];
+                const birthdayOrderItemName = moment(itemName, "MMM DD YYYY HH:mm").format(constants_1.SQL_DATETIME_FORMAT);
+                const birthdayOrder = birthdayOrderByItemName[birthdayOrderItemName];
                 if (birthdayOrder) {
                     adultTicketsCount += birthdayOrder.quantity;
                 }
