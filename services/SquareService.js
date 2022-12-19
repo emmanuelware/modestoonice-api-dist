@@ -824,7 +824,11 @@ class SquareService {
                                 squareReportCurrentIndex: i
                             });
                             const order = data.result.orders[i];
-                            const dbRecord = yield findDbRecord(order.id);
+                            let dbRecord = yield findDbRecord(order.id);
+                            if (!dbRecord && order.tenders && order.tenders.length && order.tenders[0].paymentId) {
+                                const dbRecord2 = yield findDbRecord(order.tenders[0].paymentId);
+                                dbRecord = dbRecord2;
+                            }
                             let sessionName = null;
                             if (dbRecord && dbRecord.itemId) {
                                 if (SquareService.sessionCache.get(dbRecord.itemId)) {

@@ -4222,7 +4222,7 @@
         "signature": "8c869f99dbdf3b22d5b590e13fb432f64714222607737037afbe9bdb1857dcc3"
       },
       "../src/services/SquareService.ts": {
-        "version": "a8d12b47d3ab8bdc10b9b61e7ee74348984b88533c8d2d9c8a42737990e6742a",
+        "version": "ba7a302a48263eaf97c6b60a9875a39710c1922f413d067b4581970f44a7404c",
         "signature": "96cc0e9eddeb0651ff9e97b358efa37c8a015b133215755e7ee9c53db9ca3add"
       },
       "../src/services/CalendarService.ts": {
@@ -4828,6 +4828,7 @@
       "pretty": true,
       "removeComments": true,
       "target": 2,
+      "project": "../tsconfig.json",
       "configFilePath": "../tsconfig.json"
     },
     "referencedMap": {
@@ -23466,7 +23467,6 @@
       "../node_modules/square/dist/models/v1UpdateEmployeeRoleRequest.d.ts",
       "../node_modules/square/dist/index.d.ts",
       "../node_modules/exceljs/index.d.ts",
-      "../src/services/SquareService.ts",
       "../src/services/CalendarService.ts",
       "../src/services/UserService.ts",
       "../src/models/user.ts",
@@ -23527,6 +23527,7 @@
       "../src/routes/system.ts",
       "../src/routes/user.ts",
       "../src/services/Inventory/InventoryAdjustment.ts",
+      "../src/services/Inventory/InventoryPhysicalCount.ts",
       "../src/common/interfaces/OrderCreated.ts",
       "../src/services/WebhookService.ts",
       "../src/models/webhook.ts",
@@ -23614,7 +23615,7 @@
       "../node_modules/@types/semver/index.d.ts",
       "../node_modules/@types/xml2js/lib/processors.d.ts",
       "../node_modules/@types/xml2js/index.d.ts",
-      "../src/services/Inventory/InventoryPhysicalCount.ts"
+      "../src/services/SquareService.ts"
     ]
   },
   "version": "3.7.7"
