@@ -128,7 +128,7 @@ class UserService {
       `, {
                     userId: userId || null,
                     passId: passes.length ? passes[0].id : null,
-                    transactionId: paymentResponse ? paymentResponse.data.payment.id : null,
+                    transactionId: paymentResponse ? paymentResponse.data.payment.orderId || paymentResponse.data.payment.id : null,
                     itemId: payload.sessionId,
                     firstName: payload.firstName || null,
                     lastName: payload.lastName || null,
@@ -156,7 +156,7 @@ class UserService {
             )
           `, {
                             userPassId: pass.id,
-                            transactionId: paymentResponse ? paymentResponse.data.payment.id : null,
+                            transactionId: paymentResponse ? paymentResponse.data.payment.orderId || paymentResponse.data.payment.id : null,
                             userTicketId: newTicketRecord ? newTicketRecord.insertId : null
                         });
                     }
@@ -337,7 +337,7 @@ class UserService {
                     userId: userId,
                     passType: payload.passInfo.type,
                     confirmationCode: confirmationNumber,
-                    transactionId: paymentResponse.data.payment.id
+                    transactionId: paymentResponse.data.payment.orderId || paymentResponse.data.payment.id
                 });
                 yield EmailService_1.EmailService.sendEmail(payload.email, email_constants_1.DEFAULT_EMAIL_SENDER, `Modesto On Ice | Your ${payload.passInfo.name} Information`, `
         <h3>Thanks for purchasing a pass with Modesto On Ice!</h3>

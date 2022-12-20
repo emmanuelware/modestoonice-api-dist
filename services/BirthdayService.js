@@ -340,7 +340,7 @@ class BirthdayService {
                     userId: userId || null,
                     birthdayPackageId: payload.selectedPackageId,
                     birthdaySessionId: payload.birthdaySessionId,
-                    transactionId: paymentResponse ? paymentResponse.payment.id : null,
+                    transactionId: paymentResponse ? paymentResponse.payment.orderId || paymentResponse.payment.id : null,
                     userFirstName: payload.firstName,
                     userLastName: payload.lastName,
                     userEmail: payload.email,

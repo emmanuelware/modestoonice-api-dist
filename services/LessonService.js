@@ -90,7 +90,7 @@ class LessonService {
                     email: payload.email || null,
                     phone: payload.phone || null,
                     confirmationNumber: confirmationNumber,
-                    transactionId: paymentResponse.data.payment.id
+                    transactionId: paymentResponse.data.payment.orderId || paymentResponse.data.payment.id
                 });
                 for (let i = 0; i < payload.participants.length; i++) {
                     const item = payload.participants[i];

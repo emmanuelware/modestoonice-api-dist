@@ -4230,7 +4230,7 @@
         "signature": "48ca598625fe343f924f823a900f87a8d3b0eab8b5a52f3f2c493f365f9f918a"
       },
       "../src/services/UserService.ts": {
-        "version": "f77b2bcb515b8789a5499b8f434dea703860eca2ccfc46586ed3971da6535160",
+        "version": "0731f8dd5c82ab017c5c342f9275c8068197b7a481e4c5a8798d010de151a7e8",
         "signature": "c5c5d2915316bb6d8e9751109735265df057bb0d798121975923d1bb9dbe962e"
       },
       "../src/models/user.ts": {
@@ -4310,7 +4310,7 @@
         "signature": "16df84d49e2043ebeb7694da69ad39f5285d9cc70eaa1118da07ddad423fe6a1"
       },
       "../src/services/BirthdayService.ts": {
-        "version": "909b905810b4d14e1a80acd391271eb5cf3c102333279741d501c3f5a97ea70b",
+        "version": "a947e3b551ef554bf428fd59d210c62d0ff8a16a3d2809976bee9abf63e04e6a",
         "signature": "99085597de44cf34f2c2a1180a286cab198a67d533696ebeedf3fae403063db5"
       },
       "../src/models/birthday.ts": {
@@ -4390,7 +4390,7 @@
         "signature": "46a0b34e1264c4d25ca6646ff0e6cfaa7275ea1ae5a6bc23d4dfd84edf2f2b2e"
       },
       "../src/services/LessonService.ts": {
-        "version": "0612ec807112c29f6eaf8965236c16225c9df8ce853bb322c13d7c67a1ed62c4",
+        "version": "3c2ff778345ba861281201c5213f3ab54b34af76a5ddfa72d9269e7657dfc926",
         "signature": "4c0b1dacb16157236fe2ffc253d8a1c74dae3121efa2f75dec26fb15b49965e8"
       },
       "../src/models/lesson.ts": {
@@ -4402,7 +4402,7 @@
         "signature": "46a0b34e1264c4d25ca6646ff0e6cfaa7275ea1ae5a6bc23d4dfd84edf2f2b2e"
       },
       "../src/services/HockeyService.ts": {
-        "version": "313a316d4af73cb556c6d2ae40a023cef1b8a99c77cdeca532f0892eda56cc6d",
+        "version": "83f8142334a635248612a7ab14e8136116efa75bf154f735f14bae8c54456e13",
         "signature": "35f8a9669164447a2a53eb24343b56ee2554b95e51f2a1946fef95701205d048"
       },
       "../src/models/hockey.ts": {
@@ -23467,8 +23467,8 @@
       "../node_modules/square/dist/models/v1UpdateEmployeeRoleRequest.d.ts",
       "../node_modules/square/dist/index.d.ts",
       "../node_modules/exceljs/index.d.ts",
+      "../src/services/SquareService.ts",
       "../src/services/CalendarService.ts",
-      "../src/services/UserService.ts",
       "../src/models/user.ts",
       "../src/routes/auth-public.ts",
       "../src/routes/auth.ts",
@@ -23488,7 +23488,6 @@
       "../node_modules/aws-sdk/lib/core.d.ts",
       "../node_modules/aws-sdk/index.d.ts",
       "../src/services/S3Service.ts",
-      "../src/services/BirthdayService.ts",
       "../src/models/birthday.ts",
       "../src/routes/birthday-public.ts",
       "../src/routes/birthday.ts",
@@ -23508,10 +23507,8 @@
       "../src/models/faq.ts",
       "../src/routes/faq-public.ts",
       "../src/routes/faq.ts",
-      "../src/services/LessonService.ts",
       "../src/models/lesson.ts",
       "../src/routes/lesson-public.ts",
-      "../src/services/HockeyService.ts",
       "../src/models/hockey.ts",
       "../src/routes/hockey-public.ts",
       "../src/services/ReservationService.ts",
@@ -23615,7 +23612,10 @@
       "../node_modules/@types/semver/index.d.ts",
       "../node_modules/@types/xml2js/lib/processors.d.ts",
       "../node_modules/@types/xml2js/index.d.ts",
-      "../src/services/SquareService.ts"
+      "../src/services/UserService.ts",
+      "../src/services/BirthdayService.ts",
+      "../src/services/LessonService.ts",
+      "../src/services/HockeyService.ts"
     ]
   },
   "version": "3.7.7"

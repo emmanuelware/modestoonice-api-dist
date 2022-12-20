@@ -86,7 +86,7 @@ class HockeyService {
                     email: payload.email || null,
                     phone: payload.phone || null,
                     confirmationNumber: confirmationNumber,
-                    transactionId: paymentResponse.data.payment.id,
+                    transactionId: paymentResponse.data.payment.orderId || paymentResponse.data.payment.id,
                     totalPrice: payload.amount,
                     isCanceled: 0
                 });
