@@ -28,6 +28,7 @@ class Webhook {
     }
     static recountStock(ctx) {
         return __awaiter(this, void 0, void 0, function* () {
+            ctx.request.socket.setTimeout(5 * 60 * 1000);
             const res = yield WebhookService_1.WebhookService.recountStock();
             ctx.body = ResponseService_1.ResponseHandler(ctx, res);
         });
