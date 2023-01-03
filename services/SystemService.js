@@ -9,6 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const InventoryAdjustmentByItemId_1 = require("./Inventory/InventoryAdjustmentByItemId");
 const BirthdayService_1 = require("./BirthdayService");
 const EmailService_1 = require("./EmailService");
 const MailchimpService_1 = require("./MailchimpService");
@@ -1631,7 +1632,14 @@ class SystemService {
     static deleteTicketById(id) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
+                const [[ticketOrder]] = yield global.db.query(`
+        SELECT itemId AS itemId, CAST(adultTickets AS UNSIGNED) AS adultQuantity, CAST(childTickets AS UNSIGNED) AS childQuantity
+        FROM userTicket 
+        WHERE id = :id
+      `, { id });
                 yield global.db.query('DELETE FROM userTicket WHERE id = :id', { id });
+                const adjustment = new InventoryAdjustmentByItemId_1.InventoryAdjustmentByItemId(ticketOrder.itemId, ticketOrder.adultQuantity, ticketOrder.childQuantity);
+                yield adjustment.update();
                 return ResponseService_1.ResponseBuilder(null, 'Ticket deleted', false);
             }
             catch (e) {

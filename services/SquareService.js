@@ -874,6 +874,15 @@ class SquareService {
             }
         });
     }
+    static retrieveCatalogObject(objectId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            if (objectId == null) {
+                return null;
+            }
+            const response = yield exports.catalogAPI.retrieveCatalogObject(objectId);
+            return response.result.object;
+        });
+    }
     static batchRetrieveCatalogObjects(objectIds) {
         return __awaiter(this, void 0, void 0, function* () {
             if (!objectIds.length) {
