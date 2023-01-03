@@ -408,6 +408,14 @@ class System {
             ctx.body = ResponseService_1.ResponseHandler(ctx, res);
         });
     }
+    static deleteTicketById(ctx) {
+        return __awaiter(this, void 0, void 0, function* () {
+            if (ctx.state.user.role < constants_1.ADMIN_ROLE) {
+                return;
+            }
+            const res = yield SystemService_1.SystemService.deleteTicketById(ctx.params.id);
+            ctx.body = ResponseService_1.ResponseHandler(ctx, res);
+        });
+    }
 }
 exports.System = System;
-//# sourceMappingURL=system.js.map

@@ -1628,6 +1628,20 @@ class SystemService {
             }
         });
     }
+    static deleteTicketById(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                yield global.db.query('DELETE FROM userTicket WHERE id = :id', { id });
+                return ResponseService_1.ResponseBuilder(null, 'Ticket deleted', false);
+            }
+            catch (e) {
+                return ResponseService_1.ResponseBuilder(null, null, true, {
+                    error: e,
+                    log: true
+                });
+            }
+        });
+    }
 }
 exports.SystemService = SystemService;
 function groupBy(data, key) {

@@ -48,5 +48,5 @@ router.put('/system/hockey/:id', system_1.System.editSystemHockeyBookingById);
 router.put('/system/birthday-session', system_1.System.updateBirthdaySessionAvailability);
 router.put('/system/coupon/:id', system_1.System.updateCoupon);
 router.delete('/system/coupon/:id', system_1.System.deleteCouponById);
+router.delete('/system/ticket/:id', system_1.System.deleteTicketById);
 exports.default = router.routes();
-//# sourceMappingURL=system.js.map
