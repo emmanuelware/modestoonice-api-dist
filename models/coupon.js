@@ -11,6 +11,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const CouponService_1 = require("../services/CouponService");
 const ResponseService_1 = require("../services/ResponseService");
+const moment = require("moment");
 class Coupon {
     static getCoupons(ctx) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -20,10 +21,9 @@ class Coupon {
     }
     static getCouponByCode(ctx) {
         return __awaiter(this, void 0, void 0, function* () {
-            const res = yield CouponService_1.CouponService.getCouponByCode(ctx.params.code);
+            const res = yield CouponService_1.CouponService.getCouponByCode(ctx.params.code, moment(ctx.request.query.sessionDate), /^true$/i.test(ctx.request.query.skipValidation));
             ctx.body = ResponseService_1.ResponseHandler(ctx, res);
         });
     }
 }
 exports.Coupon = Coupon;
-//# sourceMappingURL=coupon.js.map

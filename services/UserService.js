@@ -902,33 +902,32 @@ class UserService {
             }
         });
     }
-    static checkCouponCodeValidity(couponCodes) {
+    static checkCouponCodeValidity(couponCodes, sessionDate = moment()) {
         return __awaiter(this, void 0, void 0, function* () {
             for (let i = 0; i < couponCodes.length; i++) {
                 const couponCode = couponCodes[i];
-                const [[couponRecord]] = yield global.db.query('SELECT * FROM coupon WHERE code = :code', {
+                const [[couponRecord]] = yield global.db.query('SELECT * FROM coupon WHERE code = :code AND deletedFlag = 0', {
                     code: couponCode
                 });
                 if (!couponRecord || !couponRecord.id) {
                     return ResponseService_1.ResponseBuilder(null, 'Coupon not found', true);
                 }
-                const currentDate = moment();
                 if (couponRecord.usedFlag) {
                     return ResponseService_1.ResponseBuilder(null, 'Coupon already redeemed', true);
                 }
-                if (couponRecord.startDate && moment(couponRecord.startDate).isAfter(currentDate)) {
+                if (couponRecord.startDate && moment(couponRecord.startDate).isAfter(sessionDate)) {
                     return ResponseService_1.ResponseBuilder(null, 'Coupon is not yet valid (start date)', true);
                 }
-                if (couponRecord.startTime && moment(couponRecord.startTime, 'hh:mm:ss').isAfter(currentDate)) {
+                if (couponRecord.startTime && moment(couponRecord.startTime, 'hh:mm:ss').isAfter(sessionDate)) {
                     return ResponseService_1.ResponseBuilder(null, 'Coupon is not yet valid (start time)', true);
                 }
-                if (couponRecord.endDate && moment(couponRecord.endDate).isBefore(currentDate)) {
+                if (couponRecord.endDate && moment(couponRecord.endDate).isBefore(sessionDate)) {
                     return ResponseService_1.ResponseBuilder(null, 'Coupon is expired (end date)', true);
                 }
-                if (couponRecord.endTime && moment(couponRecord.endTime, 'hh:mm:ss').isBefore(currentDate)) {
+                if (couponRecord.endTime && moment(couponRecord.endTime, 'hh:mm:ss').isBefore(sessionDate)) {
                     return ResponseService_1.ResponseBuilder(null, 'Coupon is expired (end time)', true);
                 }
-                switch (currentDate.day()) {
+                switch (sessionDate.day()) {
                     case 0:
                         if (!couponRecord.redeemableSunday) {
                             return ResponseService_1.ResponseBuilder(null, 'Coupon not redeemable on Sunday', true);

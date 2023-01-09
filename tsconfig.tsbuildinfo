@@ -4230,8 +4230,8 @@
         "signature": "48ca598625fe343f924f823a900f87a8d3b0eab8b5a52f3f2c493f365f9f918a"
       },
       "../src/services/UserService.ts": {
-        "version": "0731f8dd5c82ab017c5c342f9275c8068197b7a481e4c5a8798d010de151a7e8",
-        "signature": "c5c5d2915316bb6d8e9751109735265df057bb0d798121975923d1bb9dbe962e"
+        "version": "cc0c6eedb2d0291c0ff9524ffbf98e36806c8d5d418790daf29998dfd43b53bb",
+        "signature": "a79e8067e5199320670d78c055bafd86cf3ac7f1ddfadb64d9f74fd425f0ae68"
       },
       "../src/models/user.ts": {
         "version": "9fb85ebaf95c9affdfe84f22c1c5def19fff957d4b249de417399ab36aa6d38b",
@@ -4350,11 +4350,11 @@
         "signature": "46a0b34e1264c4d25ca6646ff0e6cfaa7275ea1ae5a6bc23d4dfd84edf2f2b2e"
       },
       "../src/services/CouponService.ts": {
-        "version": "5bbc8b667607a00df12fa30ed7c9f6850b2009b89d6f5a367d9ee06ec5aad5e7",
-        "signature": "29a565a2730f90d5648ad0997a3808c7475dc17615c346975cafae79ec87c451"
+        "version": "8ef98cdefdc1bff2d87d2e41dcbea9c9857bfd3f5200c96e52796882e41ce65d",
+        "signature": "1a5e27b73d242b596859ec70852fcd34a1130a1ac164e8f13a325a8e3fdb1026"
       },
       "../src/models/coupon.ts": {
-        "version": "8ef6933b892ff8ef82bb54da9e74afeb721f65ae22b8943f460dbbbbb75a7e55",
+        "version": "46ea836c2df41006b2620df3f251dcb398b3f8de91a0651119901e8c4638156d",
         "signature": "d128ca8152f030685775a4fbab020298bfcec900c25e9ac35a3fb6b123c8fa36"
       },
       "../src/routes/coupon.ts": {
@@ -13090,6 +13090,7 @@
         "../src/services/CouponService.ts",
         "../src/services/ResponseService.ts",
         "../src/common/constants.ts",
+        "../node_modules/moment/moment.d.ts",
         "../node_modules/@types/node/util.d.ts",
         "../node_modules/@types/node/ts3.2/util.d.ts"
       ],
@@ -21815,7 +21816,8 @@
       ],
       "../src/services/UserService.ts": [
         "../src/common/interfaces/Tickets.ts",
-        "../src/common/interfaces/Ctx.ts"
+        "../src/common/interfaces/Ctx.ts",
+        "../node_modules/moment/moment.d.ts"
       ],
       "../node_modules/aws-sdk/lib/credentials/cognito_identity_credentials.d.ts": [
         "../node_modules/aws-sdk/lib/credentials.d.ts",
@@ -21935,7 +21937,8 @@
         "../src/common/interfaces/Ctx.ts"
       ],
       "../src/services/CouponService.ts": [
-        "../src/common/interfaces/Ctx.ts"
+        "../src/common/interfaces/Ctx.ts",
+        "../node_modules/moment/moment.d.ts"
       ],
       "../src/services/FaqService.ts": [
         "../src/common/interfaces/Ctx.ts"
@@ -23484,8 +23487,6 @@
       "../node_modules/exceljs/index.d.ts",
       "../src/services/SquareService.ts",
       "../src/services/CalendarService.ts",
-      "../src/services/UserService.ts",
-      "../src/models/user.ts",
       "../src/routes/auth-public.ts",
       "../src/routes/auth.ts",
       "../node_modules/aws-sdk/lib/credentials/cognito_identity_credentials.d.ts",
@@ -23514,8 +23515,6 @@
       "../src/services/ConfigService.ts",
       "../src/models/config.ts",
       "../src/routes/config.ts",
-      "../src/services/CouponService.ts",
-      "../src/models/coupon.ts",
       "../src/routes/coupon.ts",
       "../src/models/email.ts",
       "../src/routes/email-public.ts",
@@ -23524,10 +23523,8 @@
       "../src/models/faq.ts",
       "../src/routes/faq-public.ts",
       "../src/routes/faq.ts",
-      "../src/services/LessonService.ts",
       "../src/models/lesson.ts",
       "../src/routes/lesson-public.ts",
-      "../src/services/HockeyService.ts",
       "../src/models/hockey.ts",
       "../src/routes/hockey-public.ts",
       "../src/services/ReservationService.ts",
@@ -23537,10 +23534,10 @@
       "../src/models/square.ts",
       "../src/routes/square-public.ts",
       "../src/routes/square.ts",
+      "../src/services/Inventory/InventoryAdjustmentByItemId.ts",
       "../src/common/interfaces/Birthday.ts",
       "../src/services/Inventory/InventoryAdjustment.ts",
       "../src/services/Inventory/InventoryPhysicalCount.ts",
-      "../src/services/SystemService.ts",
       "../src/models/system.ts",
       "../src/routes/system.ts",
       "../src/routes/user.ts",
@@ -23631,7 +23628,13 @@
       "../node_modules/@types/semver/index.d.ts",
       "../node_modules/@types/xml2js/lib/processors.d.ts",
       "../node_modules/@types/xml2js/index.d.ts",
-      "../src/services/Inventory/InventoryAdjustmentByItemId.ts"
+      "../src/services/UserService.ts",
+      "../src/services/SystemService.ts",
+      "../src/services/HockeyService.ts",
+      "../src/services/LessonService.ts",
+      "../src/services/CouponService.ts",
+      "../src/models/coupon.ts",
+      "../src/models/user.ts"
     ]
   },
   "version": "3.7.7"

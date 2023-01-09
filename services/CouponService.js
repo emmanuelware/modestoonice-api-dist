@@ -31,20 +31,20 @@ class CouponService {
             }
         });
     }
-    static getCouponByCode(code) {
+    static getCouponByCode(code, sessionDate = moment(), skipValidation) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const [[coupon]] = yield global.db.query('SELECT * FROM coupon WHERE code = :code AND deletedFlag = 0', {
                     code: code
                 });
                 if (coupon) {
-                    const couponValidation = yield UserService_1.UserService.checkCouponCodeValidity([coupon.code]);
-                    if (couponValidation.err) {
-                        return couponValidation;
+                    if (!skipValidation) {
+                        const couponValidation = yield UserService_1.UserService.checkCouponCodeValidity([coupon.code], sessionDate);
+                        if (couponValidation.err) {
+                            return couponValidation;
+                        }
                     }
-                    else {
-                        return ResponseService_1.ResponseBuilder(this.formatCouponDatesAndTimes(coupon), null, false);
-                    }
+                    return ResponseService_1.ResponseBuilder(this.formatCouponDatesAndTimes(coupon), null, false);
                 }
                 else {
                     return ResponseService_1.ResponseBuilder(null, 'Coupon code not found', true);
@@ -64,4 +64,3 @@ class CouponService {
     }
 }
 exports.CouponService = CouponService;
-//# sourceMappingURL=CouponService.js.map
