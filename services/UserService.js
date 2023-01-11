@@ -921,7 +921,7 @@ class UserService {
                 if (couponRecord.startTime && moment(couponRecord.startTime, 'hh:mm:ss').isAfter(sessionDate)) {
                     return ResponseService_1.ResponseBuilder(null, 'Coupon is not yet valid (start time)', true);
                 }
-                if (couponRecord.endDate && moment(couponRecord.endDate).isSameOrBefore(sessionDate, 'day')) {
+                if (couponRecord.endDate && moment(couponRecord.endDate).isBefore(sessionDate, 'day')) {
                     return ResponseService_1.ResponseBuilder(null, 'Coupon is expired (end date)', true);
                 }
                 if (couponRecord.endTime && moment(couponRecord.endTime, 'hh:mm:ss').isBefore(sessionDate)) {
