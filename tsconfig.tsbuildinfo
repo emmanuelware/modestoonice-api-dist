@@ -4458,7 +4458,7 @@
         "signature": "2276f5b9b2692b80bb83c80214f42282b2e82ba7d28d945c2010b442a6cc88b9"
       },
       "../src/services/SystemService.ts": {
-        "version": "5e8cc1d44279fdc4dfef3851f861c8460544be07044c3a7fda3d6fa4d3019ef6",
+        "version": "fd97090bb5a8ebb79509538da6b9976fcae498cf5f87bb1c6090d149ce460b57",
         "signature": "53c2d60984e487299c543661115e08a5e0a3a907fbd4dda2ed3c17ed8af6bac1"
       },
       "../src/models/system.ts": {
@@ -23488,6 +23488,7 @@
       "../node_modules/exceljs/index.d.ts",
       "../src/services/SquareService.ts",
       "../src/services/CalendarService.ts",
+      "../src/services/UserService.ts",
       "../src/models/user.ts",
       "../src/routes/auth-public.ts",
       "../src/routes/auth.ts",
@@ -23544,7 +23545,6 @@
       "../src/common/interfaces/Birthday.ts",
       "../src/services/Inventory/InventoryAdjustment.ts",
       "../src/services/Inventory/InventoryPhysicalCount.ts",
-      "../src/services/SystemService.ts",
       "../src/models/system.ts",
       "../src/routes/system.ts",
       "../src/routes/user.ts",
@@ -23635,7 +23635,7 @@
       "../node_modules/@types/semver/index.d.ts",
       "../node_modules/@types/xml2js/lib/processors.d.ts",
       "../node_modules/@types/xml2js/index.d.ts",
-      "../src/services/UserService.ts"
+      "../src/services/SystemService.ts"
     ]
   },
   "version": "3.7.7"

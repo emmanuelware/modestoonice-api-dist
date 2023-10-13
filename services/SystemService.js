@@ -1122,7 +1122,7 @@ class SystemService {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const [lessons] = yield global.db.query(`
-        SELECT lb.confirmationNumber, lbp.name, lb.email, lb.phone, lbp.birthday, lp.lessonTimeStart, lp.lessonTimeEnd
+        SELECT lb.confirmationNumber, lbp.name, lb.email, lb.phone, lbp.birthday, lp.lessonTimeStart, lp.lessonTimeEnd, lp.id as lessonPackageId
         FROM lessonBooking lb 
         JOIN lessonBookingParticipant lbp ON lbp.lessonBookingId = lb.id
         JOIN lessonPackage lp ON lp.id = lb.lessonPackageId;
