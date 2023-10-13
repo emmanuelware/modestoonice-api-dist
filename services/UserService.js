@@ -519,7 +519,7 @@ class UserService {
                     })));
                 }
                 yield EmailService_1.EmailService.sendEmail(payload.emailAddress, email_constants_1.DEFAULT_EMAIL_SENDER, 'Modesto On Ice Waiver', `
-          <p>Thank you for completing your waiver in advance.  This waiver is valid for the entire 2022-2023 season.</p>
+          <p>Thank you for completing your waiver in advance.  This waiver is valid for the entire 2023-2024 season.</p>
           
           <p>When you check in at the Modesto On Ice Ticket Booth, please present this email with your barcode so we can quickly verify your waiver is on file.</p>
           
