@@ -221,7 +221,12 @@ class SystemService {
     static getSystemHockeyBookings() {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const [bookings] = yield global.db.query('SELECT * FROM hockeyLessonBooking LIMIT 200');
+                const [bookings] = yield global.db.query(`
+        SELECT hb.*, hl.title as lessonName
+        FROM hockeyLessonBooking hb
+        JOIN hockeyLesson hl ON hb.hockeyLessonId = hl.id
+        LIMIT 200
+      `);
                 if (!bookings.length) {
                     return ResponseService_1.ResponseBuilder(bookings, null, false);
                 }
@@ -247,7 +252,12 @@ class SystemService {
     static getSystemHockeyBookingById(id) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const [bookings] = yield global.db.query('SELECT * FROM hockeyLessonBooking WHERE id = :id', { id });
+                const [bookings] = yield global.db.query(`
+        SELECT hb.*, hl.title as lessonName
+        FROM hockeyLessonBooking hb
+        JOIN hockeyLesson hl ON hb.hockeyLessonId = hl.id
+        WHERE hb.id = :id
+      `, { id });
                 if (!bookings.length) {
                     return ResponseService_1.ResponseBuilder(bookings, null, false);
                 }
@@ -467,8 +477,9 @@ class SystemService {
                 let sql;
                 if (performDeepSearch) {
                     sql = ` 
-          SELECT DISTINCT hl.*
+          SELECT DISTINCT hl.*, l.title as lessonName
           FROM hockeyLessonBooking hl
+          JOIN hockeyLesson l ON hl.hockeyLessonId = l.id
           LEFT JOIN hockeyLessonBookingParticipant hlbp
           ON hl.id = hlbp.hockeyLessonBookingId
           WHERE hl.firstName LIKE :query
