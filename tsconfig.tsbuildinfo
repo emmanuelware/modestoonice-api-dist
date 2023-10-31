@@ -418,7 +418,7 @@
         "signature": "c4aa043e77a847629a298e6182d4bae576f6c6e2f309f3ae11c58ed79b0dab64"
       },
       "../src/services/EmailService.ts": {
-        "version": "ff72da0cf2465e234f5fddf17303ebc730348d23e2924ecf7180ec1e80dd3668",
+        "version": "a9e188971362137feebc44f8547a9d6da5ee08044bd9317791786107aec49977",
         "signature": "f7d5c14b78588c8d8ffb2b3f999060df32a3a45901a06471ed143d122b73de9f"
       },
       "../src/services/UtilService.ts": {
@@ -4230,7 +4230,7 @@
         "signature": "48ca598625fe343f924f823a900f87a8d3b0eab8b5a52f3f2c493f365f9f918a"
       },
       "../src/services/UserService.ts": {
-        "version": "da18be35362d4d72fdca3d9eabbcd273ca98cf2282dd234cba3ea98bc4f2bf50",
+        "version": "f24a96e6e2e2a5b63a0ca1fd1ec80393d2e9162479f8ecc598136563da953226",
         "signature": "a79e8067e5199320670d78c055bafd86cf3ac7f1ddfadb64d9f74fd425f0ae68"
       },
       "../src/models/user.ts": {
@@ -4390,7 +4390,7 @@
         "signature": "46a0b34e1264c4d25ca6646ff0e6cfaa7275ea1ae5a6bc23d4dfd84edf2f2b2e"
       },
       "../src/services/LessonService.ts": {
-        "version": "3c2ff778345ba861281201c5213f3ab54b34af76a5ddfa72d9269e7657dfc926",
+        "version": "e36c5636c511787f4c1da993d67b6808384e86a16ce8cebcebc0fa2719829417",
         "signature": "4c0b1dacb16157236fe2ffc253d8a1c74dae3121efa2f75dec26fb15b49965e8"
       },
       "../src/models/lesson.ts": {
@@ -4402,7 +4402,7 @@
         "signature": "46a0b34e1264c4d25ca6646ff0e6cfaa7275ea1ae5a6bc23d4dfd84edf2f2b2e"
       },
       "../src/services/HockeyService.ts": {
-        "version": "83f8142334a635248612a7ab14e8136116efa75bf154f735f14bae8c54456e13",
+        "version": "b03ce983b03561fb2e61f81ce166ff24611c17771fa029dcffc3361ef7b1a020",
         "signature": "35f8a9669164447a2a53eb24343b56ee2554b95e51f2a1946fef95701205d048"
       },
       "../src/models/hockey.ts": {
@@ -4458,7 +4458,7 @@
         "signature": "2276f5b9b2692b80bb83c80214f42282b2e82ba7d28d945c2010b442a6cc88b9"
       },
       "../src/services/SystemService.ts": {
-        "version": "00f4014aa566b8c20610d083a0997fffd633d46748eba1eb1e6ee12c515172d3",
+        "version": "022d28edeff872a32de0fb6f511abcef5a9e1c64e057be71b60a1d82b06b5a90",
         "signature": "53c2d60984e487299c543661115e08a5e0a3a907fbd4dda2ed3c17ed8af6bac1"
       },
       "../src/models/system.ts": {
@@ -4832,7 +4832,6 @@
       "pretty": true,
       "removeComments": true,
       "target": 2,
-      "project": "../tsconfig.json",
       "configFilePath": "../tsconfig.json"
     },
     "referencedMap": {
@@ -22535,7 +22534,6 @@
       "../node_modules/@sendgrid/client/index.d.ts",
       "../node_modules/@sendgrid/mail/src/mail.d.ts",
       "../node_modules/@sendgrid/mail/index.d.ts",
-      "../src/services/EmailService.ts",
       "../src/services/UtilService.ts",
       "../src/utils/logging.ts",
       "../src/services/AuthService.ts",
@@ -23545,6 +23543,7 @@
       "../src/common/interfaces/Birthday.ts",
       "../src/services/Inventory/InventoryAdjustment.ts",
       "../src/services/Inventory/InventoryPhysicalCount.ts",
+      "../src/services/SystemService.ts",
       "../src/models/system.ts",
       "../src/routes/system.ts",
       "../src/routes/user.ts",
@@ -23635,7 +23634,7 @@
       "../node_modules/@types/semver/index.d.ts",
       "../node_modules/@types/xml2js/lib/processors.d.ts",
       "../node_modules/@types/xml2js/index.d.ts",
-      "../src/services/SystemService.ts"
+      "../src/services/EmailService.ts"
     ]
   },
   "version": "3.7.7"

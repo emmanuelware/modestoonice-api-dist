@@ -151,6 +151,11 @@ class LessonService {
         </p>
 
         <p>${process.env.DOMAIN}/skater-waiver?cn=${confirmationNumber}&type=session</p>
+
+        <hr>
+
+        <p><i>Due to the limited availability, all sales are final. In some cases, based on availability, rescheduling of tickets and/or parties may be made by contacting Modesto On Ice.</i></p>
+
       `);
                 return Object.assign(Object.assign({}, paymentResponse), { data: {
                         confirmationNumber: confirmationNumber

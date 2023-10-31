@@ -224,6 +224,11 @@ class EmailService {
         </p>
 
         <p>${process.env.DOMAIN}/skater-waiver?cn=${payload.confirmationNumber}&type=session</p>
+
+        <hr>
+
+        <p><i>Due to the limited availability, all sales are final. In some cases, based on availability, rescheduling of tickets and/or parties may be made by contacting Modesto On Ice.</i></p>
+
         `);
                 return ResponseService_1.ResponseBuilder(null, null, false);
             }
@@ -261,6 +266,11 @@ class EmailService {
         </p>
 
         <p>${process.env.DOMAIN}/skater-waiver?cn=${payload.confirmationNumber}&type=birthdayBooking</p>
+
+        <hr>
+
+        <p><i>Due to the limited availability, all sales are final. In some cases, based on availability, rescheduling of tickets and/or parties may be made by contacting Modesto On Ice.</i></p>
+
       `);
                 return ResponseService_1.ResponseBuilder(null, 'Sent email', false);
             }
@@ -292,6 +302,11 @@ class EmailService {
         </p>
 
         <p>${process.env.DOMAIN}/skater-waiver?cn=${payload.confirmationNumber}&type=session</p>
+
+        <hr>
+
+        <p><i>Due to the limited availability, all sales are final. In some cases, based on availability, rescheduling of tickets and/or parties may be made by contacting Modesto On Ice.</i></p>
+
       `);
                 return ResponseService_1.ResponseBuilder(null, 'Sent email', false);
             }
@@ -375,9 +390,13 @@ class EmailService {
       <p><a href="https://tickets.modestoonice.com/skater-waiver?cn=${confirmationNumber}">Sign your skater waiver</a> before you get to the rink!</p>
 
       <p>Having trouble viewing the link? Copy and paste this in your browser: https://tickets.modestoonice.com/skater-waiver?cn=confirmationNumber</p>
+    
+      <hr>
+
+      <p><i>Due to the limited availability, all sales are final. In some cases, based on availability, rescheduling of tickets and/or parties may be made by contacting Modesto On Ice.</i></p>
+
     `);
         });
     }
 }
 exports.EmailService = EmailService;
-//# sourceMappingURL=EmailService.js.map
